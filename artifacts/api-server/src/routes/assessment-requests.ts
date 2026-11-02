@@ -35,13 +35,15 @@ router.post("/assessment-requests", async (req, res): Promise<void> => {
     }
   }
 
-  const { name, email, phone, interest, message } = parsed.data;
+  const { name, email, phone, interest, message, smsConsent, marketingConsent } = parsed.data;
   await db.insert(assessmentRequestsTable).values({
     name: name.trim(),
     email: email.trim().toLowerCase(),
-    phone: phone?.trim() || null,
+    phone,
     interest: interest.trim(),
     message: message?.trim() || null,
+    smsConsent,
+    marketingConsent,
   });
 
   res.status(201).json(

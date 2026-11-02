@@ -17,6 +17,7 @@ import { serviceHeroes } from '@/data/discovery';
 import { AssessmentsContent } from '@/components/assessments-content';
 import { assessmentDetails } from '@/data/assessments';
 import { getInquiryInterest, inquiryInterests } from '@/lib/inquiry';
+import { normalizeAssessmentMobile } from '@/lib/assessment-form';
 import { hyperbaricDetails } from '@/data/hyperbaric';
 import { shockwaveDetails } from '@/data/shockwave';
 import { cardioMedBedDetails } from '@/data/cardio-medbed';
@@ -296,12 +297,12 @@ function About() {
 function Testimonials() { return <><PageHero eyebrow="Patient stories" title="Real experiences deserve their own words." text="Read the personal stories people have shared with us. Lightly edited for spelling, punctuation and readability, with each speaker’s experience and meaning preserved." action/><TestimonialsStories/><div className="container"><p className="section-intro" style={{marginBottom:60}}>These testimonials describe individual experiences, not medical advice or a guarantee of results. Some stories include other treatments and care settings; they do not describe a standard SOZO treatment plan. Services and experiences may vary.</p></div><CTA title="Your story starts with a conversation."/></>; }
 
 
-type AssessmentForm = { name: string; email: string; phone: string; interest: string; message: string; consent: boolean; website: string };
+type AssessmentForm = { name: string; email: string; phone: string; interest: string; message: string; consent: boolean; smsConsent: boolean; marketingConsent: boolean; website: string };
 function RequestAssessment() {
   const mutation = useSubmitAssessmentRequest();
   const search = useSearch();
   const initialInterest = getInquiryInterest(search);
-  const form = useForm<AssessmentForm>({ defaultValues: { name:'', email:'', phone:'', interest:initialInterest, message:'', consent:false, website:'' } });
+  const form = useForm<AssessmentForm>({ defaultValues: { name:'', email:'', phone:'', interest:initialInterest, message:'', consent:false, smsConsent:false, marketingConsent:false, website:'' } });
   const [success, setSuccess] = useState(false);
   useEffect(() => {
     // Update the selection on another service link without erasing entered details.
@@ -309,7 +310,12 @@ function RequestAssessment() {
     setSuccess(false);
   }, [initialInterest, form.setValue]);
   const onSubmit = (values: AssessmentForm) => {
-    mutation.mutate({ data: { name: values.name.trim(), email: values.email.trim(), phone: values.phone.trim() || undefined, interest: values.interest, message: values.message.trim() || undefined, consent: true, website: values.website } }, { onSuccess: receipt => { if (receipt.success) { setSuccess(true); form.reset({ name:'', email:'', phone:'', interest:initialInterest, message:'', consent:false, website:'' }); } }, onError: () => {} });
+    const phone = normalizeAssessmentMobile(values.phone);
+    if (!phone) {
+      form.setError('phone', { type: 'validate', message: 'Please enter a valid mobile number, including the country code if outside the U.S.' });
+      return;
+    }
+    mutation.mutate({ data: { name: values.name.trim(), email: values.email.trim(), phone, interest: values.interest, message: values.message.trim() || undefined, consent: values.consent as true, smsConsent: values.smsConsent, marketingConsent: values.marketingConsent, website: values.website } }, { onSuccess: receipt => { if (receipt.success) { setSuccess(true); form.reset({ name:'', email:'', phone:'', interest:initialInterest, message:'', consent:false, smsConsent:false, marketingConsent:false, website:'' }); } }, onError: () => {} });
   };
   return <>
     <PageHero eyebrow={initialInterest ? `Your interest: ${initialInterest}` : 'Start with SOZO'} title={ASSESSMENT_CTA} text="Text or call our team to arrange your visit. We’ll help you choose a starting point and confirm appointment availability with you."/>
@@ -340,11 +346,13 @@ function RequestAssessment() {
           <div className="form-grid">
             <div className="form-field"><label htmlFor="name">Your name *</label><input id="name" autoComplete="name" placeholder="First and last name" maxLength={120} aria-invalid={!!form.formState.errors.name} data-testid="input-name" {...form.register('name',{required:'Please enter your name.',minLength:{value:2,message:'Please enter at least 2 characters.'}})}/>{form.formState.errors.name && <span className="form-error">{form.formState.errors.name.message}</span>}</div>
             <div className="form-field"><label htmlFor="email">Email address *</label><input id="email" type="email" autoComplete="email" placeholder="you@example.com" maxLength={254} aria-invalid={!!form.formState.errors.email} data-testid="input-email" {...form.register('email',{required:'Please enter your email.',pattern:{value:/^[^\s@]+@[^\s@]+\.[^\s@]+$/,message:'Please enter a valid email.'}})}/>{form.formState.errors.email && <span className="form-error">{form.formState.errors.email.message}</span>}</div>
-            <div className="form-field"><label htmlFor="phone">Phone number <span style={{fontWeight:400}}>(optional)</span></label><input id="phone" type="tel" autoComplete="tel" placeholder="(352) 555-0123" maxLength={30} data-testid="input-phone" {...form.register('phone')}/></div>
+            <div className="form-field"><label htmlFor="phone">Mobile number *</label><input id="phone" type="tel" autoComplete="tel" placeholder="(352) 555-0123" maxLength={30} aria-required="true" aria-invalid={!!form.formState.errors.phone} aria-describedby={form.formState.errors.phone ? 'phone-error' : undefined} data-testid="input-phone" {...form.register('phone',{required:'Please enter your mobile number.',validate:value => normalizeAssessmentMobile(value) !== null || 'Please enter a valid mobile number, including the country code if outside the U.S.'})}/>{form.formState.errors.phone && <span className="form-error" id="phone-error">{form.formState.errors.phone.message}</span>}</div>
             <div className="form-field"><label htmlFor="interest">What interests you? *</label><select id="interest" defaultValue={initialInterest} aria-invalid={!!form.formState.errors.interest} data-testid="select-interest" {...form.register('interest',{required:'Please select an interest.'})}><option value="" disabled>Choose a starting point</option><option value="Not sure yet">I’m not sure yet</option>{inquiryInterests.map(interest => <option key={interest} value={interest}>{interest}</option>)}<option value="General question">General question</option></select>{form.formState.errors.interest && <span className="form-error">{form.formState.errors.interest.message}</span>}</div>
             <div className="form-field full"><label htmlFor="message">Anything else you’d like us to know? <span style={{fontWeight:400}}>(optional)</span></label><textarea id="message" maxLength={1500} placeholder="Share your general goals or questions. Please do not include medical history." data-testid="textarea-message" {...form.register('message')}/></div>
             <div className="form-field full" style={{position:'absolute',left:'-9999px'}} aria-hidden="true"><label htmlFor="website">Website</label><input id="website" tabIndex={-1} autoComplete="off" {...form.register('website')}/></div>
             <div className="form-field full"><label className="form-check" htmlFor="consent"><input id="consent" type="checkbox" data-testid="checkbox-consent" {...form.register('consent',{required:'Please confirm before sending.'})}/><span>I agree that SOZO Wellness Center may contact me about my request by email or phone. I understand this form is not for medical information. *</span></label>{form.formState.errors.consent && <span className="form-error">{form.formState.errors.consent.message}</span>}</div>
+            <div className="form-field full"><label className="form-check" htmlFor="sms-consent"><input id="sms-consent" type="checkbox" data-testid="checkbox-sms-consent" {...form.register('smsConsent')}/><span>I’d like to receive automated text messages from SOZO Wellness Center about my assessment request, including an acknowledgement and follow-up. This is optional and not a condition of booking or purchase. Message frequency varies. Message and data rates may apply. Reply STOP to opt out or HELP for help.</span></label></div>
+            <div className="form-field full"><label className="form-check" htmlFor="marketing-consent"><input id="marketing-consent" type="checkbox" data-testid="checkbox-marketing-consent" {...form.register('marketingConsent')}/><span>I’d also like to receive SOZO Wellness Center news, updates and promotional emails. This is optional, and I can unsubscribe at any time.</span></label></div>
           </div>
           <p style={{color:'#31564f',fontSize:16,lineHeight:1.65,marginTop:20}}>Your request is saved, but we don’t yet receive automatic notifications from this form. To get in touch, please text or call, or email us. Do not submit sensitive health details. Submitting this form does not establish a patient-provider relationship.</p>
           {mutation.isError && <div role="alert" className="form-status error" data-testid="status-request-error">We couldn’t save your request right now. Please try again or <a href="tel:+13528022248" data-testid="link-error-phone">text or call us at 352-802-2248</a>.</div>}

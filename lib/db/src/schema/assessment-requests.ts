@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
@@ -9,6 +9,8 @@ export const assessmentRequestsTable = pgTable("assessment_requests", {
   phone: text("phone"),
   interest: text("interest").notNull(),
   message: text("message"),
+  smsConsent: boolean("sms_consent").notNull().default(false),
+  marketingConsent: boolean("marketing_consent").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

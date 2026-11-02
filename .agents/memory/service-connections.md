@@ -28,3 +28,11 @@ Require a mobile number for assessment requests.
 **Why:** The user explicitly chose to require a mobile number rather than keep phone optional.
 
 **How to apply:** Treat mobile number entry as required when implementing the assessment form and its submission validation. This requirement does not itself establish consent to automated texts or marketing.
+
+## Independent messaging opt-ins
+
+Offer a separate optional text consent checkbox and a separate optional email marketing signup checkbox on the assessment form. Both start unchecked.
+
+**Why:** The user selected both optional opt-ins after these separate, unchecked choices were proposed.
+
+**How to apply:** An assessment enquiry must still be accepted when either or both boxes are unchecked. Gate automated request texts on text consent, and marketing subscription on email marketing consent.

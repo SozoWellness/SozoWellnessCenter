@@ -60,14 +60,24 @@ components:
     AssessmentRequestInput:
       type: object
       additionalProperties: false
-      required: [name, email, interest, consent]
+      required: [name, email, phone, interest, consent, smsConsent, marketingConsent]
       properties:
         name: { type: string, minLength: 2, maxLength: 120 }
         email: { type: string, format: email, maxLength: 254 }
-        phone: { type: string, maxLength: 30 }
+        phone:
+          type: string
+          pattern: '^\+[1-9][0-9]{7,14}$'
+          maxLength: 16
+          description: Required mobile number in international E.164 format.
         interest: { type: string, minLength: 1, maxLength: 120 }
         message: { type: string, maxLength: 1500 }
         consent: { type: boolean, enum: [true] }
+        smsConsent:
+          type: boolean
+          description: Optional permission for automated texts about this assessment request. False must not prevent saving the enquiry.
+        marketingConsent:
+          type: boolean
+          description: Optional permission for email marketing. False must never subscribe or resubscribe the visitor.
         website: { type: string, maxLength: 0, description: Honeypot field, must remain empty }
     AssessmentRequestReceipt:
       type: object

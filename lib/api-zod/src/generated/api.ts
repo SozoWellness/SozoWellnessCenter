@@ -25,8 +25,10 @@ export const submitAssessmentRequestBodyNameMax = 120;
 
 export const submitAssessmentRequestBodyEmailMax = 254;
 
-export const submitAssessmentRequestBodyPhoneMax = 30;
+export const submitAssessmentRequestBodyPhoneMax = 16;
 
+
+export const submitAssessmentRequestBodyPhoneRegExp = new RegExp('^\\+[1-9][0-9]{7,14}$');
 export const submitAssessmentRequestBodyInterestMax = 120;
 
 export const submitAssessmentRequestBodyMessageMax = 1500;
@@ -38,10 +40,12 @@ export const submitAssessmentRequestBodyWebsiteMax = 0;
 export const SubmitAssessmentRequestBody = zod.object({
   "name": zod.string().min(submitAssessmentRequestBodyNameMin).max(submitAssessmentRequestBodyNameMax),
   "email": zod.string().email().max(submitAssessmentRequestBodyEmailMax),
-  "phone": zod.string().max(submitAssessmentRequestBodyPhoneMax).optional(),
+  "phone": zod.string().max(submitAssessmentRequestBodyPhoneMax).regex(submitAssessmentRequestBodyPhoneRegExp).describe('Required mobile number in international E.164 format.'),
   "interest": zod.string().min(1).max(submitAssessmentRequestBodyInterestMax),
   "message": zod.string().max(submitAssessmentRequestBodyMessageMax).optional(),
   "consent": zod.literal(true),
+  "smsConsent": zod.boolean().describe('Optional permission for automated texts about this assessment request. False must not prevent saving the enquiry.'),
+  "marketingConsent": zod.boolean().describe('Optional permission for email marketing. False must never subscribe or resubscribe the visitor.'),
   "website": zod.string().max(submitAssessmentRequestBodyWebsiteMax).optional().describe('Honeypot field')
 })
 

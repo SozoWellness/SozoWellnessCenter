@@ -17,8 +17,12 @@ export interface AssessmentRequestInput {
   name: string;
   /** @maxLength 254 */
   email: string;
-  /** @maxLength 30 */
-  phone?: string;
+  /**
+     * Required mobile number in international E.164 format.
+     * @maxLength 16
+     * @pattern ^\+[1-9][0-9]{7,14}$
+     */
+  phone: string;
   /**
      * @minLength 1
      * @maxLength 120
@@ -27,6 +31,10 @@ export interface AssessmentRequestInput {
   /** @maxLength 1500 */
   message?: string;
   consent: true;
+  /** Optional permission for automated texts about this assessment request. False must not prevent saving the enquiry. */
+  smsConsent: boolean;
+  /** Optional permission for email marketing. False must never subscribe or resubscribe the visitor. */
+  marketingConsent: boolean;
   /**
      * Honeypot field
      * @maxLength 0
