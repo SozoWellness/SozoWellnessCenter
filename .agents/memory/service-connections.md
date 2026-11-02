@@ -20,3 +20,11 @@ Retire WordPress entirely; do not keep it running to host Gravity Forms.
 **Why:** The user explicitly chose to retire WordPress when asked whether to retain it for forms.
 
 **How to apply:** Plan form connections without a running WordPress installation. Do not assume embedding the existing Gravity Form is an acceptable long-term solution.
+
+## Assessment mobile number
+
+Require a mobile number for assessment requests.
+
+**Why:** The user explicitly chose to require a mobile number rather than keep phone optional.
+
+**How to apply:** Treat mobile number entry as required when implementing the assessment form and its submission validation. This requirement does not itself establish consent to automated texts or marketing.
