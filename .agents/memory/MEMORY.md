@@ -1,0 +1,1 @@
+- [SOZO service connections](service-connections.md) — Quo and existing Mailchimp for enquiry contacts, Jane for booking, and the free Perfect Day Lifestyle guidebook.
