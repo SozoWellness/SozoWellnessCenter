@@ -12,3 +12,11 @@ The Perfect Day Lifestyle guidebook is free, and requests for it need to be capt
 **Why:** The user specified these business requirements and existing services.
 
 **How to apply:** Use these providers and purposes when discussing or implementing the connections; confirm unspecified workflow details rather than assuming them.
+
+## WordPress retirement
+
+Retire WordPress entirely; do not keep it running to host Gravity Forms.
+
+**Why:** The user explicitly chose to retire WordPress when asked whether to retain it for forms.
+
+**How to apply:** Plan form connections without a running WordPress installation. Do not assume embedding the existing Gravity Form is an acceptable long-term solution.
