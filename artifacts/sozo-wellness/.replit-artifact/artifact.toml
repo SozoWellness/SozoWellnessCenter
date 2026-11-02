@@ -1,0 +1,156 @@
+kind = "web"
+previewPath = "/"
+title = "SOZO Wellness Center"
+description = "A patient-first wellness clinic website for SOZO Wellness Center in Wildwood near The Villages, Florida, presenting assessments, therapies, the clinic, and a path to request an assessment."
+version = "1.0.0"
+id = "artifacts/sozo-wellness"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25504
+
+[services.development]
+run = "pnpm --filter @workspace/sozo-wellness run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/sozo-wellness", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/sozo-wellness/dist/public"
+
+[[services.production.rewrites]]
+from = "/services"
+to = "/services/index.html"
+
+[[services.production.rewrites]]
+from = "/services/assessments"
+to = "/services/assessments/index.html"
+
+[[services.production.rewrites]]
+from = "/services/rife"
+to = "/services/rife/index.html"
+
+[[services.production.rewrites]]
+from = "/services/shockwave"
+to = "/services/shockwave/index.html"
+
+[[services.production.rewrites]]
+from = "/services/hyperbaric-oxygen"
+to = "/services/hyperbaric-oxygen/index.html"
+
+[[services.production.rewrites]]
+from = "/services/therawellness"
+to = "/services/therawellness/index.html"
+
+[[services.production.rewrites]]
+from = "/about"
+to = "/about/index.html"
+
+[[services.production.rewrites]]
+from = "/testimonials"
+to = "/testimonials/index.html"
+
+[[services.production.rewrites]]
+from = "/request-assessment"
+to = "/request-assessment/index.html"
+
+[[services.production.rewrites]]
+from = "/blog"
+to = "/blog/index.html"
+
+[[services.production.rewrites]]
+from = "/privacy-policy"
+to = "/privacy-policy/index.html"
+
+[services.env]
+PORT = "25504"
+BASE_PATH = "/"
+
+[[services.production.rewrites]]
+from = "/research/hyperbaric-oxygen-therapy-a-comprehensive-guide"
+to = "/research/hyperbaric-oxygen-therapy-a-comprehensive-guide/index.html"
+
+[[services.production.rewrites]]
+from = "/research/unlock-your-potential-with-the-energy-for-life-assessment"
+to = "/research/unlock-your-potential-with-the-energy-for-life-assessment/index.html"
+
+[[services.production.rewrites]]
+from = "/research/benefits-of-hyperbaric-oxygen-therapy"
+to = "/research/benefits-of-hyperbaric-oxygen-therapy/index.html"
+
+[[services.production.rewrites]]
+from = "/research/the-revolutionary-anti-aging-benefits-of-hyperbaric-chambers"
+to = "/research/the-revolutionary-anti-aging-benefits-of-hyperbaric-chambers/index.html"
+
+[[services.production.rewrites]]
+from = "/research/cellsonic-treatments"
+to = "/research/cellsonic-treatments/index.html"
+
+[[services.production.rewrites]]
+from = "/research/the-technology-behind-cellsonic"
+to = "/research/the-technology-behind-cellsonic/index.html"
+
+[[services.production.rewrites]]
+from = "/research/cardio-medbed-heart-failure"
+to = "/research/cardio-medbed-heart-failure/index.html"
+
+[[services.production.rewrites]]
+from = "/research/how-cardio-medbed-works"
+to = "/research/how-cardio-medbed-works/index.html"
+
+[[services.production.rewrites]]
+from = "/research/brain-health-neuralchek"
+to = "/research/brain-health-neuralchek/index.html"
+
+[[services.production.rewrites]]
+from = "/research/are-you-giving-yourself-time-to-recover"
+to = "/research/are-you-giving-yourself-time-to-recover/index.html"
+
+[[services.production.rewrites]]
+from = "/research/vitalyzer-assessment-first-look"
+to = "/research/vitalyzer-assessment-first-look/index.html"
+
+[[services.production.rewrites]]
+from = "/research/live-blood-analysis-up-close"
+to = "/research/live-blood-analysis-up-close/index.html"
+
+[[services.production.rewrites]]
+from = "/research/your-first-rife-session"
+to = "/research/your-first-rife-session/index.html"
+
+[[services.production.rewrites]]
+from = "/research/make-room-to-recharge-therawellness"
+to = "/research/make-room-to-recharge-therawellness/index.html"
+
+[[services.production.rewrites]]
+from = "/research/energy-medicine-where-to-start"
+to = "/research/energy-medicine-where-to-start/index.html"
+
+[[services.production.rewrites]]
+from = "/products-and-partners"
+to = "/products-and-partners/index.html"
+
+[[services.production.rewrites]]
+from = "/independent-physicians"
+to = "/independent-physicians/index.html"
+
+[[services.production.rewrites]]
+from = "/services/cardio-medbed"
+to = "/services/cardio-medbed/index.html"
+
+[[services.production.rewrites]]
+from = "/services/packages"
+to = "/services/packages/index.html"
+
+[[services.production.rewrites]]
+from = "/dodpowerpack-clinic"
+to = "/dodpowerpack-clinic/index.html"
+
+[[services.production.rewrites]]
+from = "/services/wolfe-non-surgical-bodywork"
+to = "/services/wolfe-non-surgical-bodywork/index.html"
+
+[[services.production.rewrites]]
+from = "/chiropractic-care"
+to = "/chiropractic-care/index.html"

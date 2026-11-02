@@ -1,0 +1,53 @@
+.ip-hero h1 em { color: #3c7469; font-weight: 400; }
+.ip-profile { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: clamp(40px, 7vw, 110px); align-items: start; }
+.ip-photo { margin: 0; position: relative; }
+.ip-photo img { display: block; width: 100%; height: auto; aspect-ratio: 600 / 837; object-fit: cover; border-radius: 4px; filter: saturate(.9); }
+.ip-photo:after { content: ''; position: absolute; inset: 18px -18px -18px 18px; border: 1px solid #b88355; border-radius: 4px; z-index: -1; }
+.ip-label { display: inline-block; padding: 7px 12px; background: #174f4e; color: #f8f5ea; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; border-radius: 3px; }
+.ip-body h2 { font-size: clamp(40px, 4.6vw, 64px); line-height: 1.1; margin: 20px 0 22px; color: #133f3e; }
+.ip-body h3 { font-size: clamp(25px, 2.4vw, 31px); line-height: 1.2; margin: 36px 0 10px; }
+.ip-body p { color: #31564f; font-size: 17px; line-height: 1.75; max-width: 640px; }
+.ip-facts { margin: 0 0 8px; border-top: 1px solid #c5d6cb; max-width: 640px; }
+.ip-facts div { display: grid; grid-template-columns: 120px 1fr; padding: 14px 0; border-bottom: 1px solid #c5d6cb; }
+.ip-facts dt { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #38635b; }
+.ip-facts dd { margin: 0; font-size: 17px; color: #173d3b; font-weight: 600; }
+.ip-notice { display: flex; gap: 14px; margin-top: 26px; max-width: 640px; border-left: 3px solid #b88355; padding: 18px 22px; background: #eceee4; color: #a87850; }
+.ip-notice strong { display: block; color: #143f3d; font-size: 16px; }
+.ip-body .ip-notice p { margin: 6px 0 0; font-size: 16px; line-height: 1.65; }
+.ip-actions { margin-top: 26px; }
+.ip-services-jump { margin-top: 28px; }
+.ip-services { background: #e9efe8; scroll-margin-top: 110px; }
+.ip-services-header { max-width: 850px; margin-bottom: 44px; }
+.ip-services-header h2 { font-size: clamp(34px, 4.2vw, 56px); line-height: 1.15; margin: 20px 0; }
+.ip-services-header p, .ip-services-contact p { color: #31564f; font-size: 17px; line-height: 1.75; }
+.ip-services-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px 56px; }
+.ip-service { border-top: 1px solid #aec8bb; padding-top: 24px; min-width: 0; scroll-margin-top: 110px; }
+.ip-service-number { color: #52786e; font: 400 24px/1.2 'Fraunces', Georgia, serif; }
+.ip-service h3 { font-size: clamp(28px, 2.7vw, 36px); line-height: 1.2; margin: 14px 0; }
+.ip-service p { font-size: 16px; line-height: 1.8; color: #31564f; margin: 0 0 16px; }
+.ip-service .ip-service-focus { color: #174f4e; font-weight: 700; }
+.ip-services-contact { margin-top: 56px; padding-top: 38px; border-top: 1px solid #aec8bb; display: flex; align-items: center; gap: 40px; justify-content: space-between; }
+.ip-services-contact > div { max-width: 720px; }
+.ip-services-contact h2 { font-size: clamp(28px, 3vw, 38px); line-height: 1.2; margin: 0; }
+.ip-services-contact .btn { flex-shrink: 0; }
+.ip-services a:focus-visible { outline: 3px solid #2a7771; outline-offset: 5px; }
+@media (max-width: 850px) {
+  .ip-services-grid { grid-template-columns: 1fr; gap: 28px; }
+  .ip-services-contact { flex-direction: column; align-items: flex-start; gap: 16px; }
+}
+.ip-preview { margin-top: 56px; border: 1px solid #c3d4c9; border-top: 3px solid #2a7771; background: #e5eee6; padding: clamp(24px, 4vw, 40px); }
+.ip-preview-inner { display: grid; grid-template-columns: 140px 1fr; gap: clamp(22px, 4vw, 44px); align-items: center; }
+.ip-preview img { width: 100%; height: auto; aspect-ratio: 600 / 837; object-fit: cover; border-radius: 4px; display: block; }
+.ip-preview h2 { font-size: clamp(30px, 3vw, 42px); line-height: 1.15; margin: 14px 0 12px; }
+.ip-preview h3 { font-size: 24px; line-height: 1.25; margin: 0 0 10px; }
+.ip-preview h3 span { display: block; margin-top: 4px; font: 600 14px/1.4 'DM Sans', sans-serif; letter-spacing: .04em; color: #38635b; }
+.ip-preview p { color: #31564f; font-size: 16px; line-height: 1.7; max-width: 680px; margin: 0 0 18px; }
+.ip-preview-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+@media (max-width: 850px) { .ip-profile { grid-template-columns: 1fr; } .ip-photo { max-width: 340px; } }
+@media (max-width: 600px) {
+  .ip-preview-inner { grid-template-columns: 1fr; }
+  .ip-preview img { max-width: 130px; }
+  .ip-ext, .ip-preview .btn { width: 100%; }
+  .ip-photo:after { inset: 12px -12px -12px 12px; }
+  .ip-facts div { grid-template-columns: 100px 1fr; }
+}

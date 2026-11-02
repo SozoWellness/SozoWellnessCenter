@@ -1,0 +1,1250 @@
+{
+  "project": "SOZO Wellness Center",
+  "createdAt": "2026-10-30T15:06:33.824088+00:00",
+  "purpose": "One-time source handoff for import into SOZO's Replit account.",
+  "includesDatabaseRows": false,
+  "includesEnvironmentSecrets": false,
+  "fileCountExcludingManifest": 248,
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 752,
+      "sha256": "be61c18dbaed9cdbce0a5780a6b3889792b12c207a60decaf4e2e95f955a0d2f"
+    },
+    {
+      "path": ".npmrc",
+      "bytes": 56,
+      "sha256": "1ded4f26f4851b35dae702edd5719d1be5ff31db6983858d088d5e6593ea7c99"
+    },
+    {
+      "path": ".replit",
+      "bytes": 375,
+      "sha256": "f17bce42064e7aadb31f21c0d24463b1b35ca366ba4039b062221a9a6a1cd14e"
+    },
+    {
+      "path": ".replitignore",
+      "bytes": 297,
+      "sha256": "1a5540260220652a0b8b45b6ba4ecef7109925f652430b2952e05d2e45a86416"
+    },
+    {
+      "path": "HANDOFF-CHECKLIST.md",
+      "bytes": 6140,
+      "sha256": "645ce5c27b3950d2623404b947cca00f132d868e148cea3bf1e5c0152a226b62"
+    },
+    {
+      "path": "HANDOFF-VERIFICATION.md",
+      "bytes": 2656,
+      "sha256": "eda647d0f77b044404f0bfa5b125576870b27d50c11f423191108931f9360d78"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5399,
+      "sha256": "020ff57daca62e18b204a43faf091e33be20b07d7bf570404dd17e64fc37c346"
+    },
+    {
+      "path": "artifacts/api-server/.replit-artifact/artifact.toml",
+      "bytes": 784,
+      "sha256": "e461708bfe50f6eb964fa755cf0c6ba813c19392be055d5ef96c729aa0173539"
+    },
+    {
+      "path": "artifacts/api-server/.tsbuildinfo",
+      "bytes": 151651,
+      "sha256": "8f87dda629ed7d11942d242d8b972855e9011d709cd1cd009a480f2282eea96b"
+    },
+    {
+      "path": "artifacts/api-server/build.mjs",
+      "bytes": 3455,
+      "sha256": "a268757bc319f2ccaf2f2661d6616ea9cab3c8d8bc45b46b0ebfdb2bc6180267"
+    },
+    {
+      "path": "artifacts/api-server/package.json",
+      "bytes": 880,
+      "sha256": "069d632c9b9affea6c9e0c58af56ccf6dbe716b7ed2f2554d0255654cef6981f"
+    },
+    {
+      "path": "artifacts/api-server/src/app.ts",
+      "bytes": 656,
+      "sha256": "72f19250d5ea5e836225d357338a0ff9459e813eb48f1a2ac7e60fa5335ca878"
+    },
+    {
+      "path": "artifacts/api-server/src/index.ts",
+      "bytes": 511,
+      "sha256": "9c1f296e0008006b40d766ee436697e43ef99cf907f2c7afe9a6cd2d6c118d3c"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/logger.ts",
+      "bytes": 421,
+      "sha256": "29e1ca75036fe917595a3a74fd450857d845836fe0625c30b9caa02df4acba62"
+    },
+    {
+      "path": "artifacts/api-server/src/middlewares/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/assessment-requests.ts",
+      "bytes": 1675,
+      "sha256": "28f59b3825dbf9114092b026a114daf298e6fae23e3219d6db3f9cc150e0ee05"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/health.ts",
+      "bytes": 288,
+      "sha256": "0386ceddb4ff4bff220af72ca38a62191ad95a2f41fd619df3bb9ceffce03db2"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/index.ts",
+      "bytes": 271,
+      "sha256": "97e7e67bc54176d163775e8f0a0bfb930bd8539e36d1465d29565caa1f41e2d7"
+    },
+    {
+      "path": "artifacts/api-server/tsconfig.json",
+      "bytes": 335,
+      "sha256": "aa300909ccd1d4282761b5d6549a174717b663bb56cb0f59d107d4b3d96cb009"
+    },
+    {
+      "path": "artifacts/sozo-wellness/.replit-artifact/artifact.toml",
+      "bytes": 4749,
+      "sha256": "334651f6ddfdf155a52829c1aa0960e4b96f5104eeaeec61e2bed7f5c2f41174"
+    },
+    {
+      "path": "artifacts/sozo-wellness/components.json",
+      "bytes": 434,
+      "sha256": "3a5d5af62f05e6e3de6c5085f31ed4f49273d57cfeae4d69d00a2568c91f54f9"
+    },
+    {
+      "path": "artifacts/sozo-wellness/docs/hyperbaric-source-check.md",
+      "bytes": 4140,
+      "sha256": "0fc35c88b1b6e37e7d9db6a1c6cbc0a3a3fca5305bfe6e06ba60cb3704e37dfa"
+    },
+    {
+      "path": "artifacts/sozo-wellness/index.html",
+      "bytes": 2903,
+      "sha256": "e37800187b3c48d39478181de376f75bcabd59abe9101a037cf6ab90be52c98a"
+    },
+    {
+      "path": "artifacts/sozo-wellness/package.json",
+      "bytes": 2967,
+      "sha256": "495cec8cc0d177ad531ef018ecc38e7facd6f3273c067c05cd16f0f6e5ca6c2f"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/favicon.svg",
+      "bytes": 163,
+      "sha256": "8ffbde9092b1fa4de97c9481b76f518b131268c82e7c555041925225b1dab6e0"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/cellsonic-ankle-treatment.jpg",
+      "bytes": 141865,
+      "sha256": "6ca01bf7e125e606de91164bd56c1cd44bef48072090f91484a41f8b8fcaddc7"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/clinic/braintap-session.webp",
+      "bytes": 63878,
+      "sha256": "a7482d9aa08384fca867853f221f84e1025b26604ce3525468ec90ccb88fb62a"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/clinic/cardio-medbed-lifestyle.webp",
+      "bytes": 185190,
+      "sha256": "32c1b775c3d58f6f456ff65c63be9e997a185e83002b9040ddfd5f7af563c36f"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/clinic/cellsonic-session.webp",
+      "bytes": 83564,
+      "sha256": "33ecee3dce5c26b19bd8e979ad4082d0f696b61918f68f93d6ad1574bcd3e560"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/clinic/h-wave-session.webp",
+      "bytes": 80258,
+      "sha256": "02514e65335f7bb5f3cdf5679e8062a6d54cb9295f3d16c7be26e77bf1e1d973"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/clinic/live-blood-review.webp",
+      "bytes": 83766,
+      "sha256": "76c4df7f010088c4a56bb61ee84594edf40a64d2760979e8db91b3fbb623490b"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/clinic/live-blood-session.webp",
+      "bytes": 91174,
+      "sha256": "0aaf56dfa48adc8e53e3eff100e716cbdb2b45b7025b6f9f55e51f7cb72c34f6"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/clinic/neuralchek-assessment.webp",
+      "bytes": 96028,
+      "sha256": "4af30792933376b2b3eb7616927a959d07c312a5d125362805bc1019817eac69"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/clinic/radial-shockwave-session.webp",
+      "bytes": 105398,
+      "sha256": "bd5476b1665c1d5eab499c8cdb01a13a7c53922873eb210afeb36b6b7d2c61de"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/clinic/rife-session.webp",
+      "bytes": 69608,
+      "sha256": "acbcceeeb331c1339e52f588d3d3e6846afbf568abc37193010ae1bfe19b6b35"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/clinic/therawellness-session.webp",
+      "bytes": 64048,
+      "sha256": "09a2dc89220590c609d53df85a8a9b55eeae29aaac8c272dc3654a3afb97cb8a"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/clinic/vitalyzer-assessment.webp",
+      "bytes": 76212,
+      "sha256": "e2680d4a72e92bae5a7e368dfe2b16321da1935e706fabdb68f6ca6012c02971"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/clinic/wolfe-bodywork-spine.jpg",
+      "bytes": 57819,
+      "sha256": "9e4c1a12b62002020d02259fd0eb4f20262a0ff9dfb94ccc59c463eaf7cee877"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/favicon.png",
+      "bytes": 3003,
+      "sha256": "c31d3765408ce4d62309af420d695e312ebac4dfad578e3cfb8c496e344d7265"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/hyperbaric-chamber.png",
+      "bytes": 1592716,
+      "sha256": "e7d35c54bf5a806219099b662ad661caf46bf242fccf8eea53394dcb109561e8"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/inside-sozo.jpg",
+      "bytes": 98131,
+      "sha256": "e8eb9912f8e31948bbd4f983367d2d83f2d1a6142f9057da9f940074cd5a7bcc"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/kevin-stasney-md.jpg",
+      "bytes": 56745,
+      "sha256": "d9503380382341931b89007682fd764cd2d851a958f53a810e214875bb81254c"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/live-blood-analysis.jpg",
+      "bytes": 182875,
+      "sha256": "9adf22e32ca20451a5f5bc78e4d581922193607c6523a32b220c7f9e04e6a0ec"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/neuralchek-assessment.png",
+      "bytes": 459166,
+      "sha256": "2cc3b0813c09e4820604b7f477d27144ebaf3b59150f3da95690d5640604f6b7"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/partners/anti-aging-bed.jpg",
+      "bytes": 115684,
+      "sha256": "a1dea89ef36a147d60ead0610ca01afe04fc638dd61e86f4e652c50d06aad957"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/partners/asea.jpg",
+      "bytes": 59809,
+      "sha256": "25ef0543e5fb720e4d375bc08c0e5578f5f0709c9329e81d8d9fe59c27b6618e"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/partners/braintap.jpg",
+      "bytes": 83168,
+      "sha256": "90092329bed51083422b087d94b61510ccf8a6a2ba04a4f436c189f137c57350"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/partners/centropix.jpg",
+      "bytes": 98903,
+      "sha256": "0f3a1a0e5f722f19856af1ac5652716d9ac585d4f7e435eaf47f19aaf658628b"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/partners/doc-of-detox.jpg",
+      "bytes": 24452,
+      "sha256": "a6a0c93b62d3b00e6e78ae67212245274bb3c2e68f4509d4a8ecd3f361f1ebeb"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/partners/frequense.jpg",
+      "bytes": 99858,
+      "sha256": "1c7fc93bcb7b8822bf3650e6c5ae1c2d6a6e47fcdbb19a02eae4474f353dc9f2"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/partners/h-wave.jpg",
+      "bytes": 53719,
+      "sha256": "fa450d0fddabca104f47a0f61f52a05f80edc789a59f5f927875712dd0d25ea8"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/partners/microdaily.jpg",
+      "bytes": 123259,
+      "sha256": "d1a19e628fc1059a576bcdc1318ba186933ec78faef58e14074fc0aa28cd76dd"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/partners/purium.jpg",
+      "bytes": 57423,
+      "sha256": "df16ede8e10eb9cd873b04d216e50c51abda0b9db2c5b6094c92983e3cdc653b"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/partners/theon-global.jpg",
+      "bytes": 65804,
+      "sha256": "3fe8aeeb0a3c58aa5c6aac2e73d3cb3b84d6296a28dfc252477d430d2db39f67"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/partners/zinzino.jpg",
+      "bytes": 136857,
+      "sha256": "4cd87503d39fd0dffe902cfac144bf387e4a724253eae8aea28ef6f378e03f44"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/research/Blue-HBOT-1798x899.png",
+      "bytes": 536859,
+      "sha256": "b6bc2c200698399ee92f3dd5fed5dbd9d53be69a0c8e0747a56595c4f979a935"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/research/Hyperbaric-Oxygen-Therapy_-A-Comprehensive-Guide-1400x700.jpg",
+      "bytes": 107979,
+      "sha256": "7114c56886bcdeb5537b6ab0839cee5dac0e70af7500fc3c00c7dbc368bf3a2b"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/research/The-Revolutionary-Anti-Aging-Benefits-of-Hyperbaric-Chambers-600x300.jpg",
+      "bytes": 24120,
+      "sha256": "ff0615d4b31024a2239a808cb030a7a9c3bdf840e63ef1cc353847c22640acbc"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/research/Unlocking-Your-Potential-with-the-Energy-for-Life-Assessment-2-994x497.png",
+      "bytes": 436185,
+      "sha256": "4db54fa630e379f56b292a4de869734c69b034f4cd5280979fe7a205eee87d87"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/research/cardio-medbed-chf-hero.jpg",
+      "bytes": 135037,
+      "sha256": "99b9324bd7aa0cc3ad640b497425be55388556baf2e1fa9ac89fb9d125b757a7"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/research/cardio-medbed-science-hero.jpg",
+      "bytes": 79701,
+      "sha256": "2669e5cb3b44f68a984d07e987abfd1a365b13d9e7a651dc622eabd6cd205fc0"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/research/cellsonic-technology-hero.jpg",
+      "bytes": 110857,
+      "sha256": "fd6febbefb93e42d8aa76c71928480b8386ea12885eb2142cce66002d9eb3b6a"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/research/cellsonic-treatments-hero.jpg",
+      "bytes": 81442,
+      "sha256": "abbee325213cbae5ac6356919015454f576f9a6f6ff5e42aa0ca1f99849337a4"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/rife-session.jpg",
+      "bytes": 85999,
+      "sha256": "29f65ab1b30366035fc8ad921ecbfe93e046211a3b55381a9ba8117818225bbc"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/rife-session.png",
+      "bytes": 717930,
+      "sha256": "9570f29da66343e88eed439255e7b4db5ceff70f8d35049d5ad1e92059166743"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/shockwave-comparison/focused.webp",
+      "bytes": 1876,
+      "sha256": "84f476131faacf391c344e2924ce01cc5a3fabe5a2587cbffa7c57ef15683b68"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/shockwave-comparison/kinas.webp",
+      "bytes": 1788,
+      "sha256": "9fd53bba0a4096a9c43323e5f0454e3c84aac3e59ff5f7cd94ff9953e4f27a9a"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/shockwave-comparison/radial.webp",
+      "bytes": 2744,
+      "sha256": "a7d3e79506bb03daa7eaf83fc0c3a37effcde9efc836457743317961781601f0"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/shockwave-comparison/regen.webp",
+      "bytes": 2752,
+      "sha256": "4791c104e4e79b6305d99cebbcc2a66cb617f818ce443a0633c944af348cc1ab"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/sozo-logo.png",
+      "bytes": 109520,
+      "sha256": "66b9251b5f881fb0aa28f825f9e96a558e4aeaa815f3b5421f2be28d2a22f4b0"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/team/cindy-greenberg.jpg",
+      "bytes": 112799,
+      "sha256": "82c0710c4a151cc2676c7e5eced3cba8e0835d25cdd22716af5f3e552a2c0abb"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/team/darcelle-burandt.jpg",
+      "bytes": 92044,
+      "sha256": "ced7be2db8a0efdfd6e3b6d8ba34e4bb604b8879745ce45807e0fac4fcd4781d"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/team/gary-cupo.jpg",
+      "bytes": 91318,
+      "sha256": "0ca891854d6b29c24ba9cb2033be88fe5298c5fb783316ab4e8a7bd796f9d19c"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/team/jt-anderson.jpg",
+      "bytes": 206273,
+      "sha256": "a4af335282eb751a04b73daa10a811fcfad8ba71cbcb27715489fb1aa7a82f03"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/team/lauren-alvarez-schmitz.jpg",
+      "bytes": 79664,
+      "sha256": "245909a199f84b833603972ecaa81ef0488cacb7bd9bed51ed10bdc3b35b9001"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/team/leisa-bodway.jpg",
+      "bytes": 115457,
+      "sha256": "da89c3ca87170468ba751475c0e9d36d391c6c1eca214f387ef0c01ce00fc352"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/team/lisa-springer.jpg",
+      "bytes": 90166,
+      "sha256": "67c9838d55fa908e8b5f57a8015045cd667181188415cb7b2ac364f9c848b981"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/team/lynne-barta.jpg",
+      "bytes": 110099,
+      "sha256": "30a82d1633497a61dc2e1aa601e175ece7074e576fb7dc5819a44c04d9289905"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/team/marty-fields.jpg",
+      "bytes": 121162,
+      "sha256": "886871f5792284267d9dc6a732229f585f380f68def6ee9e37e70e2751b3ffde"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/therawellness-session.png",
+      "bytes": 645214,
+      "sha256": "320eb7f55821b7427a1684a2ec7364289ff52523f9a83a85274bca65647c7c86"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/vitalyzer-assessment.png",
+      "bytes": 433830,
+      "sha256": "8baf1be738396a71f0783bae453a8d5388cb1d5f173af5a68135875a3615efc9"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/images/waiting-area.jpg",
+      "bytes": 143970,
+      "sha256": "2115688285f729dd8d4364ce037f022a00ae161fdb3679e3efcc6d9102c3f5b5"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/robots.txt",
+      "bytes": 75,
+      "sha256": "dcc20ae92a67ed7d91a2d14f07fa08adac2c7b670539343eb0f1e8168729875f"
+    },
+    {
+      "path": "artifacts/sozo-wellness/public/sitemap.xml",
+      "bytes": 2973,
+      "sha256": "fb515b9509e63c5ed56114f69c64fdcf156f874a13c983e2b7759586980d75a0"
+    },
+    {
+      "path": "artifacts/sozo-wellness/scripts/check-conversion-pages.mjs",
+      "bytes": 7655,
+      "sha256": "fd7cf8002fff2584c81159bc0acc75ed9a3cf78bf7466dc397b115bc005cf310"
+    },
+    {
+      "path": "artifacts/sozo-wellness/scripts/check-search-pages.mjs",
+      "bytes": 8413,
+      "sha256": "114d59f642af73b7917c1cc6f1b815ce9d1c137432cbc2b919e76f4c38d7e85c"
+    },
+    {
+      "path": "artifacts/sozo-wellness/scripts/check-search-pages.test.mjs",
+      "bytes": 8928,
+      "sha256": "f8a43c6f71471c72c1974a856572a64fc1aa9edc8812b2d523e9480f9da26a3f"
+    },
+    {
+      "path": "artifacts/sozo-wellness/scripts/inquiry.test.mjs",
+      "bytes": 1128,
+      "sha256": "f99b4687b801c833208ff321a43d60069a0bda7883e0dca2ea5d502929d342fe"
+    },
+    {
+      "path": "artifacts/sozo-wellness/scripts/prerender.mjs",
+      "bytes": 4243,
+      "sha256": "663ca0fc5a644ee178f13268977956c403ce5c1be21dbaf2fc0bfd294c710b28"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/App.tsx",
+      "bytes": 49838,
+      "sha256": "eccf7599870e164852806db07c64bbfdaac1c2c4cfb190b771319d60d140f77d"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/about-team.css",
+      "bytes": 2379,
+      "sha256": "c2485d9b65fcb27cfa1534c2ea92e3355272e109b2385b42e9ed120f00e01f64"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/about-team.tsx",
+      "bytes": 1831,
+      "sha256": "599b50c7f79ad04422f4c1bab8924d7e020a3bb471e525be0e3ee9d73bfff4c4"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/assessments-content.css",
+      "bytes": 4004,
+      "sha256": "71976cbcf6e05a61cd8c4e9ee50da208771c173788f2d8cc151cb40554528b98"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/assessments-content.tsx",
+      "bytes": 5100,
+      "sha256": "df3b90f16a03377cab3dd4668d03eb7db0de7593e2ba4cd67f3c2c44b23b4e5a"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/chiropractic.css",
+      "bytes": 6137,
+      "sha256": "4244267d5fd4f641be7b57fbbdde69a9036daac5efa2e5f822e948eab4532bff"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/chiropractic.tsx",
+      "bytes": 9321,
+      "sha256": "68e276ec9e87126f1c808002b9f45c2077499e05c159b29f8546167ceba92d17"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/dodpowerpack-clinic.css",
+      "bytes": 5165,
+      "sha256": "94241b75a7b94bec194ad3e9d20cb8c9019269285740a96a6cc3d2712f269c40"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/dodpowerpack-clinic.tsx",
+      "bytes": 6555,
+      "sha256": "5812eb71ae6f5f7d58aff0a53a7b7f5fb2d53d3b35b221d45bd7b726565f39e1"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/error-boundary.tsx",
+      "bytes": 2700,
+      "sha256": "0b8f3be2a2fd6bcf3324cf82ffd5142d8a121071db9b7dda5691d1c3315208a2"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/home-discovery.css",
+      "bytes": 4680,
+      "sha256": "840df4055ede8011d5ef01983f928aecd8338f553b81d0fb2375a042b5fc7f85"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/home-discovery.tsx",
+      "bytes": 5470,
+      "sha256": "9dc16cfd7884e611f61c6c7550937b25721fb982a9e20f26e638b68ea89724e8"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/independent-physicians.css",
+      "bytes": 4552,
+      "sha256": "0d86d10b3567612fda49fe614eb2396ae3560241b373870a5f4d093adf849ad7"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/independent-physicians.tsx",
+      "bytes": 7181,
+      "sha256": "48b121a58c67115925657a8e1107ac77ca31f8f6fb1701ed1f7f3e3a6d5d54e1"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/packages.css",
+      "bytes": 7813,
+      "sha256": "6e8c76d4393a1992bc45cc6b86c8d79c4b90d0845241e2dfe4a4fccbd9e9f14a"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/packages.tsx",
+      "bytes": 6710,
+      "sha256": "1d9f3c62e71a51bda3f349e03258f2e73ec003636786b1f6b451829bae9b3079"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/privacy-policy.tsx",
+      "bytes": 1912,
+      "sha256": "b295fdf207aae785a5c5854cc3cd6ac61740487a538cdf49a515ebf108848b48"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/products-partners.css",
+      "bytes": 3768,
+      "sha256": "ddf4f00ea553b680b4118f4624d975977cf9df29fdd3ee74ad9ce5e87f1d9251"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/products-partners.tsx",
+      "bytes": 5063,
+      "sha256": "bdf53fe59b9a9466f0e48283239fba3d6b24f16f56588ad20041e454ff6b0258"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/research.css",
+      "bytes": 4138,
+      "sha256": "66a27f928dbcdc668e97a6f9ab67c1cde1a62bd301e233e0462d11b8afed543e"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/research.tsx",
+      "bytes": 6780,
+      "sha256": "ed311e368532fe9abb400841e1238df4e0b386c6f9406f9c6b6a75d09c0dd09e"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/service-benefits.tsx",
+      "bytes": 4305,
+      "sha256": "55e4967e62b36666e83e1bac5573a2ebed3be2b75492b38d62d728ff0ab70ac6"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/service-hero.css",
+      "bytes": 1433,
+      "sha256": "dfb537967ec63dc0b089f2593b02a32f00ee7356c87b782803d711dc1cefb373"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/service-hero.tsx",
+      "bytes": 1756,
+      "sha256": "351353d1c3014c64e1af0a5c9a1f36dbac89bba0913aeeaa3cdc3c409acbe31e"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/shockwave-comparison.css",
+      "bytes": 8308,
+      "sha256": "0e9c87185946966bfdd85ebc44e048043c856670e7368267bd6a9afa2ad7feac"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/shockwave-comparison.tsx",
+      "bytes": 6601,
+      "sha256": "81e87f4c5f1e72591d915ea4cec5ba15350f8f845f9685fbd9fe58fecfc0c815"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/testimonials-stories.css",
+      "bytes": 1388,
+      "sha256": "c0c1134361f122c799d4b93b2863bcec41b0ab77fec28584d54144d505f5cbc8"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/testimonials-stories.tsx",
+      "bytes": 1166,
+      "sha256": "f2bfd2c563814d70a724433342b00ff1edd283477bee682faadf5798b0f6d8f3"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/accordion.tsx",
+      "bytes": 2013,
+      "sha256": "8e4230a3e6d38bfab7b02f00f9e948c8c4038432c5b1bf2d0ea44dc8b5ce09cc"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/alert-dialog.tsx",
+      "bytes": 4447,
+      "sha256": "d76901a06e6881e94aa3847fde2602ee6f6ddc9f4cace9fa238627a5572bd24e"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/alert.tsx",
+      "bytes": 1609,
+      "sha256": "695369ea4d1ba4438dcedacaa8059b08b6463ac93170360f3bd42b983b7608e9"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/aspect-ratio.tsx",
+      "bytes": 143,
+      "sha256": "2f5b0ed3cbcf84e526caad0c6b88d4457f8745a365c86cc74d924a1b6e013a36"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/avatar.tsx",
+      "bytes": 1431,
+      "sha256": "429f5e82fc3dcf265625650176f16ff9b35e55826183e1f1b2d4dc2a338f9b15"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/badge.tsx",
+      "bytes": 1528,
+      "sha256": "ba6f51e428a520f54e600fded4ea030a8099fa6a9a7b7110af8dca34795415d1"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/breadcrumb.tsx",
+      "bytes": 2735,
+      "sha256": "44b4de47f806eec0e3de5130f0399e83700eaf0bc8deb47af5ffda2bb11eb3f1"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/button-group.tsx",
+      "bytes": 2222,
+      "sha256": "b89025c11d08652597cb46b097d3e04658ad2c383bf81ed445c8182c0ed1b260"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/button.tsx",
+      "bytes": 2370,
+      "sha256": "9c20a340ca0c948d0164158eff44fca2e26343c8ee387ffc22f9cd677c59d27d"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/calendar.tsx",
+      "bytes": 7607,
+      "sha256": "1cdd1e62797356fe62f61f5521fcf0da8e3570b1120868ccca2b48370157fe46"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/card.tsx",
+      "bytes": 1856,
+      "sha256": "9fed39a53303c12fa6ac6f5f8813c1683e2198df9ee067cffbdfe69044cf3e4f"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/carousel.tsx",
+      "bytes": 6288,
+      "sha256": "4ae2f69bc2c1ce33c60b23ddc5382f4b93882dac07c2d18cce32fb148ff52c48"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/chart.tsx",
+      "bytes": 10846,
+      "sha256": "ac747c83483d742e207426a193ba5e2cf639fa18cd819c1f12d12329520c6c12"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/checkbox.tsx",
+      "bytes": 1038,
+      "sha256": "6b9e336fa42475bbb2ad4d76478afb8d2555e6e26bac245b9ccde62a9a033adc"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/collapsible.tsx",
+      "bytes": 335,
+      "sha256": "aedcd10b62404b39d8d5544c01fee90aa7b66e7280bb80a215601ad198a1b8fd"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/command.tsx",
+      "bytes": 4918,
+      "sha256": "d8fb66e44f9f8de558f6a94c781f3d890871d76dbabcda64e6fab3c917b3237d"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/context-menu.tsx",
+      "bytes": 7446,
+      "sha256": "bdff38b45a6010e3db808c099c799bd61e6aca619378074e7b14b63c1291e4c9"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/dialog.tsx",
+      "bytes": 3889,
+      "sha256": "e0d3fa53f4cb7d8011ab09f2d198c24234062d24638fabf5142f5fbce57d2ba5"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/drawer.tsx",
+      "bytes": 3029,
+      "sha256": "152bc340ad982e84f851e3bc1a6b8e7ffd0151a7445c6ecf1b1e3e13cbc19210"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/dropdown-menu.tsx",
+      "bytes": 7646,
+      "sha256": "a79d5419ee174de35880340aef44d67847cee54846c058e02ac4a846b603c60f"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/empty.tsx",
+      "bytes": 2410,
+      "sha256": "48824b1b37bd406fa74f48db726a4f1d70cf88db5b3432f7b1d59f584f1c5dad"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/field.tsx",
+      "bytes": 6079,
+      "sha256": "c3787ffb045354e9f18e70d94890627caea94939a226e49c1e6cedee84a1e9e1"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/form.tsx",
+      "bytes": 4232,
+      "sha256": "1960463b09152760fdd99ca3eb16187408d064c7599ed66384b42d1613d3a3a3"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/hover-card.tsx",
+      "bytes": 1245,
+      "sha256": "e0b4e3f0126757a8eb5c6e436c8c041c049430abe9a2eb84b10154144b31c29c"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/input-group.tsx",
+      "bytes": 4993,
+      "sha256": "f4befbf9bf8ebd755b267c4db2b396be296adb95acca5c3fba54f6495bdedebd"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/input-otp.tsx",
+      "bytes": 2160,
+      "sha256": "b4891335e70920518cfbdef2aeb399f61477fbc4b3ffe3b8a2938f19074164cc"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/input.tsx",
+      "bytes": 775,
+      "sha256": "03ac1648171bd5ad90dbc03e9ebff9a9cc77708bcc53bdac914b80eeebfe3032"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/item.tsx",
+      "bytes": 4519,
+      "sha256": "4a84cda22d692ee176f5128517a4003a63d11f907df445e7586ef034c88e8772"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/kbd.tsx",
+      "bytes": 867,
+      "sha256": "4348a7a06a715e9e9673602cbb9ed89a6a4c6cbdd457d4c03db0f23a139d19eb"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/label.tsx",
+      "bytes": 733,
+      "sha256": "fbc0c7db4221227941271a004bf71db5067aee9d8668f3351d91113cd5934c8c"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/menubar.tsx",
+      "bytes": 8655,
+      "sha256": "26dbbf36e4ffd87aab74e61dd1e3613f0c640988479679d53bacd8dbd15cc891"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/navigation-menu.tsx",
+      "bytes": 5150,
+      "sha256": "222020e1ac703ce01700d6e8822c6263932bc71c481d724b8ef53ccaae8ad63f"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/pagination.tsx",
+      "bytes": 2772,
+      "sha256": "dd65d2e59226a3f384014b596ae701aef50f130cb3061f4657e81c588587b8da"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/popover.tsx",
+      "bytes": 1351,
+      "sha256": "dc574442536873c8aa88733c348503c4599ad6ed0fc9898fd25406d94e095cca"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/progress.tsx",
+      "bytes": 799,
+      "sha256": "74223bcccf7ca2ed026d197476abbe3d48fbc531c40f4252445f56954a270c75"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/radio-group.tsx",
+      "bytes": 1421,
+      "sha256": "8155d32dea5d4ddea2048b6d12f83fe4805d9bc87c97b994dbb0d040981334f2"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/resizable.tsx",
+      "bytes": 1733,
+      "sha256": "8e73dfb8b582944364d73b64ed03378016f20f7251f15f880dcf0fb140e1ad41"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/scroll-area.tsx",
+      "bytes": 1650,
+      "sha256": "73f5dedda781e5285092ea269f747378dbad8d95631eab638e15b3c31595dc59"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/select.tsx",
+      "bytes": 5773,
+      "sha256": "c64c9c1574c91f1eff922f3557e7609ba6c1d5e39959dbdecf8d386d7ae41990"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/separator.tsx",
+      "bytes": 764,
+      "sha256": "2b129347f918742bf006099f7f56a9be373250de2ecc3ad201297563e3d1f807"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/sheet.tsx",
+      "bytes": 4307,
+      "sha256": "ef2ae35ccab1252c4eee56e67e9f1b2499b5bbfb3ae39037d8d4be39915c272f"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/sidebar.tsx",
+      "bytes": 21969,
+      "sha256": "de7566e708ba8bf34cb4a78fc018c784315c9d7a16d70e66255f8c72caf9d1db"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/skeleton.tsx",
+      "bytes": 269,
+      "sha256": "d78130b2e311a750e7bb524e66e3af4c04e2ab02b04fd68539c1afd0bbb47152"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/slider.tsx",
+      "bytes": 1043,
+      "sha256": "ecac74b8f3a044ba7a9e4eb0bdbfdf48be92483a32d2c414c5078c9f38e1f369"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/sonner.tsx",
+      "bytes": 902,
+      "sha256": "de5a5d9ae404545fcb0f21123530ffcf89d24a47812c70b3ca1376591e28dbdd"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/spinner.tsx",
+      "bytes": 334,
+      "sha256": "4458ea392b32f439cd4c64b9593846f339370fa1295c04f9003f05c1f3386689"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/switch.tsx",
+      "bytes": 1155,
+      "sha256": "f81bc9b5ce2d6a92b6b2f1f3376c0489f30f7073081a1d9d6c56553880f44c58"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/table.tsx",
+      "bytes": 2881,
+      "sha256": "dd29f5ef260af67ed09c84505495e3fddbad14009e3b3ce689d0c354ffaf55d3"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/tabs.tsx",
+      "bytes": 1890,
+      "sha256": "320609101fbaa6cccda0b899154cb510fa322926cfdbaf07e33b79c00c83fcd6"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/textarea.tsx",
+      "bytes": 655,
+      "sha256": "63fb699771afe60c5073ed50e1a042d7d7f21eefd12d15bcb750cf3230985011"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/toast.tsx",
+      "bytes": 4871,
+      "sha256": "04d4ef720079342e2f4380c22683f1544bd8e93a581fb55e447458f04a6127d5"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/toaster.tsx",
+      "bytes": 777,
+      "sha256": "d34c7cd51482ddd5703a13378d9ac69b3459a304581e42f56ac2c696e53163ac"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/toggle-group.tsx",
+      "bytes": 1767,
+      "sha256": "6d7aca86245edf5d0a8f6f3ed73bd19316f4865425891eabccd6f3e37e59519e"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/toggle.tsx",
+      "bytes": 1494,
+      "sha256": "5800d2099224ef90892e8c1d972d2a0964391c33cd43d7f5c6abf5cd42e023e1"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/ui/tooltip.tsx",
+      "bytes": 1277,
+      "sha256": "e3c6ea9d4ecd62881af33564e25be013d35a8a7fa78475a6dcc98a06c7f894eb"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/wellness-disclaimer.tsx",
+      "bytes": 1418,
+      "sha256": "00a419ec980ba9f73e15fba0e2f4041f9133b81c2c46afdf7aac107f233d8cc6"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/whole-person-wellness.css",
+      "bytes": 1682,
+      "sha256": "0dde673f2ce86d69c0664d1e84b525d89f4cc1b0ee8fdd56d3b2d254de8df286"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/components/whole-person-wellness.tsx",
+      "bytes": 3354,
+      "sha256": "83631f9ddb97963136fd5beb0e9a18851acd78535da019934bfbb06170f4d978"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/articles/brain-health-neuralchek.md",
+      "bytes": 3868,
+      "sha256": "ae718b8fd9ba4912c0fff89779a33f9c382b5bc9d194cd2afc927e02c005af0a"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/articles/energy-medicine-start.md",
+      "bytes": 4550,
+      "sha256": "2e91f7df4f2a81b2682c5bf8cb87fe5333d317413a5e806e9ada41e06a83baf4"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/articles/first-rife-session.md",
+      "bytes": 3946,
+      "sha256": "c4b10ef0af678b18f29f8aee86cd3f26d4eaef79a3483a91cba49b0bcf94aa7a"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/articles/live-blood-up-close.md",
+      "bytes": 3975,
+      "sha256": "7da521f9e6f3758cb116cd96fee53a685b423ab9624127d45d2c05e9d688d575"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/articles/make-room-to-recharge.md",
+      "bytes": 3715,
+      "sha256": "3be6b60e1dc9612c7cbef351d36864c36254aa38d00aac29c04174104a7f1195"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/articles/time-to-recover.md",
+      "bytes": 4001,
+      "sha256": "fa666729566b2e25a23ebf71fb02f199de1a5ced7960d9ddbfd5e94970b400fa"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/articles/vitalyzer-first-look.md",
+      "bytes": 3862,
+      "sha256": "cf30285d12843964ab96d385e4d620fed53ac5b65dd6b0ad63fcc47035ddfd50"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/assessments.ts",
+      "bytes": 4929,
+      "sha256": "dc6ac5e36db13a8b8bc6635b87cfce9653e825f516277b1bdd37dd22c2f1e6fe"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/cardio-medbed-chf.md",
+      "bytes": 9413,
+      "sha256": "cf03e5363a246133300a3c13d9c538812e8103160788f656f7f36e6cf78f5a1c"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/cardio-medbed-science.md",
+      "bytes": 8832,
+      "sha256": "bed1c25892fd5034a42f461238589bcd3506bf98c536b80c91e2bff957ab1c91"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/cardio-medbed.ts",
+      "bytes": 4792,
+      "sha256": "4b241d5fa9b9092df8432e9037a8bde3e95b13f2e5bd0ca30fc4910bff3b9ee9"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/cellsonic-technology.md",
+      "bytes": 4882,
+      "sha256": "f9928945a6678c1a301da188d954ee5c0282b123a26845d0689f891306b9cf56"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/cellsonic-treatments.md",
+      "bytes": 5609,
+      "sha256": "a7d27d15ed9093dbb83993407391a41809385cc61773becfdd7a7fdd0e3accda"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/discovery.ts",
+      "bytes": 5126,
+      "sha256": "8ee85806238df154f5c3dec03c422f326ec8e65dd545e7a4f024b7301b346c43"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/hyperbaric.ts",
+      "bytes": 4165,
+      "sha256": "ec4f53d7c798f152dd255a44f31b4ec74bb9af4a44b0b8746ad529fedea6ab6e"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/independent-physician-services.ts",
+      "bytes": 4377,
+      "sha256": "f4ab44a517d3af0b92bcd942230580cef062c7dc97c6921c642701dfe58644b8"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/packages.ts",
+      "bytes": 4134,
+      "sha256": "7618c95e9178e5251049bab564e3016a67850e4f0563be7304b959217d5ecb0a"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/partners.ts",
+      "bytes": 6422,
+      "sha256": "0ca135b13f1582c4a6794833490a97a16da81d9a6ca3a9d5bac4491c354fe734"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/privacy-policy.ts",
+      "bytes": 6484,
+      "sha256": "552f69e6213a54e440fded75a28d8605601b3912bc50a6dd17b2c16fac243175"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/research-source.json",
+      "bytes": 31734,
+      "sha256": "f533ee29cd05a50393ad54c2806c904256fdb82265e647de22abe014bb147d5d"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/research.ts",
+      "bytes": 6513,
+      "sha256": "279c4cf430df4eccb7f5ba09777ce61b6e26f90cc4197ec541702de193022d38"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/rife.ts",
+      "bytes": 3977,
+      "sha256": "fc87289cdc0e241b7eb3514ef3f3a6cb5cb37dda0fabfcb635c324e4960e3a8a"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/shockwave-comparison.ts",
+      "bytes": 4404,
+      "sha256": "a1098510f1d09dcb91b398b4b7f3fce4b4ad0bbbfb518c92330eaeee848f1b44"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/shockwave.ts",
+      "bytes": 3313,
+      "sha256": "f7f7d6e29a9c3c56c88a341f1dedc690be606060ff69d9244fbe18d095218e47"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/team.ts",
+      "bytes": 2105,
+      "sha256": "a08782f6f2e2277f2628fb363f2b645230396a2c0ac487b11ff543955848945f"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/testimonials.ts",
+      "bytes": 12297,
+      "sha256": "181f7f5b56eafafd8c0d9d66d3610c21c32d6213d25829bffe6bfc0c83ffddb1"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/therawellness.ts",
+      "bytes": 3711,
+      "sha256": "b69c09e23ef4cf7eca2baabc2741d7834ad5eb908cd1b89e23cec305f7cee165"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/wellness-articles.ts",
+      "bytes": 2889,
+      "sha256": "158c98053b2a20a4dc743fb27742191a002ffbed7af1b2221053f106e4de22a5"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/data/wolfe-bodywork.ts",
+      "bytes": 3622,
+      "sha256": "03df96963bff5fb52d14d4417f878bce3d602ef91b34d63606c8dcb8c4569b93"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/hooks/use-mobile.tsx",
+      "bytes": 585,
+      "sha256": "82bff42ff087bd5dc90a5d17609cc428b8688de92d1333073a839af5ad3c9cbd"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/hooks/use-toast.ts",
+      "bytes": 3952,
+      "sha256": "12cce940e597e1d597f7063131acd19658d25e924904308bf719bde17b67e351"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/index.css",
+      "bytes": 27436,
+      "sha256": "948c03eca1ad4079977816099c2b47af7f1c04213f6e9793a8069d0e18d17eb3"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/lib/inquiry.ts",
+      "bytes": 739,
+      "sha256": "e000af6cd871b17cf871709f8c786898678ea428b960190dc3a66e374695d359"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/lib/utils.ts",
+      "bytes": 170,
+      "sha256": "afc0e1dc0e142d6b81f688d91087f81a4b2db4240cf70f55b6e5e4dcc199ebf1"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/main.tsx",
+      "bytes": 631,
+      "sha256": "a2f1c7fb2815a5434caaf671c1d50129baa52c787ac7e2e570d6ffde86aa9b99"
+    },
+    {
+      "path": "artifacts/sozo-wellness/src/pages/not-found.tsx",
+      "bytes": 775,
+      "sha256": "5c4ecffa1be39793d92d1971ff68c2ccadf1499b7d1fafe807faac422de20aef"
+    },
+    {
+      "path": "artifacts/sozo-wellness/tsconfig.json",
+      "bytes": 520,
+      "sha256": "e0a2fd8a7f3bfc860ccab5623b1881e754eb02336612708ff8b59215e8c256c9"
+    },
+    {
+      "path": "artifacts/sozo-wellness/vite.config.ts",
+      "bytes": 1916,
+      "sha256": "ffc89a7d15ef28e3124d19a1273241705839bf3fe8a5ca23098c20ff94be733a"
+    },
+    {
+      "path": "lib/api-client-react/package.json",
+      "bytes": 265,
+      "sha256": "ae70f97a12d1f7e7cbb291b5ffd1d6893f0d7a0ff7721a21e615d47bccfad789"
+    },
+    {
+      "path": "lib/api-client-react/src/custom-fetch.ts",
+      "bytes": 11377,
+      "sha256": "3a5605ea89571cca7ea9412a230a40954e3a3f1d94d7a566271480165bf5e03c"
+    },
+    {
+      "path": "lib/api-client-react/src/generated/api.schemas.ts",
+      "bytes": 671,
+      "sha256": "29315752cb6da294b3e30eba9843141480330148ce23f5945a06b73552b8e873"
+    },
+    {
+      "path": "lib/api-client-react/src/generated/api.ts",
+      "bytes": 6672,
+      "sha256": "ba0946783e919e25786068671349986c79723251ccb6d0a07db32c6879107719"
+    },
+    {
+      "path": "lib/api-client-react/src/index.ts",
+      "bytes": 194,
+      "sha256": "7974b36e3973a8d0c403589bcf8d8aca7547c5c42c4b73924d05f49de18809e5"
+    },
+    {
+      "path": "lib/api-client-react/tsconfig.json",
+      "bytes": 267,
+      "sha256": "a00fda842228e3478705abcf2c76d9641f5d6263cd5d2df0b613d5379088ad73"
+    },
+    {
+      "path": "lib/api-spec/openapi.yaml",
+      "bytes": 2255,
+      "sha256": "a8d2f5b9283d0bd37c2ab17c583568ef6406fba09fcb8415b9ba7827d0d1b75f"
+    },
+    {
+      "path": "lib/api-spec/orval.config.ts",
+      "bytes": 2051,
+      "sha256": "17bbe15ed439c69c5a900398b2a146e4c8d8c79365479cb0ca9adc4dd4058776"
+    },
+    {
+      "path": "lib/api-spec/package.json",
+      "bytes": 228,
+      "sha256": "2c0f6e86a51350d26ad83e057f0ae4a886b1d8fd484965b34a6a762c0495f088"
+    },
+    {
+      "path": "lib/api-zod/package.json",
+      "bytes": 189,
+      "sha256": "07009861b2ba8decccb4e9d78d743cb7273bd91915231b5eb1463b296efca13e"
+    },
+    {
+      "path": "lib/api-zod/src/generated/api.ts",
+      "bytes": 1489,
+      "sha256": "5eaf5a1824f9b77d52f065c6348f8ece967972aea0e4cd59941792234b2b0a93"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/assessmentRequestInput.ts",
+      "bytes": 532,
+      "sha256": "2359b9be6c8b7ce356b5a6e41d88272674bb32ab7f1bde1e031ee45802284970"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/assessmentRequestReceipt.ts",
+      "bytes": 205,
+      "sha256": "d30c2975c14de7f9f56ee5e95e28a9d5dc525398f4547265b6630710d32eff8f"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/healthStatus.ts",
+      "bytes": 172,
+      "sha256": "cbf343355d947ee2a2fc7c6ff659866f5620a9fd2f1c84de981041f5b4aefc87"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/index.ts",
+      "bytes": 238,
+      "sha256": "afbcafcb6f8e1d1f44c10da573971cff8347790494b64f4136bad8e9aff929a9"
+    },
+    {
+      "path": "lib/api-zod/src/index.ts",
+      "bytes": 68,
+      "sha256": "effb7d33b5df99004c9b1a840944516ca3ad65cbcd3ae2fcc717c505814ce039"
+    },
+    {
+      "path": "lib/api-zod/tsconfig.json",
+      "bytes": 221,
+      "sha256": "bb52c0e8b13e658570a208d946cb874fdf2b8d990f7c228f96fb24254c9c5a95"
+    },
+    {
+      "path": "lib/db/drizzle.config.ts",
+      "bytes": 352,
+      "sha256": "57862221556f24a1accd28b283876930c403ad7c86b79d87cfb5c9c200ba6258"
+    },
+    {
+      "path": "lib/db/package.json",
+      "bytes": 578,
+      "sha256": "9c4e93f8f9f9fa57b581a4230c184d56a130a79ae36e377c2d4720edcbcbf15c"
+    },
+    {
+      "path": "lib/db/src/index.ts",
+      "bytes": 416,
+      "sha256": "fc285bc83108137ba57c4c2774a35053e3c25fda1292c3d7a16a57d43dd9679c"
+    },
+    {
+      "path": "lib/db/src/schema/assessment-requests.ts",
+      "bytes": 796,
+      "sha256": "5a05c6dd1561e708e33424a7cbd92f1268424a331c678e6d383cc684686c6daa"
+    },
+    {
+      "path": "lib/db/src/schema/index.ts",
+      "bytes": 772,
+      "sha256": "44402489105a342c81b9557a76d4feed8c3fe558b2d1b68f14cdd4345af24623"
+    },
+    {
+      "path": "lib/db/tsconfig.json",
+      "bytes": 244,
+      "sha256": "69c976d11de35f0ac391934625beeccdd1b2689ba5d0f14c54b5384d4c30a9c9"
+    },
+    {
+      "path": "package.json",
+      "bytes": 649,
+      "sha256": "0eee75b762d97c72cbe42fafdb2229dcfccb8bd11f4b4cdd01803eb8b52e9686"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 210605,
+      "sha256": "ec899dd142574a632985bb95565b1b5696b0b24a3d23dcf73e690ce463017760"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "bytes": 6674,
+      "sha256": "eca3f132f1e94e1062b3c05d5b662cd00fea5d0d4f2c4ef61f6753711df233b5"
+    },
+    {
+      "path": "replit.md",
+      "bytes": 7921,
+      "sha256": "635275256ba4639845c0a896a79d38dc2a37c783933fd43c70a726ce459519b2"
+    },
+    {
+      "path": "scripts/package-handoff.py",
+      "bytes": 6914,
+      "sha256": "085e26aa687977aeb6f1ee7469289e13deb5b9601870527d2a6d482b413fa076"
+    },
+    {
+      "path": "scripts/package.json",
+      "bytes": 281,
+      "sha256": "e321044da26540ad84f56fcbe985013f369c3b18ba06c233f1db99f488df0f8b"
+    },
+    {
+      "path": "scripts/post-merge.sh",
+      "bytes": 72,
+      "sha256": "b9e43e43dcbacd4bd26b84d68dd616270a6aacbd51ab25a2f6b1b81484eadc37"
+    },
+    {
+      "path": "scripts/src/hello.ts",
+      "bytes": 46,
+      "sha256": "9a865c3de9900891e697e1ee8632dd565ce69bd7cb6b610e48b26bc0ee9e81e9"
+    },
+    {
+      "path": "scripts/tsconfig.json",
+      "bytes": 157,
+      "sha256": "636dea76ed898c62e56d6657ed97bb3edc85feb0ea8256b5198849d5c6cf462a"
+    },
+    {
+      "path": "tsconfig.base.json",
+      "bytes": 692,
+      "sha256": "2dfaa6f6168f618e0e6deff048c17e4f5f73d59325bd935d471905ae6773585c"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 236,
+      "sha256": "8883c5dbf9e073ef0c7e91769b3e4abccca022df69b62fa7518d73e1512b37ef"
+    }
+  ]
+}

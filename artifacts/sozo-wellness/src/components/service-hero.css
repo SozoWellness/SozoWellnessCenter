@@ -1,0 +1,18 @@
+.sh { background: #dbe9e2; padding: clamp(36px, 5vw, 64px) 0; }
+.sh-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(28px, 5vw, 70px); align-items: center; }
+.sh-copy h1 { font-size: clamp(38px, 4.6vw, 62px); line-height: 1.12; margin: 18px 0 16px; max-width: 640px; }
+.sh-intro { margin: 0 0 20px; max-width: 600px; color: #30574f; font-size: 17px; line-height: 1.7; }
+.sh-availability { margin: 0 0 24px; }
+.sh-points { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 8px; }
+.sh-points li { display: flex; align-items: flex-start; gap: 10px; color: #1f4a46; font-weight: 600; font-size: 16px; line-height: 1.5; }
+.sh-points svg { flex: none; margin-top: 3px; color: #2a7771; }
+.sh-photo { margin: 0; aspect-ratio: 7 / 5; overflow: hidden; border-radius: 4px; border: 1px solid #b4ccc2; background: #ece4d6; }
+.sh-photo img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.sh-grid-text { grid-template-columns: 1fr; }
+.sh-grid-text .sh-copy h1 { max-width: 960px; }
+.sh-grid-text .sh-intro { max-width: 800px; }
+.treat-overview { margin: 0 0 36px; padding: 24px 28px; background: #e5eee6; border-left: 3px solid #b88355; }
+.detail-main .treat-overview h3 { margin: 0 0 10px; }
+.detail-main .treat-overview p { margin: 0; }
+@media (max-width: 850px) { .sh-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .sh-copy .btn { width: 100%; text-align: center; } }

@@ -1,0 +1,78 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: assessments
+    description: Assessment request operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /assessment-requests:
+    post:
+      operationId: submitAssessmentRequest
+      tags: [assessments]
+      summary: Submit a request for an initial assessment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssessmentRequestInput"
+      responses:
+        "201":
+          description: Request received
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssessmentRequestReceipt"
+        "400":
+          description: Invalid request
+        "429":
+          description: Too many requests
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    AssessmentRequestInput:
+      type: object
+      additionalProperties: false
+      required: [name, email, interest, consent]
+      properties:
+        name: { type: string, minLength: 2, maxLength: 120 }
+        email: { type: string, format: email, maxLength: 254 }
+        phone: { type: string, maxLength: 30 }
+        interest: { type: string, minLength: 1, maxLength: 120 }
+        message: { type: string, maxLength: 1500 }
+        consent: { type: boolean, enum: [true] }
+        website: { type: string, maxLength: 0, description: Honeypot field, must remain empty }
+    AssessmentRequestReceipt:
+      type: object
+      required: [success, message]
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+

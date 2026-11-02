@@ -1,0 +1,21 @@
+.whole-person { background: #e9efe8; scroll-margin-top: 110px; }
+.whole-person-intro { max-width: 850px; }
+.whole-person-intro .section-intro { margin-top: 24px; max-width: 760px; }
+.whole-person-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; margin-top: 44px; }
+.whole-person-dimension { border-top: 1px solid #aec8bb; padding-top: 28px; }
+.whole-person-dimension > svg { color: #2a7771; }
+.whole-person-dimension h3 { font-size: clamp(27px, 2.7vw, 35px); line-height: 1.2; margin: 20px 0 16px; }
+.whole-person-dimension p, .whole-person-integrative p { font-size: 17px; line-height: 1.8; color: #31564f; margin: 0 0 18px; }
+.whole-person-integrative { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 56px; border-top: 1px solid #aec8bb; margin-top: 50px; padding-top: 42px; }
+.whole-person-integrative h3 { font-size: clamp(30px, 3vw, 40px); line-height: 1.2; margin: 20px 0; }
+.whole-person-integrative .btn { margin-top: 8px; }
+.whole-person a:focus-visible { outline: 3px solid #2a7771; outline-offset: 5px; }
+.home-wellness-dimensions { margin: 26px 0; }
+.home-wellness-dimensions div { border-top: 1px solid #aec8bb; padding: 14px 0; }
+.home-wellness-dimensions dt { color: #174f4e; font-size: 17px; font-weight: 700; }
+.home-wellness-dimensions dd { margin: 5px 0 0; color: #31564f; font-size: 16px; line-height: 1.65; }
+.home-philosophy-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
+@media (max-width: 850px) {
+  .whole-person-grid, .whole-person-integrative { grid-template-columns: 1fr; gap: 26px; }
+  .whole-person-integrative { margin-top: 32px; padding-top: 32px; }
+}

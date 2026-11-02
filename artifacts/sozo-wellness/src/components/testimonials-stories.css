@@ -1,0 +1,19 @@
+.ts-section { padding-block: clamp(64px, 8vw, 120px); background: #f5f3e9; }
+.ts-heading { margin: 0 0 clamp(32px, 5vw, 64px); font-size: clamp(36px, 4.4vw, 60px); line-height: 1.12; color: #133f3e; }
+.ts-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid #aec8bb; }
+.ts-item { border-bottom: 1px solid #aec8bb; }
+.ts-article { display: grid; grid-template-columns: minmax(200px, 300px) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); padding-block: clamp(40px, 5vw, 72px); }
+.ts-head { align-self: start; position: sticky; top: 120px; border-top: 3px solid #2a7771; padding-top: 20px; }
+.ts-num { display: block; font-family: 'Fraunces', Georgia, serif; font-size: 44px; line-height: 1; color: #91b6aa; }
+.ts-name { margin: 14px 0 0; font-size: clamp(30px, 3vw, 40px); line-height: 1.15; color: #173d3b; overflow-wrap: anywhere; }
+.ts-body { max-width: 720px; }
+.ts-body p { margin: 0 0 1.4em; color: #264c47; font-size: 19px; line-height: 1.85; }
+.ts-body p:last-child { margin-bottom: 0; }
+.ts-body p:first-child::first-line { color: #133f3e; font-weight: 500; }
+@media (max-width: 850px) {
+  .ts-article { grid-template-columns: 1fr; gap: 22px; }
+  .ts-head { position: static; display: flex; align-items: baseline; gap: 16px; }
+  .ts-num { font-size: 34px; }
+  .ts-name { margin: 0; }
+}
+@media (max-width: 600px) { .ts-body p { font-size: 18px; line-height: 1.8; } }
