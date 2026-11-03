@@ -79,11 +79,17 @@ received a message saying the center was closed after 5 p.m. and SOZO would
 respond the next business day when they sent a direct test text.
 
 **Why:** This was observed before a sending action was added to the new reply
-workflow. Its source has not yet been identified.
+workflow. The user's Quo settings screenshot subsequently confirmed enabled
+incoming-message auto-replies during business hours and after hours. The
+daytime message acknowledges receipt without a stated wait.
 
 **How to apply:** Inspect existing Quo auto-replies and other relevant automations
 before adding an after-hours sender. Do not assume this direct-text result also
 verifies a reply shortly after the website's automated acknowledgement.
+These native settings affect the whole SOZO number, not just website enquiries.
+The after-hours message says Monday–Friday 9 a.m.–5 p.m., conflicting with the
+website's 8 a.m. opening. Confirm the correct opening time before changing
+either schedule or copy; message wording does not prove Quo's configured hours.
 
 ## Separate event-capture workflow
 
