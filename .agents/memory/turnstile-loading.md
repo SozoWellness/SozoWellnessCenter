@@ -12,6 +12,9 @@ even though the initial browser mock passed because its `ready()` always
 invoked the callback. Both the real deployed browser exception and the vendor
 script confirmed the restriction; widget key/hostname validity was not
 established by that failure.
+The user subsequently confirmed that the live widget completed successfully
+with load-event readiness. This confirms the client-loading approach, not
+server-side token validation or downstream enquiry delivery.
 
 **How to apply:** Preserve the async-load contract when changing the loader.
 Model the throwing vendor behavior in regression tests, not only a permissive
