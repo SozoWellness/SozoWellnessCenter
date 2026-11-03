@@ -92,6 +92,22 @@ The after-hours message correctly says Monday–Friday 9 a.m.–5 p.m.; the lega
 website's 8 a.m. opening is outdated according to the user's clarification.
 Message wording alone does not prove Quo's configured business-hours schedule.
 
+## Quo incoming-trigger test samples
+
+Treat generic Quo trigger samples as schema examples, not evidence of a live
+incoming message or a broken connection.
+
+**Why:** Repeated trigger tests returned placeholder sender/recipient numbers
+and generic text even after the user received an after-hours response to their
+real incoming test. Zapier documents that some apps only provide generic test
+records: https://help.zapier.com/hc/en-us/articles/8496262128141 .
+
+**How to apply:** Do not repeatedly ask the user to send texts just to replace
+these samples. Use them only to map a draft, retain a real test-sender allowlist
+that deliberately rejects placeholders, and require controlled real-event
+verification before trusting the workflow. Never send an action test to the
+sample's recipient or claim sample tests prove live delivery.
+
 ## Separate event-capture workflow
 
 The existing Zapier Forms → Mailchimp → Quo workflow is for outside-event email captures, not the website. Keep that form and workflow as-is.
