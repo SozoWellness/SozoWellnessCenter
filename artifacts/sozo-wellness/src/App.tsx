@@ -35,6 +35,7 @@ import { PackagesPage } from '@/components/packages';
 import { DODPowerPackClinic } from '@/components/dodpowerpack-clinic';
 import { ChiropracticPage } from '@/components/chiropractic';
 import { WholePersonWellness } from '@/components/whole-person-wellness';
+import { JaneBookingLink } from '@/components/jane-booking-link';
 
 const queryClient = new QueryClient();
 const SHOP = 'https://dod.live/darcelleburandt';
@@ -85,7 +86,7 @@ export const meta: Record<string, [string, string]> = {
   '/services/wolfe-non-surgical-bodywork': ['Wolfe Non-Surgical Bodywork near The Villages | SOZO', 'Explore targeted hands-on bodywork for deep tissue restrictions, flexibility and comfortable movement. Learn what a Wolfe Non-Surgical Bodywork session involves.'],
   '/about': ['About SOZO & Our Team | Serving The Villages, FL', 'Meet the SOZO team and discover whole-person wellness for mind, body and spirit. Holistic principles and personalized care serving The Villages, Florida.'],
   '/testimonials': ['Patient Stories | SOZO Wellness Center', 'Read the personal stories people have shared with us, with each full testimonial told in their own words.'],
-  '/request-assessment': ['Book Your Assessment | SOZO Wellness Center', 'Text or call our team to arrange your wellness assessment near The Villages, Florida. Explore your options without sharing medical history online.'],
+  '/request-assessment': ['Book Your Assessment | SOZO Wellness Center', 'Book online with SOZO through Jane, or contact our team about your wellness assessment near The Villages, Florida. Do not share medical history in the enquiry form.'],
   '/blog': ['Articles & Resources | SOZO Wellness Center', 'Explore articles and resources from SOZO Wellness Center about wellness assessments, therapies and whole-person care.'],
   '/research/hyperbaric-oxygen-therapy-a-comprehensive-guide': ['Hyperbaric Oxygen Therapy: A Comprehensive Guide | SOZO Articles & Resources', 'A SOZO Wellness Center guide to what hyperbaric oxygen therapy is, how it works and why residents of The Villages choose it.'],
   '/research/unlock-your-potential-with-the-energy-for-life-assessment': ['Unlock Your Potential with the Energy for Life Assessment | SOZO Articles & Resources', 'Learn how the Energy for Life Assessment at SOZO Wellness Center uses bioenergetics to look at the flow of energy in your body.'],
@@ -176,9 +177,9 @@ function Header() {
           </div>
           {nav.slice(1).map(([label, href]) => <Link href={href} key={href} className={`nav-link ${location === href ? 'active' : ''}`} data-testid={`link-nav-${label.toLowerCase()}`}>{label}</Link>)}
         </nav>
-        <div className="header-actions"><a className="btn btn-outline shop-link" href={SHOP} target="_blank" rel="noopener noreferrer" data-testid="link-header-shop">Shop Now <ArrowUpRight size={15}/></a><Link href="/request-assessment" className="btn btn-primary booking-link" data-testid="link-header-request">{ASSESSMENT_CTA} <ArrowRight size={15}/></Link><button type="button" className="menu-toggle" onClick={() => setOpen(!open)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="mobile-navigation" data-testid="button-mobile-menu">{open ? <X size={22}/> : <Menu size={22}/>}</button></div>
+        <div className="header-actions"><a className="btn btn-outline shop-link" href={SHOP} target="_blank" rel="noopener noreferrer" data-testid="link-header-shop">Shop Now <ArrowUpRight size={15}/></a><JaneBookingLink className="btn btn-primary booking-link" testId="link-header-request"/><button type="button" className="menu-toggle" onClick={() => setOpen(!open)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="mobile-navigation" data-testid="button-mobile-menu">{open ? <X size={22}/> : <Menu size={22}/>}</button></div>
       </div>
-      {open && <nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation"><Link href="/" data-testid="link-mobile-home">Home <ArrowUpRight size={17}/></Link><Link href="/services" data-testid="link-mobile-services">All services <ArrowUpRight size={17}/></Link>{serviceMenu.map(s => <Link href={s.href} key={s.href} className="mobile-sub" data-testid={`link-mobile-${s.number}`}><span>{s.title}{s.status && <small className="service-menu-status">{s.status}</small>}</span><ArrowRight size={17}/></Link>)}{nav.slice(1).map(([label, href]) => <Link href={href} key={href} data-testid={`link-mobile-${label.toLowerCase()}`}>{label}<ArrowUpRight size={17}/></Link>)}<Link href="/request-assessment" className="btn btn-primary" data-testid="link-mobile-request">{ASSESSMENT_CTA} <ArrowRight size={16}/></Link><a href={SHOP} target="_blank" rel="noopener noreferrer" data-testid="link-mobile-shop">Shop Now <ArrowUpRight size={15}/></a></nav>}
+      {open && <nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation"><Link href="/" data-testid="link-mobile-home">Home <ArrowUpRight size={17}/></Link><Link href="/services" data-testid="link-mobile-services">All services <ArrowUpRight size={17}/></Link>{serviceMenu.map(s => <Link href={s.href} key={s.href} className="mobile-sub" data-testid={`link-mobile-${s.number}`}><span>{s.title}{s.status && <small className="service-menu-status">{s.status}</small>}</span><ArrowRight size={17}/></Link>)}{nav.slice(1).map(([label, href]) => <Link href={href} key={href} data-testid={`link-mobile-${label.toLowerCase()}`}>{label}<ArrowUpRight size={17}/></Link>)}<JaneBookingLink testId="link-mobile-request" onClick={() => setOpen(false)}/><Link href="/request-assessment" data-testid="link-mobile-enquiry">Contact / request information <ArrowRight size={16}/></Link><a href={SHOP} target="_blank" rel="noopener noreferrer" data-testid="link-mobile-shop">Shop Now <ArrowUpRight size={15}/></a></nav>}
     </header>
   </>;
 }
@@ -188,7 +189,7 @@ function Footer() {
     <div className="footer-grid">
       <div><Link href="/" data-testid="link-footer-logo"><img className="footer-logo" src="/images/sozo-logo.png" width="120" height="120" alt="SOZO Wellness Center logo" /></Link><p className="footer-blurb">Rooted in health and wellness—for mind, body and spirit. Our whole-person approach brings physical, emotional and spiritual well-being into the conversation, with compassion and personal attention.</p></div>
       <div className="footer-col"><h3>Explore</h3><Link href="/services" data-testid="link-footer-services">All services</Link><Link href="/services/assessments" data-testid="link-footer-assessments">Assessments</Link><Link href="/services/hyperbaric-oxygen" data-testid="link-footer-hyperbaric">Hyperbaric oxygen</Link><Link href="/about" data-testid="link-footer-about">Our story</Link><Link href="/blog" data-testid="link-footer-research">Articles &amp; Resources</Link><Link href="/products-and-partners" data-testid="link-footer-partners">Products &amp; Partners</Link></div>
-      <div className="footer-col"><h3>Connect</h3><Link href="/request-assessment" data-testid="link-footer-request">{ASSESSMENT_CTA}</Link><Link href="/testimonials" data-testid="link-footer-testimonials">Patient stories</Link><a href={SHOP} target="_blank" rel="noopener noreferrer" data-testid="link-footer-shop">Shop Now ↗</a><a href="tel:+13528022248" data-testid="link-footer-phone">Text or Call 352-802-2248</a><a href="mailto:info@sozorootedwellness.com" data-testid="link-footer-email">info@sozorootedwellness.com</a></div>
+      <div className="footer-col"><h3>Connect</h3><JaneBookingLink className="" testId="link-footer-request"/><Link href="/request-assessment" data-testid="link-footer-enquiry">Contact / request information</Link><Link href="/testimonials" data-testid="link-footer-testimonials">Patient stories</Link><a href={SHOP} target="_blank" rel="noopener noreferrer" data-testid="link-footer-shop">Shop Now ↗</a><a href="tel:+13528022248" data-testid="link-footer-phone">Text or Call 352-802-2248</a><a href="mailto:info@sozorootedwellness.com" data-testid="link-footer-email">info@sozorootedwellness.com</a></div>
       <div className="footer-col"><h3>Visit us</h3><p>5029 Co Rd 159<br/>Wildwood, FL 34785</p><a href="https://maps.google.com/?q=5029+Co+Rd+159+Wildwood+FL+34785" target="_blank" rel="noopener noreferrer" data-testid="link-footer-directions">Get directions ↗</a><p>Serving The Villages and surrounding communities.</p></div>
     </div>
     <p className="footer-policy"><Link href="/privacy-policy" data-testid="link-footer-privacy">Privacy Policy</Link></p>
@@ -318,17 +319,19 @@ function RequestAssessment() {
     mutation.mutate({ data: { name: values.name.trim(), email: values.email.trim(), phone, interest: values.interest, message: values.message.trim() || undefined, consent: values.consent as true, smsConsent: values.smsConsent, marketingConsent: values.marketingConsent, website: values.website } }, { onSuccess: receipt => { if (receipt.success) { setSuccess(true); form.reset({ name:'', email:'', phone:'', interest:initialInterest, message:'', consent:false, smsConsent:false, marketingConsent:false, website:'' }); } }, onError: () => {} });
   };
   return <>
-    <PageHero eyebrow={initialInterest ? `Your interest: ${initialInterest}` : 'Start with SOZO'} title={ASSESSMENT_CTA} text="Text or call our team to arrange your visit. We’ll help you choose a starting point and confirm appointment availability with you."/>
+    <PageHero eyebrow={initialInterest ? `Your interest: ${initialInterest}` : 'Start with SOZO'} title={ASSESSMENT_CTA} text="Book online through Jane, or contact our team if you’d like help choosing a starting point. The enquiry form below does not reserve an appointment."/>
     <section className="section"><div className="container assessment-wrap">
       <div className="assessment-copy">
         <Eyebrow>Arrange your visit</Eyebrow><h2>A simple next step.</h2>
         <ol className="booking-steps">
-          <li><strong>Text or call us.</strong> Reach our team at 352-802-2248.</li>
-          <li><strong>Choose your starting point.</strong> Tell us what interests you, or ask for help deciding.</li>
-          <li><strong>Confirm the details.</strong> Discuss availability and pricing with our team before confirming your appointment.</li>
+          <li><strong>Book online with Jane.</strong> View available appointments and follow Jane’s steps to complete your booking.</li>
+          <li><strong>Need help choosing?</strong> Text or call us at 352-802-2248, or use the enquiry form to tell us what interests you.</li>
+          <li><strong>Check your confirmation.</strong> Your enquiry is not a booking; follow the confirmation details provided by Jane or our team.</li>
         </ol>
         {initialInterest && <p data-testid="booking-selected-interest">You’re interested in <strong>{initialInterest}</strong>. We can help you explore whether it fits your goals.</p>}
         <div className="contact-details">
+          <JaneBookingLink className="btn btn-primary booking-phone" label="Book online with Jane" testId="link-form-jane"/>
+          <span>Online booking opens securely on Jane in a new tab.</span>
           <a href="tel:+13528022248" className="btn btn-primary booking-phone" data-testid="link-form-phone"><Phone size={18} aria-hidden="true"/>Text or Call 352-802-2248</a>
           <a href="mailto:info@sozorootedwellness.com" data-testid="link-form-email"><Mail size={18}/>info@sozorootedwellness.com</a>
           <a href="https://maps.google.com/?q=5029+Co+Rd+159+Wildwood+FL+34785" target="_blank" rel="noopener noreferrer" data-testid="link-form-address"><MapPin size={18}/>5029 Co Rd 159, Wildwood, FL 34785</a>

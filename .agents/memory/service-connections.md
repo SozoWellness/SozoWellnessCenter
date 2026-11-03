@@ -13,6 +13,20 @@ The Perfect Day Lifestyle guidebook is free, and requests for it need to be capt
 
 **How to apply:** Use these providers and purposes when discussing or implementing the connections; confirm unspecified workflow details rather than assuming them.
 
+## Jane booking and website enquiries
+
+Keep direct Jane booking separate from the website enquiry workflow. Use styled
+external booking links rather than the supplied fixed-size 177×28 iframe button;
+do not send enquiry form values to Jane through URL parameters.
+
+**Why:** Native links preserve the site's existing button styling and mobile
+accessibility without introducing a small fixed-size embedded control. Jane
+handles booking; the public website enquiry is not an appointment reservation.
+
+**How to apply:** Keep the enquiry form and service-interest links available
+alongside online booking. Ask for actual service/practitioner-specific Jane
+URLs before adding deep links; do not invent them from the general booking URL.
+
 ## WordPress retirement
 
 Retire WordPress entirely; do not keep it running to host Gravity Forms.
