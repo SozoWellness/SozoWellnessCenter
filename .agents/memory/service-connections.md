@@ -66,6 +66,14 @@ by phone or email when its ID field is blank.
 **Why:** The user ran the same isolated contact action twice with identical
 synthetic input and confirmed two matching contacts in Quo.
 
-**How to apply:** Verify stable-ID or explicit lookup behavior with controlled
-repeat submissions before enabling website delivery. A stable external ID for
-new website leads does not prove it will match legacy or event-capture contacts.
+Mapping the webhook's normalized Phone token into ID prevented an additional
+duplicate in the user's controlled repeat test. Keep that stable mapping for
+new website leads; never use a per-submission request ID as the contact ID.
+
+**Why:** After introducing the Phone-based ID, the user confirmed that a further
+identical contact-action test left the matching contact count unchanged.
+
+**How to apply:** Reverify matching if the ID mapping changes. This test does not
+prove existing fields update correctly or establish matching against legacy or
+event-capture contacts created with different identifiers. It does not merge
+duplicates created before the stable mapping.
