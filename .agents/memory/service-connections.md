@@ -77,3 +77,19 @@ identical contact-action test left the matching contact count unchanged.
 prove existing fields update correctly or establish matching against legacy or
 event-capture contacts created with different identifiers. It does not merge
 duplicates created before the stable mapping.
+
+## Cloudflare delivery confirmation
+
+Keep webhook acceptance separate from response-body cleanup and from completion
+of the downstream Quo/Mailchimp actions. Never retry automatically after an
+ambiguous delivery error.
+
+**Why:** The user's controlled Cloudflare submission repeatedly reported delivery
+failure, including after replacing the hook secret. They confirmed website
+success after response handling was revised to make cleanup non-fatal and add
+restricted diagnostics. The original failure's exact cause was not captured;
+do not claim that either revision alone proved the cause.
+
+**How to apply:** Preserve these delivery boundaries during future refactors.
+A website success still requires checking Zap history and destination records
+before claiming the whole contact flow works.
