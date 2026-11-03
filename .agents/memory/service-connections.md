@@ -61,14 +61,18 @@ delivery path, not cancellation after a reply or booking.
 Staff should respond to incoming replies in Quo, with an automated text fallback
 if staff do not respond right away, including after hours.
 During staffed hours, wait five minutes for a staff response before the fallback.
+Use Monday–Friday, 8:00 a.m.–5:00 p.m., America/New_York, as the staffed window.
+Count weekends as after hours.
 
 **Why:** The user said, “Ideally, staff will respond in Quo, but we'll need to be
 prepared with an automated text if they don't respond right away (ex: after hours).”
 They selected the five-minute staffed-hours fallback.
+They asked to use the website business hours and explicitly said to count
+weekends as after hours “to be on the safe side.”
 
-**How to apply:** Keep staff as the primary responders. Confirm actual texting
-coverage hours and the fallback wait before configuring the automation; do not
-assume clinic opening hours equal staff texting availability.
+**How to apply:** Keep staff as the primary responders and use the agreed
+schedule, with daylight-saving-aware Eastern time rather than a fixed UTC
+offset. Confirm any future schedule changes rather than inferring coverage.
 
 ## Separate event-capture workflow
 
