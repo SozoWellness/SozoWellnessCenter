@@ -50,6 +50,9 @@ Offer a separate optional text consent checkbox and a separate optional email ma
 **Why:** The user selected both optional opt-ins after these separate, unchecked choices were proposed.
 They also confirmed in a controlled website test that Quo and Mailchimp both
 saved the contact while no texts were sent with SMS consent unchecked.
+With explicit SMS consent in a separate restricted test, the user confirmed
+receipt of both the acknowledgement and delayed follow-up. This verifies that
+delivery path, not cancellation after a reply or booking.
 
 **How to apply:** An assessment enquiry must still be accepted when either or both boxes are unchecked. Gate automated request texts on text consent, and marketing subscription on email marketing consent.
 
