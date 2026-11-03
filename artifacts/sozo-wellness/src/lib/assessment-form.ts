@@ -24,6 +24,9 @@ export function assessmentErrorMessage(error: unknown): string {
     case 400:
       return 'Your request was rejected before delivery. Please check your name, email, mobile number, selected interest and required request consent. For help, ';
     case 403:
+      if (reason === 'Security verification failed.') {
+        return 'The security check expired or could not be verified. This request was not forwarded. Complete a fresh security check before trying again, or ';
+      }
       if (reason === 'SMS delivery testing is restricted. Use the approved test email and mobile number, check text consent, and leave marketing email unchecked.') {
         return 'This text test requires the email and mobile number configured in Cloudflare, text consent checked, and marketing email unchecked. The request was not forwarded. For help, ';
       }
@@ -33,6 +36,9 @@ export function assessmentErrorMessage(error: unknown): string {
     case 429:
       return 'Too many attempts have been made from this connection. This attempt was not forwarded. Please wait at least one hour before trying again, or ';
     case 503:
+      if (reason === 'Security verification unavailable.') {
+        return 'The security verification service is unavailable. This request was not forwarded. Please try the security check later, or ';
+      }
       return reason === 'Online requests are not enabled. Please text or call 352-802-2248.'
         ? 'Online requests are still disabled in the deployed settings. This request was not forwarded. For help, '
         : 'The website’s delivery settings are incomplete or unavailable. This request was not forwarded. For help, ';

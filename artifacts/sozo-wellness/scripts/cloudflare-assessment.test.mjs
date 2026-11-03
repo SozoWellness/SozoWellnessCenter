@@ -5,6 +5,7 @@ import { onRequest } from "../../../functions/api/assessment-requests.ts";
 const env = {
   ASSESSMENT_DELIVERY_ENABLED: "true",
   ASSESSMENT_DELIVERY_MODE: "live",
+  TURNSTILE_SECRET_KEY: "mock-only-turnstile-secret",
   // Fabricated URL; every fetch in these tests is mocked.
   ZAPIER_ASSESSMENT_WEBHOOK_URL: "https://hooks.zapier.com/hooks/catch/000000/mock-only/",
 };
@@ -18,6 +19,7 @@ const base = {
   smsConsent: false,
   marketingConsent: false,
   website: "",
+  turnstileToken: "mock-only-single-use-token",
 };
 let client = 0;
 function request(body = base, options = {}) {
@@ -35,6 +37,24 @@ function request(body = base, options = {}) {
   });
 }
 
+// Keep legacy delivery spies scoped to Zapier, with verified Siteverify traffic.
+function mockDeliveryFetch(t, callback) {
+  const delivery = t.mock.fn(callback);
+  t.mock.method(globalThis, "fetch", async (url, options) => {
+    if (url === "https://challenges.cloudflare.com/turnstile/v0/siteverify") {
+      const input = JSON.parse(options.body);
+      assert.equal(input.secret, env.TURNSTILE_SECRET_KEY);
+      assert.equal(input.response, base.turnstileToken);
+      assert.deepEqual(Object.keys(input).sort(), ["remoteip", "response", "secret"]);
+      assert.equal(options.redirect, "error");
+      assert.ok(options.signal instanceof AbortSignal);
+      return Response.json({ success: true, hostname: "website.example", action: "assessment_request" });
+    }
+    return delivery(url, options);
+  });
+  return delivery;
+}
+
 test("delivery is disabled by default and no network requests occur", async t => {
   const fetch = t.mock.method(globalThis, "fetch", () => { throw new Error("Must not fetch"); });
   for (const settings of [{}, { ...env, ASSESSMENT_DELIVERY_ENABLED: "false" }]) {
@@ -46,7 +66,7 @@ test("delivery is disabled by default and no network requests occur", async t =>
 
 test("all independent consent combinations map to the existing webhook field names", async t => {
   const sent = [];
-  t.mock.method(globalThis, "fetch", async (url, options) => {
+  mockDeliveryFetch(t, async (url, options) => {
     assert.equal(url, env.ZAPIER_ASSESSMENT_WEBHOOK_URL);
     assert.equal(options.redirect, "manual");
     assert.ok(options.signal instanceof AbortSignal);
@@ -63,6 +83,8 @@ test("all independent consent combinations map to the existing webhook field nam
       const payload = sent.at(-1);
       assert.equal(payload.sms_consent, smsConsent);
       assert.equal(payload.marketing_consent, marketingConsent);
+      assert.equal(payload.turnstileToken, undefined);
+      assert.doesNotMatch(JSON.stringify(payload), /mock-only-single-use-token|mock-only-turnstile-secret/);
       assert.equal(payload.is_test, false);
       assert.equal(payload.first_name, "TEST");
       assert.equal(payload.last_name, "ENQUIRY");
@@ -95,7 +117,7 @@ test("missing or invalid delivery modes and test emails fail closed", async t =>
 
 test("contact-only mode restricts email and rejects SMS opt-in without sending", async t => {
   const sent = [];
-  t.mock.method(globalThis, "fetch", async (_url, options) => {
+  mockDeliveryFetch(t, async (_url, options) => {
     sent.push(JSON.parse(options.body));
     return new Response("ok");
   });
@@ -171,7 +193,7 @@ test("SMS test configuration fails closed without both valid recipient settings"
 
 test("SMS test permits only the configured recipient with explicit SMS consent and no marketing", async t => {
   const sent = [];
-  t.mock.method(globalThis, "fetch", async (_url, options) => {
+  mockDeliveryFetch(t, async (_url, options) => {
     sent.push(JSON.parse(options.body));
     return new Response("ok");
   });
@@ -229,7 +251,7 @@ test("upstream rejection, redirect failure and timeout report failure with no au
     () => { throw new Error("secret upstream URL"); },
     () => { throw new DOMException("Timeout", "TimeoutError"); },
   ]) {
-    const fetch = t.mock.method(globalThis, "fetch", outcome);
+    const fetch = mockDeliveryFetch(t, outcome);
     const response = await onRequest({ request: request(), env });
     assert.equal(response.status, 502);
     assert.equal(fetch.mock.callCount(), 1);
@@ -239,7 +261,7 @@ test("upstream rejection, redirect failure and timeout report failure with no au
 });
 
 test("sixth request from the same client is rate limited within the isolate", async t => {
-  const fetch = t.mock.method(globalThis, "fetch", async () => new Response("ok"));
+  const fetch = mockDeliveryFetch(t, async () => new Response("ok"));
   t.after(() => t.mock.restoreAll());
   const headers = { "CF-Connecting-IP": "198.51.100.200" };
   for (let i = 0; i < 5; i++) {
@@ -260,7 +282,7 @@ test("restricted tests expose only safe delivery diagnostics; live mode omits th
     [() => { throw new DOMException("secret URL", "TimeoutError"); }, "WEBHOOK_TIMEOUT", undefined],
     [() => { throw new Error("secret URL"); }, "WEBHOOK_CONNECTION_ERROR", undefined],
   ]) {
-    const fetch = t.mock.method(globalThis, "fetch", outcome);
+    const fetch = mockDeliveryFetch(t, outcome);
     for (const selected of [settings, env]) {
       const response = await onRequest({ request: request(), env: selected });
       assert.equal(response.status, 502);
@@ -280,10 +302,71 @@ test("restricted tests expose only safe delivery diagnostics; live mode omits th
 });
 
 test("response cleanup failures do not mask confirmed webhook acceptance", async t => {
-  t.mock.method(globalThis, "fetch", async () => ({
+  mockDeliveryFetch(t, async () => ({
     ok: true, status: 200,
     body: { cancel: async () => { throw new Error("cleanup failure"); } },
   }));
   t.after(() => t.mock.restoreAll());
   assert.equal((await onRequest({ request: request(), env })).status, 201);
+});
+
+test("missing configuration or token cannot bypass verification in any mode", async t => {
+  const fetch = t.mock.method(globalThis, "fetch", () => { throw new Error("Must not fetch"); });
+  t.after(() => t.mock.restoreAll());
+  for (const mode of ["live", "contact_capture_test", "sms_delivery_test"]) {
+    const settings = { ...env, ASSESSMENT_DELIVERY_MODE: mode,
+      ASSESSMENT_TEST_EMAIL: base.email, ASSESSMENT_TEST_PHONE: base.phone };
+    const input = { ...base, smsConsent: mode === "sms_delivery_test" };
+    for (const secret of [undefined, "", "  "]) {
+      assert.equal((await onRequest({
+        request: request(input), env: { ...settings, TURNSTILE_SECRET_KEY: secret },
+      })).status, 503);
+    }
+    for (const [token, status] of [[undefined, 403], ["", 400], ["x".repeat(2049), 400]]) {
+      assert.equal((await onRequest({
+        request: request({ ...input, turnstileToken: token }), env: settings,
+      })).status, status);
+    }
+  }
+  assert.equal(fetch.mock.callCount(), 0);
+});
+
+test("failed, expired, reused, foreign and unavailable verification never reaches Zapier", async t => {
+  t.after(() => t.mock.restoreAll());
+  for (const [result, status] of [
+    [{ success: false, "error-codes": ["invalid-input-response"] }, 403],
+    [{ success: false, "error-codes": ["timeout-or-duplicate"] }, 403],
+    [{ success: false, "error-codes": ["invalid-input-secret"] }, 503],
+    [{ success: false, "error-codes": ["internal-error"] }, 503],
+    [{ success: true, hostname: "other.example", action: "assessment_request" }, 403],
+    [{ success: true, hostname: "website.example", action: "other_form" }, 403],
+    [{ success: "true", hostname: "website.example", action: "assessment_request" }, 403],
+    [null, 503],
+  ]) {
+    const fetch = t.mock.method(globalThis, "fetch", async url => {
+      assert.equal(url, "https://challenges.cloudflare.com/turnstile/v0/siteverify");
+      return Response.json(result);
+    });
+    const response = await onRequest({ request: request(), env });
+    assert.equal(response.status, status);
+    assert.doesNotMatch(await response.text(), /mock-only|other\.example|invalid-input-secret/);
+    assert.equal(fetch.mock.callCount(), 1);
+    t.mock.restoreAll();
+  }
+  for (const outcome of [
+    () => new Response("private error", { status: 503 }),
+    () => new Response("not JSON"),
+    () => { throw new DOMException("private detail", "TimeoutError"); },
+    () => { throw new Error("private URL"); },
+  ]) {
+    const fetch = t.mock.method(globalThis, "fetch", async url => {
+      assert.equal(url, "https://challenges.cloudflare.com/turnstile/v0/siteverify");
+      return outcome();
+    });
+    const response = await onRequest({ request: request(), env });
+    assert.equal(response.status, 503);
+    assert.equal(fetch.mock.callCount(), 1);
+    assert.doesNotMatch(await response.text(), /private|mock-only/);
+    t.mock.restoreAll();
+  }
 });

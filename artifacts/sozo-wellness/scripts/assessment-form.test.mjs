@@ -74,6 +74,12 @@ test('request wording reflects submission without promising a booking or automat
 
 test('explains test restrictions, disabled delivery, validation and rate limits safely', () => {
   assert.match(assessmentErrorMessage({
+    status: 403, data: { error: 'Security verification failed.' },
+  }), /not forwarded.*fresh security check/);
+  assert.match(assessmentErrorMessage({
+    status: 503, data: { error: 'Security verification unavailable.' },
+  }), /verification service is unavailable.*not forwarded/);
+  assert.match(assessmentErrorMessage({
     status: 403,
     data: { error: 'SMS delivery testing is restricted. Use the approved test email and mobile number, check text consent, and leave marketing email unchecked.' },
   }), /email and mobile number configured in Cloudflare.*text consent checked.*marketing email unchecked/);
@@ -101,4 +107,21 @@ test('explains test restrictions, disabled delivery, validation and rate limits 
     { status: 403, data: { error: '<script>private URL</script>' } }]) {
     assert.doesNotMatch(assessmentErrorMessage(error), /private URL|<script>/);
   }
+});
+
+test('production verification is required and tokens stay out of saved form defaults', () => {
+  const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
+  const widget = readFileSync(new URL('../src/components/assessment-turnstile.tsx', import.meta.url), 'utf8');
+  assert.match(app, /requiresTurnstile = import\.meta\.env\.PROD \|\| Boolean\(turnstileSiteKey\)/);
+  assert.match(app, /if \(requiresTurnstile && !turnstileToken\) return/);
+  assert.match(app, /disabled=\{mutation\.isPending \|\| \(requiresTurnstile && !turnstileToken\)\}/);
+  assert.match(app, /requiresTurnstile \? \{ turnstileToken \} : \{\}/);
+  assert.match(app, /onSettled: \(\) => \{ setTurnstileToken\(''\); setChallengeRevision/);
+  assert.doesNotMatch(app, /TURNSTILE_SECRET_KEY/);
+  for (const callback of ['expired-callback', 'timeout-callback', 'error-callback']) {
+    assert.ok(widget.includes(callback), callback);
+  }
+  assert.match(widget, /action: 'assessment_request'/);
+  assert.match(widget, /api\.remove\(widgetId\)/);
+  assert.match(widget, /type="button".*Retry security check/);
 });

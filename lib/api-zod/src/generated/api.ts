@@ -35,6 +35,8 @@ export const submitAssessmentRequestBodyMessageMax = 1500;
 
 export const submitAssessmentRequestBodyWebsiteMax = 0;
 
+export const submitAssessmentRequestBodyTurnstileTokenMax = 2048;
+
 
 
 export const SubmitAssessmentRequestBody = zod.object({
@@ -46,7 +48,8 @@ export const SubmitAssessmentRequestBody = zod.object({
   "consent": zod.literal(true),
   "smsConsent": zod.boolean().describe('Optional permission for automated texts about this assessment request. False must not prevent saving the enquiry.'),
   "marketingConsent": zod.boolean().describe('Optional permission for email marketing. False must never subscribe or resubscribe the visitor.'),
-  "website": zod.string().max(submitAssessmentRequestBodyWebsiteMax).optional().describe('Honeypot field')
+  "website": zod.string().max(submitAssessmentRequestBodyWebsiteMax).optional().describe('Honeypot field'),
+  "turnstileToken": zod.string().min(1).max(submitAssessmentRequestBodyTurnstileTokenMax).optional().describe('Single-use verification token. Required by Cloudflare Pages before forwarding; never stored or sent to Zapier. Optional only for the save-only development API.')
 })
 
 export const SubmitAssessmentRequestResponse = zod.object({

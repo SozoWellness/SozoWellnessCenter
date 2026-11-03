@@ -79,6 +79,11 @@ components:
           type: boolean
           description: Optional permission for email marketing. False must never subscribe or resubscribe the visitor.
         website: { type: string, maxLength: 0, description: Honeypot field, must remain empty }
+        turnstileToken:
+          type: string
+          minLength: 1
+          maxLength: 2048
+          description: Single-use verification token. Required by Cloudflare Pages before forwarding; never stored or sent to Zapier. Optional only for the save-only development API.
     AssessmentRequestReceipt:
       type: object
       required: [success, message]

@@ -18,6 +18,7 @@ import { AssessmentsContent } from '@/components/assessments-content';
 import { assessmentDetails } from '@/data/assessments';
 import { getInquiryInterest, inquiryInterests } from '@/lib/inquiry';
 import { assessmentErrorMessage, normalizeAssessmentMobile } from '@/lib/assessment-form';
+import { AssessmentTurnstile } from '@/components/assessment-turnstile';
 import { hyperbaricDetails } from '@/data/hyperbaric';
 import { shockwaveDetails } from '@/data/shockwave';
 import { cardioMedBedDetails } from '@/data/cardio-medbed';
@@ -299,24 +300,30 @@ function Testimonials() { return <><PageHero eyebrow="Patient stories" title="Re
 
 
 type AssessmentForm = { name: string; email: string; phone: string; interest: string; message: string; consent: boolean; smsConsent: boolean; marketingConsent: boolean; website: string };
+const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY?.trim();
+// The Replit dev server is save-only; production builds always require verification.
+const requiresTurnstile = import.meta.env.PROD || Boolean(turnstileSiteKey);
 function RequestAssessment() {
   const mutation = useSubmitAssessmentRequest();
   const search = useSearch();
   const initialInterest = getInquiryInterest(search);
   const form = useForm<AssessmentForm>({ defaultValues: { name:'', email:'', phone:'', interest:initialInterest, message:'', consent:false, smsConsent:false, marketingConsent:false, website:'' } });
   const [success, setSuccess] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [challengeRevision, setChallengeRevision] = useState(0);
   useEffect(() => {
     // Update the selection on another service link without erasing entered details.
     form.setValue('interest', initialInterest);
     setSuccess(false);
   }, [initialInterest, form.setValue]);
   const onSubmit = (values: AssessmentForm) => {
+    if (requiresTurnstile && !turnstileToken) return;
     const phone = normalizeAssessmentMobile(values.phone);
     if (!phone) {
       form.setError('phone', { type: 'validate', message: 'Please enter a valid mobile number, including the country code if outside the U.S.' });
       return;
     }
-    mutation.mutate({ data: { name: values.name.trim(), email: values.email.trim(), phone, interest: values.interest, message: values.message.trim() || undefined, consent: values.consent as true, smsConsent: values.smsConsent, marketingConsent: values.marketingConsent, website: values.website } }, { onSuccess: receipt => { if (receipt.success) { setSuccess(true); form.reset({ name:'', email:'', phone:'', interest:initialInterest, message:'', consent:false, smsConsent:false, marketingConsent:false, website:'' }); } }, onError: () => {} });
+    mutation.mutate({ data: { name: values.name.trim(), email: values.email.trim(), phone, interest: values.interest, message: values.message.trim() || undefined, consent: values.consent as true, smsConsent: values.smsConsent, marketingConsent: values.marketingConsent, website: values.website, ...(requiresTurnstile ? { turnstileToken } : {}) } }, { onSuccess: receipt => { if (receipt.success) { setSuccess(true); form.reset({ name:'', email:'', phone:'', interest:initialInterest, message:'', consent:false, smsConsent:false, marketingConsent:false, website:'' }); } }, onError: () => {}, onSettled: () => { setTurnstileToken(''); setChallengeRevision(value => value + 1); } });
   };
   return <>
     <PageHero eyebrow={initialInterest ? `Your interest: ${initialInterest}` : 'Start with SOZO'} title={ASSESSMENT_CTA} text="Book online through Jane, or contact our team if you’d like help choosing a starting point. The enquiry form below does not reserve an appointment."/>
@@ -359,9 +366,10 @@ function RequestAssessment() {
             <div className="form-field full"><label className="form-check" htmlFor="marketing-consent"><input id="marketing-consent" type="checkbox" data-testid="checkbox-marketing-consent" {...form.register('marketingConsent')}/><span>I’d also like to receive SOZO Wellness Center news, updates and promotional emails. This is optional, and I can unsubscribe at any time.</span></label></div>
           </div>
           <p style={{color:'#31564f',fontSize:16,lineHeight:1.65,marginTop:20}}>Text messages and marketing emails are optional and depend on your choices above. Do not submit sensitive health details. Submitting this form does not establish a patient-provider relationship or reserve an appointment.</p>
+          {requiresTurnstile ? <AssessmentTurnstile siteKey={turnstileSiteKey} revision={challengeRevision} onToken={setTurnstileToken}/> : <p className="notice">Development preview: this form saves locally and does not test Cloudflare spam protection or send messages.</p>}
           {mutation.isError && <div role="alert" className="form-status error" data-testid="status-request-error">{assessmentErrorMessage(mutation.error)}<a href="tel:+13528022248" data-testid="link-error-phone">text or call us at 352-802-2248</a>.</div>}
           {mutation.data && !mutation.data.success && <div role="alert" className="form-status error" data-testid="status-request-rejected">{mutation.data.message || 'We could not process your request. Please try again.'}</div>}
-          <button type="submit" className="btn btn-primary form-submit" disabled={mutation.isPending} data-testid="button-submit-request">{mutation.isPending ? 'Submitting your request…' : 'Submit my request'} {!mutation.isPending && <ArrowRight size={17}/>}</button>
+          <button type="submit" className="btn btn-primary form-submit" disabled={mutation.isPending || (requiresTurnstile && !turnstileToken)} data-testid="button-submit-request">{mutation.isPending ? 'Submitting your request…' : 'Submit my request'} {!mutation.isPending && <ArrowRight size={17}/>}</button>
         </form></Form></>
       )}</div>
     </div></section>

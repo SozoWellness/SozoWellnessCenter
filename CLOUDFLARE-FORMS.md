@@ -44,6 +44,8 @@ In the Pages project's **Settings → Variables and Secrets**, choose the
 | `ASSESSMENT_DELIVERY_MODE` | Plain text | `contact_capture_test` |
 | `ASSESSMENT_TEST_EMAIL` | Secret/encrypted | An email address you control, entered directly in Cloudflare |
 | `ASSESSMENT_TEST_PHONE` | Secret/encrypted | Only for the SMS test: your own mobile number, in E.164 format |
+| `VITE_TURNSTILE_SITE_KEY` | Plain text | Public site key from the SOZO Turnstile widget (available during build) |
+| `TURNSTILE_SECRET_KEY` | Secret/encrypted | Matching widget secret, server only; never use a `VITE_` prefix |
 
 The webhook secret already in Replit does **not** transfer to Cloudflare. Paste it
 directly into Cloudflare's encrypted secret field; do not put it in chat, Git, a
@@ -57,6 +59,47 @@ returns an explicit error. It does not pretend to save an enquiry.
 Delivery also requires an explicit mode: `contact_capture_test`,
 `sms_delivery_test`, or `live`.
 Missing or misspelled modes fail closed.
+
+### Turnstile verification
+
+Create a Managed widget in Cloudflare Turnstile for the exact production
+hostname, currently `sozowellnesscenter.pages.dev` (no protocol or path).
+Pre-clearance is not needed. Add any future custom hostname to the widget before
+testing there; do not change DNS as part of this setup.
+
+Enter the public site key and encrypted secret directly in the Pages project's
+Production settings using the names above. These settings do not transfer to
+Replit. Save and redeploy; the `VITE_` site key is embedded at build time, whereas
+the secret is available only to the Function. Do not share the secret in chat.
+
+The form explicitly renders a flexible-width widget with action
+`assessment_request`. Submission is disabled until a token is ready. Expired,
+failed, or interrupted challenges clear the token and offer a security-check
+retry without clearing the entered form values. Every completed API attempt
+discards the single-use token; refreshing a challenge never resubmits the form.
+Do not retry a submission after an ambiguous Zapier delivery error without
+checking history first.
+
+The Function requires Siteverify success, a hostname matching the request's
+hostname, and the correct action before making any Zapier request. This applies
+to **all** delivery modes; there is no production bypass. Missing secrets,
+network errors, invalid JSON and verification timeouts fail closed. Missing,
+expired, reused or wrong-site tokens cannot reach Zapier. Tokens and secrets
+are neither stored nor included in the webhook. Siteverify receives only the
+verification token, widget secret and client IP—not enquiry fields.
+
+Without a configured site key a production build disables form submission and
+shows contact alternatives. The keyless Replit development preview remains
+explicitly save-only and does not verify Cloudflare deployment protection.
+The handler's token property is optional in the shared API contract only to
+preserve that save-only development endpoint; Cloudflare still requires it.
+
+After an approved code deployment, check the widget and make one agreed
+contact-only submission with SMS consent **unchecked**, using the configured
+test email. Keep marketing unchecked unless an additional real subscription
+test has been approved. Verify the Zap run and Quo record; never infer a new
+contact from a Mailchimp branch skipped due to marketing consent being false.
+Use mocked Siteverify responses for local automated tests, not live recipients.
 
 ### Restricted contact-capture test
 
@@ -129,8 +172,11 @@ after Zapier received the request: check Zap history before repeating a request.
 
 Protection includes same-origin JSON requests, a 16 KiB streamed body limit,
 server-side validation, honeypot and a bounded per-isolate five-attempt/hour IP
-limit. The in-memory limit is **not global or durable**; configure Cloudflare
-edge rate limiting/bot protection for this endpoint before public launch.
+limit, plus mandatory Turnstile server verification. The in-memory limit is
+**not global or durable**; Turnstile is not a distributed rate limiter or a
+guarantee against every form of abuse. Review additional edge rate limits if
+needed, using controls available for the actual Pages hostname/account rather
+than assuming zone-based WAF rules apply to a `pages.dev` hostname.
 No submitted contact details, webhook URL or upstream error body are logged.
 In restricted contact-capture and SMS test modes only, a failed forwarding response
 includes a safe diagnostic: upstream HTTP status, timeout, or connection error.

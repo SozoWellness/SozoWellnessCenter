@@ -37,4 +37,10 @@ export interface AssessmentRequestInput {
      * @maxLength 0
      */
   website?: string;
+  /**
+     * Single-use verification token. Required by Cloudflare Pages before forwarding; never stored or sent to Zapier. Optional only for the save-only development API.
+     * @minLength 1
+     * @maxLength 2048
+     */
+  turnstileToken?: string;
 }

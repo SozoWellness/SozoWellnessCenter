@@ -1,4 +1,5 @@
 import { SubmitAssessmentRequestBody } from "../../lib/api-zod/src/generated/api.ts";
+import { verifyTurnstile } from "../_shared/turnstile.ts";
 
 interface Env {
   ZAPIER_ASSESSMENT_WEBHOOK_URL?: string;
@@ -6,6 +7,7 @@ interface Env {
   ASSESSMENT_DELIVERY_MODE?: string;
   ASSESSMENT_TEST_EMAIL?: string;
   ASSESSMENT_TEST_PHONE?: string;
+  TURNSTILE_SECRET_KEY?: string;
 }
 
 const maxBodyBytes = 16 * 1024;
@@ -120,6 +122,15 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
     }
   } catch {
     return json(503, { error: "Online requests are unavailable. Please text or call 352-802-2248." });
+  }
+
+  const verification = await verifyTurnstile(
+    env.TURNSTILE_SECRET_KEY, parsed.data.turnstileToken, ip, new URL(request.url).hostname,
+  );
+  if (verification !== "verified") {
+    return json(verification === "rejected" ? 403 : 503, {
+      error: verification === "rejected" ? "Security verification failed." : "Security verification unavailable.",
+    });
   }
 
   const input = parsed.data;
