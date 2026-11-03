@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
-import { normalizeAssessmentMobile } from '../src/lib/assessment-form.ts';
+import { assessmentErrorMessage, normalizeAssessmentMobile } from '../src/lib/assessment-form.ts';
 import { SubmitAssessmentRequestBody } from '../../../lib/api-zod/src/generated/api.ts';
 
 const base = {
@@ -59,4 +59,22 @@ test('both optional consent controls start unchecked and reset after a successfu
   assert.match(app, /register\('smsConsent'\)/);
   assert.match(app, /register\('marketingConsent'\)/);
   assert.doesNotMatch(app, /register\('(?:smsConsent|marketingConsent)',\s*\{required/);
+});
+
+test('explains test restrictions, disabled delivery, validation and rate limits safely', () => {
+  assert.match(assessmentErrorMessage({
+    status: 403,
+    data: { error: 'Contact capture testing is restricted. Use the approved test email and leave automated texts unchecked.' },
+  }), /email configured in Cloudflare.*text consent unchecked/);
+  assert.match(assessmentErrorMessage({ status: 400 }), /rejected before delivery/);
+  assert.match(assessmentErrorMessage({ status: 429 }), /at least one hour/);
+  assert.match(assessmentErrorMessage({ status: 503, data: {
+    error: 'Online requests are not enabled. Please text or call 352-802-2248.',
+  } }), /still disabled/);
+  assert.match(assessmentErrorMessage({ status: 503 }), /settings are incomplete/);
+  assert.match(assessmentErrorMessage({ status: 502 }), /check Zap History before submitting again/);
+  for (const error of [null, new Error('private URL'), { status: 500 },
+    { status: 403, data: { error: '<script>private URL</script>' } }]) {
+    assert.doesNotMatch(assessmentErrorMessage(error), /private URL|<script>/);
+  }
 });

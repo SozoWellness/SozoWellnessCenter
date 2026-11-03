@@ -13,3 +13,29 @@ export function normalizeAssessmentMobile(value: string): string | null {
   if (/^1\d{10}$/.test(digits)) return `+${digits}`;
   return null;
 }
+
+/** Show actionable errors without exposing arbitrary response bodies or URLs. */
+export function assessmentErrorMessage(error: unknown): string {
+  const fallback = 'We couldn’t confirm your request. Please don’t submit again until delivery has been checked. You can ';
+  if (!error || typeof error !== 'object' || !('status' in error)) return fallback;
+  const data = 'data' in error ? error.data : null;
+  const reason = data && typeof data === 'object' && 'error' in data ? data.error : null;
+  switch (error.status) {
+    case 400:
+      return 'Your request was rejected before delivery. Please check your name, email, mobile number, selected interest and required request consent. For help, ';
+    case 403:
+      return reason === 'Contact capture testing is restricted. Use the approved test email and leave automated texts unchecked.'
+        ? 'This test only accepts the email configured in Cloudflare, with automated text consent unchecked. The request was not forwarded. For help, '
+        : 'The website could not verify this submission, so it was not forwarded. Please use the form directly on the website. For help, ';
+    case 429:
+      return 'Too many attempts have been made from this connection. This attempt was not forwarded. Please wait at least one hour before trying again, or ';
+    case 503:
+      return reason === 'Online requests are not enabled. Please text or call 352-802-2248.'
+        ? 'Online requests are still disabled in the deployed settings. This request was not forwarded. For help, '
+        : 'The website’s delivery settings are incomplete or unavailable. This request was not forwarded. For help, ';
+    case 502:
+      return 'We couldn’t confirm delivery. Please check Zap History before submitting again, or ';
+    default:
+      return fallback;
+  }
+}

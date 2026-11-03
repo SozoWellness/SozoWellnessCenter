@@ -17,7 +17,7 @@ import { serviceHeroes } from '@/data/discovery';
 import { AssessmentsContent } from '@/components/assessments-content';
 import { assessmentDetails } from '@/data/assessments';
 import { getInquiryInterest, inquiryInterests } from '@/lib/inquiry';
-import { normalizeAssessmentMobile } from '@/lib/assessment-form';
+import { assessmentErrorMessage, normalizeAssessmentMobile } from '@/lib/assessment-form';
 import { hyperbaricDetails } from '@/data/hyperbaric';
 import { shockwaveDetails } from '@/data/shockwave';
 import { cardioMedBedDetails } from '@/data/cardio-medbed';
@@ -355,7 +355,7 @@ function RequestAssessment() {
             <div className="form-field full"><label className="form-check" htmlFor="marketing-consent"><input id="marketing-consent" type="checkbox" data-testid="checkbox-marketing-consent" {...form.register('marketingConsent')}/><span>I’d also like to receive SOZO Wellness Center news, updates and promotional emails. This is optional, and I can unsubscribe at any time.</span></label></div>
           </div>
           <p style={{color:'#31564f',fontSize:16,lineHeight:1.65,marginTop:20}}>Your request is saved, but we don’t yet receive automatic notifications from this form. To get in touch, please text or call, or email us. Do not submit sensitive health details. Submitting this form does not establish a patient-provider relationship.</p>
-          {mutation.isError && <div role="alert" className="form-status error" data-testid="status-request-error">{mutation.error?.status === 502 ? 'We couldn’t confirm delivery of your request. Before submitting again, please ' : 'We couldn’t save your request right now. Please try again or '}<a href="tel:+13528022248" data-testid="link-error-phone">text or call us at 352-802-2248</a>.</div>}
+          {mutation.isError && <div role="alert" className="form-status error" data-testid="status-request-error">{assessmentErrorMessage(mutation.error)}<a href="tel:+13528022248" data-testid="link-error-phone">text or call us at 352-802-2248</a>.</div>}
           {mutation.data && !mutation.data.success && <div role="alert" className="form-status error" data-testid="status-request-rejected">{mutation.data.message || 'We could not process your request. Please try again.'}</div>}
           <button type="submit" className="btn btn-primary form-submit" disabled={mutation.isPending} data-testid="button-submit-request">{mutation.isPending ? 'Saving your request…' : 'Save my request'} {!mutation.isPending && <ArrowRight size={17}/>}</button>
         </form></Form></>
