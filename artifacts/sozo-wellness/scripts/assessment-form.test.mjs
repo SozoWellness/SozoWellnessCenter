@@ -61,6 +61,17 @@ test('both optional consent controls start unchecked and reset after a successfu
   assert.doesNotMatch(app, /register\('(?:smsConsent|marketingConsent)',\s*\{required/);
 });
 
+test('request wording reflects submission without promising a booking or automatic messages', () => {
+  const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
+  assert.doesNotMatch(app, /Your request was saved\.|Your request is saved|we don’t yet receive automatic notifications|notify our team yet|Save my request/);
+  assert.match(app, /Thank you—your request was submitted\./);
+  assert.match(app, /mutation\.data\?\.message/);
+  assert.match(app, /An appointment is not booked until the details are confirmed/);
+  assert.match(app, /Text messages and marketing emails are optional/);
+  assert.match(app, /Submitting your request…/);
+  assert.match(app, /Submit my request/);
+});
+
 test('explains test restrictions, disabled delivery, validation and rate limits safely', () => {
   assert.match(assessmentErrorMessage({
     status: 403,

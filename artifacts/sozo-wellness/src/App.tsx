@@ -337,12 +337,13 @@ function RequestAssessment() {
       </div>
       <div className="form-panel">{success ? (
         <div className="success-panel" role="status" data-testid="status-request-success">
-          <Check size={43} strokeWidth={1.5}/><h2>Your request was saved.</h2>
-          <p>We don’t yet receive automatic notifications from this form. To get in touch, please <a href="tel:+13528022248" data-testid="link-success-phone">text or call 352-802-2248</a> or email <a href="mailto:info@sozorootedwellness.com" data-testid="link-success-email">info@sozorootedwellness.com</a>.</p>
+          <Check size={43} strokeWidth={1.5}/><h2>Thank you—your request was submitted.</h2>
+          <p data-testid="request-receipt-message">{mutation.data?.message || 'Your request was submitted for processing.'}</p>
+          <p>An appointment is not booked until the details are confirmed with our team. To arrange your visit or follow up, please <a href="tel:+13528022248" data-testid="link-success-phone">text or call 352-802-2248</a> or email <a href="mailto:info@sozorootedwellness.com" data-testid="link-success-email">info@sozorootedwellness.com</a>.</p>
           <button type="button" className="btn btn-outline" onClick={() => { setSuccess(false); mutation.reset(); }} data-testid="button-send-another">Send another request <ArrowRight size={16}/></button>
         </div>
       ) : (
-        <><h2>Prefer to write down your interest?</h2><p className="notice" data-testid="notice-booking-status">This form saves a request only; it does not book an appointment or notify our team yet. Please text or call us to arrange your visit.</p><Form {...form}><form onSubmit={form.handleSubmit(onSubmit)} noValidate>
+        <><h2>Prefer to write down your interest?</h2><p className="notice" data-testid="notice-booking-status">Use this form to submit an enquiry. Submitting a request does not book an appointment. You can also text or call us to arrange your visit.</p><Form {...form}><form onSubmit={form.handleSubmit(onSubmit)} noValidate>
           <div className="form-grid">
             <div className="form-field"><label htmlFor="name">Your name *</label><input id="name" autoComplete="name" placeholder="First and last name" maxLength={120} aria-invalid={!!form.formState.errors.name} data-testid="input-name" {...form.register('name',{required:'Please enter your name.',minLength:{value:2,message:'Please enter at least 2 characters.'}})}/>{form.formState.errors.name && <span className="form-error">{form.formState.errors.name.message}</span>}</div>
             <div className="form-field"><label htmlFor="email">Email address *</label><input id="email" type="email" autoComplete="email" placeholder="you@example.com" maxLength={254} aria-invalid={!!form.formState.errors.email} data-testid="input-email" {...form.register('email',{required:'Please enter your email.',pattern:{value:/^[^\s@]+@[^\s@]+\.[^\s@]+$/,message:'Please enter a valid email.'}})}/>{form.formState.errors.email && <span className="form-error">{form.formState.errors.email.message}</span>}</div>
@@ -354,10 +355,10 @@ function RequestAssessment() {
             <div className="form-field full"><label className="form-check" htmlFor="sms-consent"><input id="sms-consent" type="checkbox" data-testid="checkbox-sms-consent" {...form.register('smsConsent')}/><span>I’d like to receive automated text messages from SOZO Wellness Center about my assessment request, including an acknowledgement and follow-up. This is optional and not a condition of booking or purchase. Message frequency varies. Message and data rates may apply. Reply STOP to opt out or HELP for help.</span></label></div>
             <div className="form-field full"><label className="form-check" htmlFor="marketing-consent"><input id="marketing-consent" type="checkbox" data-testid="checkbox-marketing-consent" {...form.register('marketingConsent')}/><span>I’d also like to receive SOZO Wellness Center news, updates and promotional emails. This is optional, and I can unsubscribe at any time.</span></label></div>
           </div>
-          <p style={{color:'#31564f',fontSize:16,lineHeight:1.65,marginTop:20}}>Your request is saved, but we don’t yet receive automatic notifications from this form. To get in touch, please text or call, or email us. Do not submit sensitive health details. Submitting this form does not establish a patient-provider relationship.</p>
+          <p style={{color:'#31564f',fontSize:16,lineHeight:1.65,marginTop:20}}>Text messages and marketing emails are optional and depend on your choices above. Do not submit sensitive health details. Submitting this form does not establish a patient-provider relationship or reserve an appointment.</p>
           {mutation.isError && <div role="alert" className="form-status error" data-testid="status-request-error">{assessmentErrorMessage(mutation.error)}<a href="tel:+13528022248" data-testid="link-error-phone">text or call us at 352-802-2248</a>.</div>}
           {mutation.data && !mutation.data.success && <div role="alert" className="form-status error" data-testid="status-request-rejected">{mutation.data.message || 'We could not process your request. Please try again.'}</div>}
-          <button type="submit" className="btn btn-primary form-submit" disabled={mutation.isPending} data-testid="button-submit-request">{mutation.isPending ? 'Saving your request…' : 'Save my request'} {!mutation.isPending && <ArrowRight size={17}/>}</button>
+          <button type="submit" className="btn btn-primary form-submit" disabled={mutation.isPending} data-testid="button-submit-request">{mutation.isPending ? 'Submitting your request…' : 'Submit my request'} {!mutation.isPending && <ArrowRight size={17}/>}</button>
         </form></Form></>
       )}</div>
     </div></section>

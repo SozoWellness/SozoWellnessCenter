@@ -124,10 +124,11 @@ acceptance. No diagnostic adds a retry or sends a separate test request.
    which messages may be sent. Do not test Mailchimp/Quo actions with the synthetic
    example address/number. An off Zap's Catch Hook may accept a request without
    running its actions; webhook acceptance alone is not a launch test.
-7. Before public use, approve and update the current form's saved-only,
-   no-notifications notice and success text to describe the verified delivery
-   behavior. Those existing notices are intentionally unchanged until the
-   connection is tested, per the handoff instructions.
+7. The form uses submission wording and displays the API's receipt message,
+   without promising completed downstream actions, messages or an appointment.
+   The no-notifications/saved-only notices were replaced after the controlled
+   contact-capture test. This does not authorize public delivery or verify SMS
+   sending; maintain the restricted test settings until launch approval.
 8. Only after approval, enable the intended Zap and set production delivery to
    `true`, redeploy, then verify the agreed controlled submission. Neither action
    has been taken here.
