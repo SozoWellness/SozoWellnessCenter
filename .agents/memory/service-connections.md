@@ -61,14 +61,15 @@ delivery path, not cancellation after a reply or booking.
 Staff should respond to incoming replies in Quo, with an automated text fallback
 if staff do not respond right away, including after hours.
 During staffed hours, wait five minutes for a staff response before the fallback.
-Use Monday–Friday, 8:00 a.m.–5:00 p.m., America/New_York, as the staffed window.
+Use Monday–Friday, 9:00 a.m.–5:00 p.m., America/New_York, as the staffed window.
 Count weekends as after hours.
 
 **Why:** The user said, “Ideally, staff will respond in Quo, but we'll need to be
 prepared with an automated text if they don't respond right away (ex: after hours).”
 They selected the five-minute staffed-hours fallback.
-They asked to use the website business hours and explicitly said to count
-weekends as after hours “to be on the safe side.”
+They explicitly confirmed a 9 a.m. Eastern opening after an outdated 8 a.m.
+website listing was discovered, and said to count weekends as after hours
+“to be on the safe side.”
 
 **How to apply:** Keep staff as the primary responders and use the agreed
 schedule, with daylight-saving-aware Eastern time rather than a fixed UTC
@@ -87,9 +88,9 @@ daytime message acknowledges receipt without a stated wait.
 before adding an after-hours sender. Do not assume this direct-text result also
 verifies a reply shortly after the website's automated acknowledgement.
 These native settings affect the whole SOZO number, not just website enquiries.
-The after-hours message says Monday–Friday 9 a.m.–5 p.m., conflicting with the
-website's 8 a.m. opening. Confirm the correct opening time before changing
-either schedule or copy; message wording does not prove Quo's configured hours.
+The after-hours message correctly says Monday–Friday 9 a.m.–5 p.m.; the legacy
+website's 8 a.m. opening is outdated according to the user's clarification.
+Message wording alone does not prove Quo's configured business-hours schedule.
 
 ## Separate event-capture workflow
 
