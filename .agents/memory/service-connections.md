@@ -56,6 +56,18 @@ delivery path, not cancellation after a reply or booking.
 
 **How to apply:** An assessment enquiry must still be accepted when either or both boxes are unchecked. Gate automated request texts on text consent, and marketing subscription on email marketing consent.
 
+## Reply handling and staff availability
+
+Staff should respond to incoming replies in Quo, with an automated text fallback
+if staff do not respond right away, including after hours.
+
+**Why:** The user said, “Ideally, staff will respond in Quo, but we'll need to be
+prepared with an automated text if they don't respond right away (ex: after hours).”
+
+**How to apply:** Keep staff as the primary responders. Confirm actual texting
+coverage hours and the fallback wait before configuring the automation; do not
+assume clinic opening hours equal staff texting availability.
+
 ## Separate event-capture workflow
 
 The existing Zapier Forms → Mailchimp → Quo workflow is for outside-event email captures, not the website. Keep that form and workflow as-is.
