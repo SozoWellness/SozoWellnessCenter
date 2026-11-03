@@ -1,1 +1,2 @@
 - [SOZO service connections](service-connections.md) — Quo and existing Mailchimp for enquiry contacts, Jane for booking, and the free Perfect Day Lifestyle guidebook.
+- [Turnstile async loading](turnstile-loading.md) — the real SDK rejects ready() after async loading; use the script load event and model vendor restrictions in tests.

@@ -1,41 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-
-interface TurnstileApi {
-  ready(callback: () => void): void;
-  render(container: HTMLElement, options: Record<string, unknown>): string;
-  remove(id: string): void;
-}
-declare global {
-  interface Window { turnstile?: TurnstileApi }
-}
-
-let scriptPromise: Promise<TurnstileApi> | null = null;
-function loadTurnstile(): Promise<TurnstileApi> {
-  if (window.turnstile) {
-    const api = window.turnstile;
-    return new Promise(resolve => api.ready(() => resolve(api)));
-  }
-  if (scriptPromise) return scriptPromise;
-  scriptPromise = new Promise<TurnstileApi>((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-    script.async = true;
-    const timeout = window.setTimeout(failed, 15000);
-    function failed() {
-      clearTimeout(timeout);
-      script.remove();
-      reject(new Error('Verification script unavailable'));
-    }
-    script.onerror = failed;
-    script.onload = () => {
-      const api = window.turnstile;
-      if (!api) { failed(); return; }
-      api.ready(() => { clearTimeout(timeout); resolve(api); });
-    };
-    document.head.appendChild(script);
-  }).catch(error => { scriptPromise = null; throw error; });
-  return scriptPromise;
-}
+import { loadTurnstile, type TurnstileApi } from '@/lib/turnstile-loader';
 
 export function AssessmentTurnstile({ siteKey, revision, onToken }: {
   siteKey?: string; revision: number; onToken: (token: string) => void;
