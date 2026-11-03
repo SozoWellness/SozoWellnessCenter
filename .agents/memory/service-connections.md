@@ -60,9 +60,11 @@ delivery path, not cancellation after a reply or booking.
 
 Staff should respond to incoming replies in Quo, with an automated text fallback
 if staff do not respond right away, including after hours.
+During staffed hours, wait five minutes for a staff response before the fallback.
 
 **Why:** The user said, “Ideally, staff will respond in Quo, but we'll need to be
 prepared with an automated text if they don't respond right away (ex: after hours).”
+They selected the five-minute staffed-hours fallback.
 
 **How to apply:** Keep staff as the primary responders. Confirm actual texting
 coverage hours and the fallback wait before configuring the automation; do not
