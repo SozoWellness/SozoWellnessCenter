@@ -44,3 +44,16 @@ The existing Zapier Forms → Mailchimp → Quo workflow is for outside-event em
 **Why:** The user clarified its purpose and explicitly said it will still be used unchanged.
 
 **How to apply:** Treat website marketing opt-ins as a separate connection; do not replace or repurpose the event-capture workflow.
+
+## Website hosting and email opt-in
+
+The user selected Cloudflare Pages for the website form connection. They chose
+Mailchimp Double Opt-In False: the website's optional email checkbox is the
+single opt-in, without a separate confirmation email.
+
+**Why:** These were explicit user selections during the website connection setup.
+
+**How to apply:** Keep website delivery compatible with Cloudflare Pages rather
+than assuming the Replit Express server runs there. Preserve the selected opt-in
+behavior unless the user changes it; it does not authorize testing live emails,
+automatically resubscribing unsubscribed contacts, or enabling new automations.
