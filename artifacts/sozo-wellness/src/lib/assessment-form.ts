@@ -24,6 +24,9 @@ export function assessmentErrorMessage(error: unknown): string {
     case 400:
       return 'Your request was rejected before delivery. Please check your name, email, mobile number, selected interest and required request consent. For help, ';
     case 403:
+      if (reason === 'SMS delivery testing is restricted. Use the approved test email and mobile number, check text consent, and leave marketing email unchecked.') {
+        return 'This text test requires the email and mobile number configured in Cloudflare, text consent checked, and marketing email unchecked. The request was not forwarded. For help, ';
+      }
       return reason === 'Contact capture testing is restricted. Use the approved test email and leave automated texts unchecked.'
         ? 'This test only accepts the email configured in Cloudflare, with automated text consent unchecked. The request was not forwarded. For help, '
         : 'The website could not verify this submission, so it was not forwarded. Please use the form directly on the website. For help, ';

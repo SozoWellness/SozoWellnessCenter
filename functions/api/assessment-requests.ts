@@ -5,6 +5,7 @@ interface Env {
   ASSESSMENT_DELIVERY_ENABLED?: string;
   ASSESSMENT_DELIVERY_MODE?: string;
   ASSESSMENT_TEST_EMAIL?: string;
+  ASSESSMENT_TEST_PHONE?: string;
 }
 
 const maxBodyBytes = 16 * 1024;
@@ -57,9 +58,13 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
   }
   const mode = env.ASSESSMENT_DELIVERY_MODE;
   const testEmail = env.ASSESSMENT_TEST_EMAIL?.trim().toLowerCase();
-  if ((mode !== "live" && mode !== "contact_capture_test") ||
-      (mode === "contact_capture_test" &&
-        (!testEmail || !SubmitAssessmentRequestBody.shape.email.safeParse(testEmail).success))) {
+  const testPhone = env.ASSESSMENT_TEST_PHONE?.trim();
+  const restrictedMode = mode === "contact_capture_test" || mode === "sms_delivery_test";
+  if ((mode !== "live" && !restrictedMode) ||
+      (restrictedMode &&
+        (!testEmail || !SubmitAssessmentRequestBody.shape.email.safeParse(testEmail).success)) ||
+      (mode === "sms_delivery_test" &&
+        (!testPhone || !SubmitAssessmentRequestBody.shape.phone.safeParse(testPhone).success))) {
     return json(503, { error: "Online requests are unavailable. Please text or call 352-802-2248." });
   }
   if (request.headers.get("Origin") !== new URL(request.url).origin) {
@@ -96,6 +101,13 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
   if (mode === "contact_capture_test" &&
       (parsed.data.email.trim().toLowerCase() !== testEmail || parsed.data.smsConsent)) {
     return json(403, { error: "Contact capture testing is restricted. Use the approved test email and leave automated texts unchecked." });
+  }
+  // Explicit real-recipient test: both contact details must match server settings.
+  // No marketing signup in this mode, so the email branch cannot block this test.
+  if (mode === "sms_delivery_test" &&
+      (parsed.data.email.trim().toLowerCase() !== testEmail ||
+       parsed.data.phone !== testPhone || !parsed.data.smsConsent || parsed.data.marketingConsent)) {
+    return json(403, { error: "SMS delivery testing is restricted. Use the approved test email and mobile number, check text consent, and leave marketing email unchecked." });
   }
 
   let hook: URL;
@@ -134,7 +146,7 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
   const deliveryFailure = (code: string, upstreamStatus?: number) => json(502, {
     error: "We could not confirm delivery. Please text or call 352-802-2248 before submitting again.",
     // Restricted test mode only: never expose a URL, body, contact or raw error.
-    ...(mode === "contact_capture_test" ? {
+    ...(restrictedMode ? {
       diagnostic: { code, ...(upstreamStatus === undefined ? {} : { upstream_status: upstreamStatus }) },
     } : {}),
   });

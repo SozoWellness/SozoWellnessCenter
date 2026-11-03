@@ -75,6 +75,10 @@ test('request wording reflects submission without promising a booking or automat
 test('explains test restrictions, disabled delivery, validation and rate limits safely', () => {
   assert.match(assessmentErrorMessage({
     status: 403,
+    data: { error: 'SMS delivery testing is restricted. Use the approved test email and mobile number, check text consent, and leave marketing email unchecked.' },
+  }), /email and mobile number configured in Cloudflare.*text consent checked.*marketing email unchecked/);
+  assert.match(assessmentErrorMessage({
+    status: 403,
     data: { error: 'Contact capture testing is restricted. Use the approved test email and leave automated texts unchecked.' },
   }), /email configured in Cloudflare.*text consent unchecked/);
   assert.match(assessmentErrorMessage({ status: 400 }), /rejected before delivery/);

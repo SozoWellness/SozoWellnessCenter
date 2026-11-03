@@ -149,6 +149,66 @@ test("invalid submissions, spoofed metadata, bot traps and foreign origins never
   assert.equal(fetch.mock.callCount(), 0);
 });
 
+test("SMS test configuration fails closed without both valid recipient settings", async t => {
+  const fetch = t.mock.method(globalThis, "fetch", () => { throw new Error("Must not fetch"); });
+  t.after(() => t.mock.restoreAll());
+  const smsEnv = { ...env, ASSESSMENT_DELIVERY_MODE: "sms_delivery_test", ASSESSMENT_TEST_EMAIL: base.email };
+  for (const phone of [undefined, "", "2025550147", "+0012345678", "not a phone"]) {
+    const response = await onRequest({
+      request: request({ ...base, smsConsent: true }),
+      env: { ...smsEnv, ASSESSMENT_TEST_PHONE: phone },
+    });
+    assert.equal(response.status, 503);
+  }
+  for (const email of [undefined, "", "not-an-email"]) {
+    assert.equal((await onRequest({
+      request: request({ ...base, smsConsent: true }),
+      env: { ...smsEnv, ASSESSMENT_TEST_PHONE: base.phone, ASSESSMENT_TEST_EMAIL: email },
+    })).status, 503);
+  }
+  assert.equal(fetch.mock.callCount(), 0);
+});
+
+test("SMS test permits only the configured recipient with explicit SMS consent and no marketing", async t => {
+  const sent = [];
+  t.mock.method(globalThis, "fetch", async (_url, options) => {
+    sent.push(JSON.parse(options.body));
+    return new Response("ok");
+  });
+  t.after(() => t.mock.restoreAll());
+  const settings = {
+    ...env, ASSESSMENT_DELIVERY_MODE: "sms_delivery_test",
+    ASSESSMENT_TEST_EMAIL: ` ${base.email.toUpperCase()} `,
+    ASSESSMENT_TEST_PHONE: ` ${base.phone} `,
+  };
+  for (const input of [
+    { ...base, smsConsent: true, email: "other@example.com" },
+    { ...base, smsConsent: true, phone: "+12025550148" },
+    { ...base, smsConsent: false },
+    { ...base, smsConsent: true, marketingConsent: true },
+    { ...base, smsConsent: false, marketingConsent: true },
+  ]) {
+    const response = await onRequest({ request: request(input), env: settings });
+    assert.equal(response.status, 403);
+    const text = await response.text();
+    assert.doesNotMatch(text, /sozo-test@example|\+12025550147/);
+  }
+  assert.equal(sent.length, 0);
+  const input = { ...base, email: base.email.toUpperCase(), smsConsent: true };
+  assert.equal((await onRequest({ request: request(input), env: settings })).status, 201);
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0].email, base.email);
+  assert.equal(sent[0].phone, base.phone);
+  assert.equal(sent[0].sms_consent, true);
+  assert.equal(sent[0].marketing_consent, false);
+  assert.equal(sent[0].is_test, false);
+  // The existing kill switch takes precedence even with a valid SMS recipient.
+  assert.equal((await onRequest({
+    request: request(input), env: { ...settings, ASSESSMENT_DELIVERY_ENABLED: "false" },
+  })).status, 503);
+  assert.equal(sent.length, 1);
+});
+
 test("invalid webhook configurations fail closed without leaking details", async t => {
   const fetch = t.mock.method(globalThis, "fetch", () => { throw new Error("Must not fetch"); });
   t.after(() => t.mock.restoreAll());

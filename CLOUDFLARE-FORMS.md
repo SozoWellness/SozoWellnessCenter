@@ -43,6 +43,7 @@ In the Pages project's **Settings → Variables and Secrets**, choose the
 | `ASSESSMENT_DELIVERY_ENABLED` | Plain text | `false` |
 | `ASSESSMENT_DELIVERY_MODE` | Plain text | `contact_capture_test` |
 | `ASSESSMENT_TEST_EMAIL` | Secret/encrypted | An email address you control, entered directly in Cloudflare |
+| `ASSESSMENT_TEST_PHONE` | Secret/encrypted | Only for the SMS test: your own mobile number, in E.164 format |
 
 The webhook secret already in Replit does **not** transfer to Cloudflare. Paste it
 directly into Cloudflare's encrypted secret field; do not put it in chat, Git, a
@@ -53,7 +54,8 @@ existing account connections.
 
 Missing configuration or a delivery switch other than the exact string `true`
 returns an explicit error. It does not pretend to save an enquiry.
-Delivery also requires an explicit mode: `contact_capture_test` or `live`.
+Delivery also requires an explicit mode: `contact_capture_test`,
+`sms_delivery_test`, or `live`.
 Missing or misspelled modes fail closed.
 
 ### Restricted contact-capture test
@@ -75,6 +77,37 @@ destination apps; do not infer completion from the website success response.
 Then disable delivery and the Zap while reviewing results. Public launch requires
 separate approval, truthful form notices, edge protection, and changing mode to
 `live`; remove the test-email setting when it is no longer needed.
+
+### Restricted SMS delivery test
+
+This mode prepares a real two-message test; deploying the code alone sends
+nothing and does not change the environment settings. Obtain approval before
+enabling or submitting the test. Keep the outside-event workflow unchanged.
+
+1. Enter your own mobile number directly into Cloudflare Production as the
+   encrypted `ASSESSMENT_TEST_PHONE` setting. Use E.164: a leading `+`, country
+   code and digits only, with no spaces or punctuation. Never commit the real
+   test phone or email to the repository.
+2. Keep `ASSESSMENT_TEST_EMAIL` set to the same controlled address. Change
+   `ASSESSMENT_DELIVERY_MODE` to `sms_delivery_test`, retaining the existing
+   website webhook. Missing/invalid recipient settings disable delivery.
+3. After code/settings deployment and approval, submit **once** from the
+   Cloudflare website using exactly those contact details, required request
+   consent checked, SMS consent checked, and marketing email unchecked.
+   The handler rejects mismatched contacts or consent choices before forwarding;
+   it never silently overrides consent.
+4. The existing website Zap must be on. Quo contact capture runs, Mailchimp is
+   skipped, and the SMS branch receives `sms_consent: true, is_test: false`.
+   Expect the acknowledgement and the follow-up after the configured ten-minute
+   delay. Quo/carrier charges may apply. No messages are sent by local tests.
+5. Verify both actual texts and the corresponding Zap run. Do not use Zapier's
+   full Test Run or retest with the synthetic mapping sample. If delivery is
+   uncertain, inspect history before resubmitting. The existing follow-up is
+   unconditional: replies or Jane bookings do not automatically cancel it.
+6. When the test finishes, return to `contact_capture_test` or disable delivery
+   and redeploy. Disabling new submissions does not cancel an already queued
+   Zapier delay. Review pending runs separately if a queued follow-up must stop.
+   Public launch still requires protection review and separate approval.
 
 ## Payload and delivery boundaries
 
@@ -99,7 +132,7 @@ server-side validation, honeypot and a bounded per-isolate five-attempt/hour IP
 limit. The in-memory limit is **not global or durable**; configure Cloudflare
 edge rate limiting/bot protection for this endpoint before public launch.
 No submitted contact details, webhook URL or upstream error body are logged.
-In restricted `contact_capture_test` mode only, a failed forwarding response
+In restricted contact-capture and SMS test modes only, a failed forwarding response
 includes a safe diagnostic: upstream HTTP status, timeout, or connection error.
 The form displays that code without exposing the hook URL, response body or
 contact details. Live mode omits these diagnostics. Redirects are never followed.
