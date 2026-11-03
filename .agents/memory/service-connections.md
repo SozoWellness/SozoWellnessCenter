@@ -74,6 +74,17 @@ weekends as after hours “to be on the safe side.”
 schedule, with daylight-saving-aware Eastern time rather than a fixed UTC
 offset. Confirm any future schedule changes rather than inferring coverage.
 
+An existing automation already sends an after-hours acknowledgement: the user
+received a message saying the center was closed after 5 p.m. and SOZO would
+respond the next business day when they sent a direct test text.
+
+**Why:** This was observed before a sending action was added to the new reply
+workflow. Its source has not yet been identified.
+
+**How to apply:** Inspect existing Quo auto-replies and other relevant automations
+before adding an after-hours sender. Do not assume this direct-text result also
+verifies a reply shortly after the website's automated acknowledgement.
+
 ## Separate event-capture workflow
 
 The existing Zapier Forms → Mailchimp → Quo workflow is for outside-event email captures, not the website. Keep that form and workflow as-is.
