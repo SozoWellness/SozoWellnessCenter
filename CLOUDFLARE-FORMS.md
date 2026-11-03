@@ -41,6 +41,8 @@ In the Pages project's **Settings → Variables and Secrets**, choose the
 | --- | --- | --- |
 | `ZAPIER_ASSESSMENT_WEBHOOK_URL` | Secret/encrypted | The Catch Hook for the **website assessment** Zap |
 | `ASSESSMENT_DELIVERY_ENABLED` | Plain text | `false` |
+| `ASSESSMENT_DELIVERY_MODE` | Plain text | `contact_capture_test` |
+| `ASSESSMENT_TEST_EMAIL` | Secret/encrypted | An email address you control, entered directly in Cloudflare |
 
 The webhook secret already in Replit does **not** transfer to Cloudflare. Paste it
 directly into Cloudflare's encrypted secret field; do not put it in chat, Git, a
@@ -51,6 +53,28 @@ existing account connections.
 
 Missing configuration or a delivery switch other than the exact string `true`
 returns an explicit error. It does not pretend to save an enquiry.
+Delivery also requires an explicit mode: `contact_capture_test` or `live`.
+Missing or misspelled modes fail closed.
+
+### Restricted contact-capture test
+
+Keep delivery `false` and the website Zap off while preparing these settings.
+In `contact_capture_test` mode, the handler requires a valid configured test email
+and accepts only that address (case-insensitive). It rejects requests with SMS
+consent checked, without forwarding them. Email marketing consent is still
+independent: check it for the controlled Mailchimp subscription test.
+Do not commit the real test address or put it in chat.
+
+After this version is deployed and settings verified, enable only the website
+Zap and delivery switch for the agreed test. Submit once on the Cloudflare site
+with your own phone number and approved email, SMS unchecked, and email signup
+checked. This creates real Quo/Mailchimp records; it is not a synthetic mapping
+sample, so the payload retains `is_test: false`. No Mailchimp welcome automation
+is configured or authorized here. Verify both results in Zap history and the
+destination apps; do not infer completion from the website success response.
+Then disable delivery and the Zap while reviewing results. Public launch requires
+separate approval, truthful form notices, edge protection, and changing mode to
+`live`; remove the test-email setting when it is no longer needed.
 
 ## Payload and delivery boundaries
 

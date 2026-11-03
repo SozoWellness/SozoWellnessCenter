@@ -4,6 +4,7 @@ import { onRequest } from "../../../functions/api/assessment-requests.ts";
 
 const env = {
   ASSESSMENT_DELIVERY_ENABLED: "true",
+  ASSESSMENT_DELIVERY_MODE: "live",
   // Fabricated URL; every fetch in these tests is mocked.
   ZAPIER_ASSESSMENT_WEBHOOK_URL: "https://hooks.zapier.com/hooks/catch/000000/mock-only/",
 };
@@ -75,6 +76,56 @@ test("all independent consent combinations map to the existing webhook field nam
   }
   assert.equal(sent.length, 4);
   assert.equal(new Set(sent.map(item => item.request_id)).size, 4);
+});
+
+test("missing or invalid delivery modes and test emails fail closed", async t => {
+  const fetch = t.mock.method(globalThis, "fetch", () => { throw new Error("Must not fetch"); });
+  t.after(() => t.mock.restoreAll());
+  for (const settings of [
+    { ASSESSMENT_DELIVERY_MODE: undefined },
+    { ASSESSMENT_DELIVERY_MODE: "typo" },
+    ...[undefined, "", "not-an-email"].map(email => ({
+      ASSESSMENT_DELIVERY_MODE: "contact_capture_test", ASSESSMENT_TEST_EMAIL: email,
+    })),
+  ]) {
+    assert.equal((await onRequest({ request: request(), env: { ...env, ...settings } })).status, 503);
+  }
+  assert.equal(fetch.mock.callCount(), 0);
+});
+
+test("contact-only mode restricts email and rejects SMS opt-in without sending", async t => {
+  const sent = [];
+  t.mock.method(globalThis, "fetch", async (_url, options) => {
+    sent.push(JSON.parse(options.body));
+    return new Response("ok");
+  });
+  t.after(() => t.mock.restoreAll());
+  const settings = {
+    ...env,
+    ASSESSMENT_DELIVERY_MODE: "contact_capture_test",
+    ASSESSMENT_TEST_EMAIL: " SOZO-TEST@example.com ",
+  };
+  for (const input of [
+    { ...base, email: "other@example.com" },
+    { ...base, smsConsent: true },
+    { ...base, smsConsent: true, marketingConsent: true },
+  ]) {
+    assert.equal((await onRequest({ request: request(input), env: settings })).status, 403);
+  }
+  assert.equal(sent.length, 0);
+  for (const marketingConsent of [false, true]) {
+    assert.equal((await onRequest({
+      request: request({ ...base, email: "SOZO-TEST@example.com", marketingConsent }),
+      env: settings,
+    })).status, 201);
+    const payload = sent.at(-1);
+    assert.equal(payload.email, base.email);
+    assert.equal(payload.sms_consent, false);
+    assert.equal(payload.marketing_consent, marketingConsent);
+    // Real controlled contact, not the synthetic mapping sample filtered by the Zap.
+    assert.equal(payload.is_test, false);
+  }
+  assert.equal(sent.length, 2);
 });
 
 test("invalid submissions, spoofed metadata, bot traps and foreign origins never reach Zapier", async t => {

@@ -3,6 +3,8 @@ import { SubmitAssessmentRequestBody } from "../../lib/api-zod/src/generated/api
 interface Env {
   ZAPIER_ASSESSMENT_WEBHOOK_URL?: string;
   ASSESSMENT_DELIVERY_ENABLED?: string;
+  ASSESSMENT_DELIVERY_MODE?: string;
+  ASSESSMENT_TEST_EMAIL?: string;
 }
 
 const maxBodyBytes = 16 * 1024;
@@ -53,6 +55,13 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
   if (env.ASSESSMENT_DELIVERY_ENABLED !== "true") {
     return json(503, { error: "Online requests are not enabled. Please text or call 352-802-2248." });
   }
+  const mode = env.ASSESSMENT_DELIVERY_MODE;
+  const testEmail = env.ASSESSMENT_TEST_EMAIL?.trim().toLowerCase();
+  if ((mode !== "live" && mode !== "contact_capture_test") ||
+      (mode === "contact_capture_test" &&
+        (!testEmail || !SubmitAssessmentRequestBody.shape.email.safeParse(testEmail).success))) {
+    return json(503, { error: "Online requests are unavailable. Please text or call 352-802-2248." });
+  }
   if (request.headers.get("Origin") !== new URL(request.url).origin) {
     return json(403, { error: "Please submit your request from this website." });
   }
@@ -81,6 +90,12 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
   const parsed = SubmitAssessmentRequestBody.strict().safeParse(body);
   if (!parsed.success || parsed.data.name.trim().length < 2 || !parsed.data.interest.trim()) {
     return json(400, { error: "Please check the required fields and try again." });
+  }
+  // Restricted real-contact test: never silently override the user's consent.
+  // Reject SMS opt-in entirely so this mode cannot trigger the SMS branch.
+  if (mode === "contact_capture_test" &&
+      (parsed.data.email.trim().toLowerCase() !== testEmail || parsed.data.smsConsent)) {
+    return json(403, { error: "Contact capture testing is restricted. Use the approved test email and leave automated texts unchecked." });
   }
 
   let hook: URL;
