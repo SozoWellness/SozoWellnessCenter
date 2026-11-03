@@ -33,8 +33,24 @@ export function assessmentErrorMessage(error: unknown): string {
       return reason === 'Online requests are not enabled. Please text or call 352-802-2248.'
         ? 'Online requests are still disabled in the deployed settings. This request was not forwarded. For help, '
         : 'The website’s delivery settings are incomplete or unavailable. This request was not forwarded. For help, ';
-    case 502:
+    case 502: {
+      const diagnostic = data && typeof data === 'object' && 'diagnostic' in data ? data.diagnostic : null;
+      if (diagnostic && typeof diagnostic === 'object' && 'code' in diagnostic) {
+        if (diagnostic.code === 'WEBHOOK_HTTP_ERROR' && 'upstream_status' in diagnostic &&
+            typeof diagnostic.upstream_status === 'number' &&
+            Number.isInteger(diagnostic.upstream_status) &&
+            diagnostic.upstream_status >= 300 && diagnostic.upstream_status <= 599) {
+          return `Delivery test: Zapier returned HTTP ${diagnostic.upstream_status}. Do not resubmit; report this code and check Zap History, or `;
+        }
+        if (diagnostic.code === 'WEBHOOK_TIMEOUT') {
+          return 'Delivery test: the connection to Zapier timed out (WEBHOOK_TIMEOUT). Check Zap History before submitting again, or ';
+        }
+        if (diagnostic.code === 'WEBHOOK_CONNECTION_ERROR') {
+          return 'Delivery test: the server could not complete its connection to Zapier (WEBHOOK_CONNECTION_ERROR). Do not resubmit; report this code, or ';
+        }
+      }
       return 'We couldn’t confirm delivery. Please check Zap History before submitting again, or ';
+    }
     default:
       return fallback;
   }

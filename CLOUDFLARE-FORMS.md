@@ -99,6 +99,12 @@ server-side validation, honeypot and a bounded per-isolate five-attempt/hour IP
 limit. The in-memory limit is **not global or durable**; configure Cloudflare
 edge rate limiting/bot protection for this endpoint before public launch.
 No submitted contact details, webhook URL or upstream error body are logged.
+In restricted `contact_capture_test` mode only, a failed forwarding response
+includes a safe diagnostic: upstream HTTP status, timeout, or connection error.
+The form displays that code without exposing the hook URL, response body or
+contact details. Live mode omits these diagnostics. Redirects are never followed.
+Failure to cancel an upstream response body does not negate a confirmed 2xx
+acceptance. No diagnostic adds a retry or sends a separate test request.
 
 ## Do not enable live delivery yet
 

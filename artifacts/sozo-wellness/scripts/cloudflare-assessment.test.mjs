@@ -48,7 +48,7 @@ test("all independent consent combinations map to the existing webhook field nam
   const sent = [];
   t.mock.method(globalThis, "fetch", async (url, options) => {
     assert.equal(url, env.ZAPIER_ASSESSMENT_WEBHOOK_URL);
-    assert.equal(options.redirect, "error");
+    assert.equal(options.redirect, "manual");
     assert.ok(options.signal instanceof AbortSignal);
     sent.push(JSON.parse(options.body));
     return new Response('{"status":"success"}', { status: 200 });
@@ -189,4 +189,41 @@ test("sixth request from the same client is rate limited within the isolate", as
   assert.equal(response.status, 429);
   assert.equal(response.headers.get("retry-after"), "3600");
   assert.equal(fetch.mock.callCount(), 5);
+});
+
+test("restricted tests expose only safe delivery diagnostics; live mode omits them", async t => {
+  t.after(() => t.mock.restoreAll());
+  const settings = { ...env, ASSESSMENT_DELIVERY_MODE: "contact_capture_test", ASSESSMENT_TEST_EMAIL: base.email };
+  for (const [outcome, code, status] of [
+    [() => new Response("private details", { status: 404 }), "WEBHOOK_HTTP_ERROR", 404],
+    [() => new Response(null, { status: 302, headers: { Location: "https://private.example" } }), "WEBHOOK_HTTP_ERROR", 302],
+    [() => { throw new DOMException("secret URL", "TimeoutError"); }, "WEBHOOK_TIMEOUT", undefined],
+    [() => { throw new Error("secret URL"); }, "WEBHOOK_CONNECTION_ERROR", undefined],
+  ]) {
+    const fetch = t.mock.method(globalThis, "fetch", outcome);
+    for (const selected of [settings, env]) {
+      const response = await onRequest({ request: request(), env: selected });
+      assert.equal(response.status, 502);
+      const text = await response.text();
+      assert.doesNotMatch(text, /secret|private|hooks\.zapier|sozo-test@example/);
+      const data = JSON.parse(text);
+      if (selected === settings) {
+        assert.equal(data.diagnostic.code, code);
+        assert.equal(data.diagnostic.upstream_status, status);
+      } else {
+        assert.equal(data.diagnostic, undefined);
+      }
+    }
+    assert.equal(fetch.mock.callCount(), 2);
+    t.mock.restoreAll();
+  }
+});
+
+test("response cleanup failures do not mask confirmed webhook acceptance", async t => {
+  t.mock.method(globalThis, "fetch", async () => ({
+    ok: true, status: 200,
+    body: { cancel: async () => { throw new Error("cleanup failure"); } },
+  }));
+  t.after(() => t.mock.restoreAll());
+  assert.equal((await onRequest({ request: request(), env })).status, 201);
 });

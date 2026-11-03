@@ -131,22 +131,31 @@ export async function onRequest({ request, env }: { request: Request; env: Env }
     submitted_at: new Date().toISOString(),
   };
 
+  const deliveryFailure = (code: string, upstreamStatus?: number) => json(502, {
+    error: "We could not confirm delivery. Please text or call 352-802-2248 before submitting again.",
+    // Restricted test mode only: never expose a URL, body, contact or raw error.
+    ...(mode === "contact_capture_test" ? {
+      diagnostic: { code, ...(upstreamStatus === undefined ? {} : { upstream_status: upstreamStatus }) },
+    } : {}),
+  });
   try {
     // One attempt only: retries after an ambiguous timeout can duplicate texts.
     const response = await fetch(hook.href, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-      redirect: "error",
+      // Do not follow redirects; retain the status for safe test diagnostics.
+      redirect: "manual",
       signal: AbortSignal.timeout(10_000),
     });
-    await response.body?.cancel();
-    if (!response.ok) throw new Error("Webhook rejected");
-  } catch {
+    // Cleanup failure must not turn a confirmed 2xx acceptance into a failure.
+    try { await response.body?.cancel(); } catch { /* No delivery inference from cleanup. */ }
+    if (!response.ok) return deliveryFailure("WEBHOOK_HTTP_ERROR", response.status);
+  } catch (error) {
     // Never log/return webhook URLs, upstream response bodies or contact details.
-    return json(502, {
-      error: "We could not confirm delivery. Please text or call 352-802-2248 before submitting again.",
-    });
+    return deliveryFailure(error instanceof Error &&
+      (error.name === "TimeoutError" || error.name === "AbortError")
+      ? "WEBHOOK_TIMEOUT" : "WEBHOOK_CONNECTION_ERROR");
   }
 
   return json(201, {

@@ -73,6 +73,15 @@ test('explains test restrictions, disabled delivery, validation and rate limits 
   } }), /still disabled/);
   assert.match(assessmentErrorMessage({ status: 503 }), /settings are incomplete/);
   assert.match(assessmentErrorMessage({ status: 502 }), /check Zap History before submitting again/);
+  assert.match(assessmentErrorMessage({ status: 502, data: {
+    diagnostic: { code: 'WEBHOOK_HTTP_ERROR', upstream_status: 404 },
+  } }), /Zapier returned HTTP 404/);
+  for (const code of ['WEBHOOK_TIMEOUT', 'WEBHOOK_CONNECTION_ERROR']) {
+    assert.ok(assessmentErrorMessage({ status: 502, data: { diagnostic: { code } } }).includes(code));
+  }
+  assert.doesNotMatch(assessmentErrorMessage({ status: 502, data: {
+    diagnostic: { code: 'WEBHOOK_HTTP_ERROR', upstream_status: 'secret URL' },
+  } }), /secret URL/);
   for (const error of [null, new Error('private URL'), { status: 500 },
     { status: 403, data: { error: '<script>private URL</script>' } }]) {
     assert.doesNotMatch(assessmentErrorMessage(error), /private URL|<script>/);
