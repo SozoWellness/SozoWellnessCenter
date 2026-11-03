@@ -34,6 +34,8 @@ Require a mobile number for assessment requests.
 Offer a separate optional text consent checkbox and a separate optional email marketing signup checkbox on the assessment form. Both start unchecked.
 
 **Why:** The user selected both optional opt-ins after these separate, unchecked choices were proposed.
+They also confirmed in a controlled website test that Quo and Mailchimp both
+saved the contact while no texts were sent with SMS consent unchecked.
 
 **How to apply:** An assessment enquiry must still be accepted when either or both boxes are unchecked. Gate automated request texts on text consent, and marketing subscription on email marketing consent.
 
