@@ -46,7 +46,7 @@ function mockDeliveryFetch(t, callback) {
       assert.equal(input.secret, env.TURNSTILE_SECRET_KEY);
       assert.equal(input.response, base.turnstileToken);
       assert.deepEqual(Object.keys(input).sort(), ["remoteip", "response", "secret"]);
-      assert.equal(options.redirect, "error");
+      assert.equal(options.redirect, "manual");
       assert.ok(options.signal instanceof AbortSignal);
       return Response.json({ success: true, hostname: "website.example", action: "assessment_request" });
     }
@@ -369,4 +369,35 @@ test("failed, expired, reused, foreign and unavailable verification never reache
     assert.doesNotMatch(await response.text(), /private|mock-only/);
     t.mock.restoreAll();
   }
+});
+
+test("verification uses Workers-supported redirect handling and never follows redirects", async t => {
+  t.after(() => t.mock.restoreAll());
+  const urls = [];
+  let redirectVerification = false;
+  t.mock.method(globalThis, "fetch", async (url, options) => {
+    // Model workerd's restriction: Node's native fetch accepts this unsupported mode.
+    if (options.redirect === "error") throw new TypeError("Unsupported redirect mode");
+    assert.equal(options.redirect, "manual");
+    urls.push(url);
+    if (url === "https://challenges.cloudflare.com/turnstile/v0/siteverify") {
+      if (redirectVerification) {
+        return new Response(null, { status: 302, headers: { Location: "https://never-follow.example" } });
+      }
+      return Response.json({ success: true, hostname: "website.example", action: "assessment_request" });
+    }
+    assert.equal(url, env.ZAPIER_ASSESSMENT_WEBHOOK_URL);
+    return new Response("ok");
+  });
+  assert.equal((await onRequest({ request: request(), env })).status, 201);
+  assert.deepEqual(urls, [
+    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    env.ZAPIER_ASSESSMENT_WEBHOOK_URL,
+  ]);
+  urls.length = 0;
+  redirectVerification = true;
+  const rejected = await onRequest({ request: request(), env });
+  assert.equal(rejected.status, 503);
+  assert.equal((await rejected.json()).error, "Security verification unavailable.");
+  assert.deepEqual(urls, ["https://challenges.cloudflare.com/turnstile/v0/siteverify"]);
 });

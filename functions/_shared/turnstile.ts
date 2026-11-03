@@ -11,7 +11,9 @@ export async function verifyTurnstile(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ secret: secret.trim(), response: token, remoteip: ip }),
-      redirect: "error",
+      // Workers does not implement redirect:"error". Do not follow redirects;
+      // the response.ok check below rejects 3xx without sending secrets onward.
+      redirect: "manual",
       signal: AbortSignal.timeout(8000),
     });
     if (!response.ok) return "unavailable";

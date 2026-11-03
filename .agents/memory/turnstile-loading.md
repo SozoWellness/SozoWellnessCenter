@@ -1,6 +1,6 @@
 ---
-name: Turnstile async loading
-description: A vendor SDK restriction missed by a permissive browser mock.
+name: Turnstile runtime constraints
+description: Browser SDK and Workers fetch restrictions missed by permissive local mocks.
 ---
 
 For an asynchronously loaded explicit-render Turnstile script, use the script
@@ -20,3 +20,17 @@ server-side token validation or downstream enquiry delivery.
 Model the throwing vendor behavior in regression tests, not only a permissive
 mock. A mocked browser pass does not prove that the live widget configuration
 works; verify the real widget without submitting contacts before launch.
+
+## Workers redirect handling
+
+Use `redirect: "manual"` and reject non-2xx responses for sensitive outbound
+requests from Cloudflare Workers. Do not use `redirect: "error"`.
+
+**Why:** Workers does not implement the Fetch-standard `error` redirect mode;
+it throws before sending any request. Node accepts it, so Node-based mocks alone
+miss this incompatibility. Cloudflare's official Request documentation explicitly
+states this restriction. Do not diagnose this exception as a bad widget secret.
+
+**How to apply:** Check Workers-specific request support when adding or changing
+outbound calls, and model incompatible options in local tests. Manual mode must
+still reject redirects rather than following them with secrets.
