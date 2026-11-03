@@ -57,3 +57,15 @@ single opt-in, without a separate confirmation email.
 than assuming the Replit Express server runs there. Preserve the selected opt-in
 behavior unless the user changes it; it does not authorize testing live emails,
 automatically resubscribing unsubscribed contacts, or enabling new automations.
+
+## Quo contact matching
+
+Do not assume the configured Quo “Create or Update Contact” action deduplicates
+by phone or email when its ID field is blank.
+
+**Why:** The user ran the same isolated contact action twice with identical
+synthetic input and confirmed two matching contacts in Quo.
+
+**How to apply:** Verify stable-ID or explicit lookup behavior with controlled
+repeat submissions before enabling website delivery. A stable external ID for
+new website leads does not prove it will match legacy or event-capture contacts.
