@@ -30,6 +30,9 @@ requests from Cloudflare Workers. Do not use `redirect: "error"`.
 it throws before sending any request. Node accepts it, so Node-based mocks alone
 miss this incompatibility. Cloudflare's official Request documentation explicitly
 states this restriction. Do not diagnose this exception as a bad widget secret.
+The user confirmed a successful protected form submission with supported
+redirect handling. This verifies server-side Turnstile validation and webhook
+acceptance, not completion of the downstream Quo or Mailchimp actions.
 
 **How to apply:** Check Workers-specific request support when adding or changing
 outbound calls, and model incompatible options in local tests. Manual mode must
