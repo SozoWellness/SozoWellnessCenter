@@ -36,3 +36,11 @@ Offer a separate optional text consent checkbox and a separate optional email ma
 **Why:** The user selected both optional opt-ins after these separate, unchecked choices were proposed.
 
 **How to apply:** An assessment enquiry must still be accepted when either or both boxes are unchecked. Gate automated request texts on text consent, and marketing subscription on email marketing consent.
+
+## Separate event-capture workflow
+
+The existing Zapier Forms → Mailchimp → Quo workflow is for outside-event email captures, not the website. Keep that form and workflow as-is.
+
+**Why:** The user clarified its purpose and explicitly said it will still be used unchanged.
+
+**How to apply:** Treat website marketing opt-ins as a separate connection; do not replace or repurpose the event-capture workflow.
