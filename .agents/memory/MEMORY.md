@@ -1,2 +1,3 @@
 - [SOZO service connections](service-connections.md) — Quo and existing Mailchimp for enquiry contacts, Jane for booking, and the free Perfect Day Lifestyle guidebook.
 - [Turnstile runtime constraints](turnstile-loading.md) — async SDK loading rejects ready(); Workers fetch rejects redirect:"error". Node mocks must model both restrictions.
+- [Pricing management](pricing-management.md) — Replit-managed Freedom pricing replaces legacy packages; credit exceptions and terms require staff approval.

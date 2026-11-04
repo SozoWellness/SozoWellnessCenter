@@ -1,111 +1,135 @@
-// Package details supplied via SOZO's existing packages page.
-// Preserve the listed prices/offers independently; do not derive a new discount
-// from the retail value or invent package terms, expiry dates or eligibility.
-export type WellnessPackage = {
+// SOZO's approved Freedom credit and Wellness Pathways posters are the source.
+// Edit this catalog through Replit, review the preview, then approve a push.
+// Staff have not finalized credit exceptions, expiration, sharing or other terms.
+// Do not infer those rules or reuse the superseded service-specific packages.
+
+export type FreedomPackage = {
   id: string;
   name: string;
-  price: string;
-  retailValue: string;
-  items: string[];
-  offer?: string;
-  frequency?: string;
+  credits: number;
+  price: number;
+  description: string;
 };
 
-export type PackageGroup = {
-  id: string;
-  title: string;
-  subtitle: string;
-  comingSoon?: boolean;
-  service?: { label: string; href: string };
-  description?: string;
-  packages: WellnessPackage[];
-};
-
-export const packageGroups: PackageGroup[] = [
+export const freedomPackages: FreedomPackage[] = [
   {
-    id: 'pain-solutions',
-    title: 'Pain Solutions',
-    subtitle: 'Pain Relief & Structural Reset',
-    service: { label: 'Explore shockwave therapy', href: '/services/shockwave' },
-    packages: [
-      { id: 'pain-a', name: 'Pain Package A', price: '$400', retailValue: '$750', items: ['5 shockwave therapy sessions'], offer: 'Buy 4, get 1 free', frequency: '1 session per week' },
-      { id: 'pain-b', name: 'Pain Package B', price: '$800', retailValue: '$1,500', items: ['10 shockwave therapy sessions'], offer: 'Buy 8, get 2 free', frequency: '2 sessions per week' },
-      { id: 'pain-c', name: 'Pain Package C', price: '$1,200', retailValue: '$2,250', items: ['15 shockwave therapy sessions'], offer: 'Buy 12, get 3 free', frequency: '2 sessions per week' },
-    ],
+    id: 'starter-freedom',
+    name: 'Starter Freedom Package',
+    credits: 10,
+    price: 1000,
+    description: 'Perfect for exploring wellness therapies and beginning your health journey.',
   },
   {
-    id: 'brain-health',
-    title: 'Brain Health',
-    subtitle: 'Brain Performance & Neuro Reset',
-    comingSoon: true,
-    packages: [
-      {
-        id: 'brain-mapping',
-        name: 'Brain Mapping Package',
-        price: '$1,500',
-        retailValue: '$3,000',
-        items: [
-          'QEEG initial brain scan — retail value per scan: $500',
-          '20 brain mapping therapy sessions — retail value: $100 per session',
-          'QEEG post brain scan',
-        ],
-      },
-    ],
+    id: 'freedom',
+    name: 'Freedom Package',
+    credits: 20,
+    price: 1700,
+    description: 'Greater value for clients seeking a customized wellness plan and consistent support.',
   },
   {
-    id: 'energy-balance',
-    title: 'Energy Balance',
-    subtitle: 'Energetic Rebalancing & Detox',
-    service: { label: 'Explore TheraWellness', href: '/services/therawellness' },
-    packages: [
-      {
-        id: 'therawellness-standard',
-        name: 'TheraWellness Standard Package',
-        price: '$600',
-        retailValue: '$1,000',
-        items: ['Vitalyzer pre-assessment', '4 TheraWellness therapy sessions', 'Vitalyzer post-assessment'],
-        frequency: '1 session per week',
-      },
-      {
-        id: 'therawellness-boost',
-        name: 'TheraWellness Boost Package',
-        price: '$1,000',
-        retailValue: '$1,600',
-        items: ['Vitalyzer pre-assessment', '8 TheraWellness therapy sessions', 'Vitalyzer post-assessment'],
-        frequency: '1 session per week',
-      },
-    ],
-  },
-  {
-    id: 'oxygen-healing',
-    title: 'Oxygen Healing',
-    subtitle: 'Oxygenation & Regeneration',
-    service: { label: 'Explore hyperbaric oxygen', href: '/services/hyperbaric-oxygen' },
-    packages: [
-      { id: 'hbot-a', name: 'HBOT Package A', price: '$1,000', retailValue: '$2,000', items: ['10 HBOT sessions', 'No additional therapies'] },
-      {
-        id: 'hbot-b',
-        name: 'HBOT Package B',
-        price: '$2,000',
-        retailValue: '$3,000',
-        items: ['20 HBOT sessions', '1 free wellness therapy per visit', 'Choose from Foot Detox, Red Light, TheraBoots, EBO2, Oxygen, Ozone, or Vibration Plate'],
-      },
-      {
-        id: 'hbot-c',
-        name: 'HBOT Package C',
-        price: '$3,000',
-        retailValue: '$4,000',
-        items: ['30 HBOT sessions', '2 free wellness therapies per visit', 'Choose from Foot Detox, Red Light, TheraBoots, EBO2, Oxygen, Ozone, or Vibration Plate'],
-      },
-    ],
-  },
-  {
-    id: 'customize-your-care',
-    title: 'Customize Your Care',
-    subtitle: 'A Fully Personalized Package',
-    description: 'Let our SOZO Wellness team work with you to customize your care with a personalized package.',
-    packages: [
-      { id: 'custom', name: 'Custom Package', price: '$3,000–$15,000', retailValue: '$4,000–$18,000', items: ['Stem Cell Treatments', 'EBO2', 'Peptides'] },
-    ],
+    id: 'freedom-plus',
+    name: 'Freedom Plus Package',
+    credits: 35,
+    price: 2800,
+    description: 'Maximum value for comprehensive wellness experiences and long-term goals.',
   },
 ];
+
+export const creditPolicy = {
+  summary: 'Most services may be redeemed using one Freedom Wellness Credit per session.',
+  termsNote: 'Our team will confirm the credit requirements for your selected services and the applicable package terms before you decide.',
+};
+
+export const circulationProgram = {
+  id: 'circulation-vitality',
+  name: 'SOZO Circulation & Vitality Program',
+  subtitle: '30-Visit Circulation & Oxygen Intensive',
+  price: 5000,
+  regularPrice: 6000,
+  visits: 30,
+  weeks: 6,
+  visitsPerWeek: 5,
+  sessionMinutes: 60,
+  therapies: ['Hyperbaric Oxygen Chamber', 'Cardio MedBed'],
+  schedule: 'Weekends excluded.',
+  pricingNote: 'This program has its own listed price. Our team can explain the details and discuss how it fits your wellness plan.',
+};
+
+export type WellnessService = { id: string; name: string; href?: string; aliases?: string[] };
+
+export const wellnessServices: WellnessService[] = [
+  { id: 'hyperbaric-oxygen', name: 'Hyperbaric Oxygen Therapy (HBOT)', href: '/services/hyperbaric-oxygen', aliases: ['Hyperbaric Oxygen'] },
+  { id: 'cardio-medbed', name: 'Cardio MedBed (EECP)', href: '/services/cardio-medbed', aliases: ['Cardio MedBed'] },
+  { id: 'core-restore', name: 'Core Restore' },
+  { id: 'rife-frequency', name: 'Rife Frequency', href: '/services/rife' },
+  { id: 'cellsonic', name: 'CellSonic', href: '/services/shockwave' },
+  { id: 'therawellness', name: 'TheraWellness', href: '/services/therawellness' },
+  { id: 'ozone-therapy', name: 'Ozone Therapy' },
+  { id: 'red-light-therapy', name: 'Red Light Therapy' },
+  { id: 'pemf-therapy', name: 'PEMF Therapy', aliases: ['OLY Life PEMF'] },
+  { id: 'focused-shockwave', name: 'Focused Shockwave Therapy', href: '/services/shockwave', aliases: ['Focused Shockwave'] },
+];
+
+export type WellnessPathway = { id: string; title: string; services: string[] };
+
+export const wellnessPathways: WellnessPathway[] = [
+  {
+    id: 'sexual-health-hormone-balance',
+    title: 'Sexual Health & Hormone Balance',
+    services: ['Core Restore', 'Rife Frequency', 'Ozone Therapy', 'Red Light Therapy', 'OLY Life PEMF', 'TheraWellness'],
+  },
+  {
+    id: 'brain-health-mental-clarity',
+    title: 'Brain Health & Mental Clarity',
+    services: ['Hyperbaric Oxygen', 'TheraWellness', 'Rife Frequency', 'Red Light Therapy', 'OLY Life PEMF', 'Core Restore'],
+  },
+  {
+    id: 'cancer-support-immune-strength',
+    title: 'Cancer Support & Immune Strength',
+    services: ['Rife Frequency', 'TheraWellness', 'Hyperbaric Oxygen', 'Core Restore', 'Red Light Therapy', 'OLY Life PEMF'],
+  },
+  {
+    id: 'pain-recovery',
+    title: 'Pain & Recovery',
+    services: ['Focused Shockwave', 'Hyperbaric Oxygen', 'OLY Life PEMF', 'Red Light Therapy', 'Core Restore', 'TheraWellness'],
+  },
+  {
+    id: 'cardiovascular-health-circulation',
+    title: 'Cardiovascular Health & Circulation',
+    services: ['Cardio MedBed (EECP)', 'Hyperbaric Oxygen', 'Red Light Therapy', 'OLY Life PEMF', 'TheraWellness', 'Rife Frequency'],
+  },
+  {
+    id: 'detox-lymphatic-support',
+    title: 'Detox & Lymphatic Support',
+    services: ['TheraWellness', 'Ozone Therapy', 'OLY Life PEMF', 'Red Light Therapy', 'Hyperbaric Oxygen', 'Rife Frequency'],
+  },
+  {
+    id: 'energetic-balancing-stress-relief',
+    title: 'Energetic Balancing & Stress Relief',
+    services: ['TheraWellness', 'Rife Frequency', 'Cardio MedBed', 'Red Light Therapy', 'OLY Life PEMF', 'Hyperbaric Oxygen'],
+  },
+  {
+    id: 'athletic-performance-recovery',
+    title: 'Athletic Performance & Recovery',
+    services: ['Cardio MedBed', 'Hyperbaric Oxygen', 'Focused Shockwave', 'Red Light Therapy', 'OLY Life PEMF', 'Core Restore'],
+  },
+  {
+    id: 'beauty-anti-aging-cellular-health',
+    title: 'Beauty, Anti-Aging & Cellular Health',
+    services: ['TheraWellness', 'Red Light Therapy', 'OLY Life PEMF', 'Hyperbaric Oxygen', 'Core Restore', 'Rife Frequency'],
+  },
+  {
+    id: 'whole-body-wellness-longevity',
+    title: 'Whole-Body Wellness & Longevity',
+    services: ['Hyperbaric Oxygen', 'Cardio MedBed', 'TheraWellness', 'Red Light Therapy', 'OLY Life PEMF', 'Rife Frequency'],
+  },
+];
+
+export function formatPrice(value: number) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+}
