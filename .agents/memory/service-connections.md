@@ -108,6 +108,22 @@ that deliberately rejects placeholders, and require controlled real-event
 verification before trusting the workflow. Never send an action test to the
 sample's recipient or claim sample tests prove live delivery.
 
+## SMS guard query windows
+
+Use different guards for the reply fallback and the original delayed follow-up.
+
+**Why:** A query starting at an incoming reply's timestamp excludes earlier
+acknowledgements. A query starting at the website submission includes the
+initial outgoing acknowledgement, so blindly blocking every outgoing message
+would suppress every original follow-up.
+
+**How to apply:** Prefer identifying the initial acknowledgement by its actual
+message ID or creation timestamp when available, without sending action tests
+merely to populate editor output. If using the submission-time window instead,
+only permit the delayed follow-up when the complete result contains exactly
+one delivered outgoing message; incoming messages or additional outgoing
+activity block it. Missing, inconsistent, or paginated results must not send.
+
 ## Separate event-capture workflow
 
 The existing Zapier Forms → Mailchimp → Quo workflow is for outside-event email captures, not the website. Keep that form and workflow as-is.
