@@ -4,8 +4,9 @@ import cellsonicTechnology from './cellsonic-technology.md?raw';
 import cardioChf from './cardio-medbed-chf.md?raw';
 import cardioScience from './cardio-medbed-science.md?raw';
 import { wellnessArticles } from './wellness-articles';
+import { parseInlineMarkup, type Inline } from '../lib/inline-markup';
 
-export type Inline = { text: string; bold?: boolean; href?: string };
+export type { Inline } from '../lib/inline-markup';
 export type Block =
   | { type: 'h2' | 'h3' | 'p'; content: Inline[] }
   | { type: 'ul'; items: Inline[][] };
@@ -39,20 +40,8 @@ function rewriteHref(href: string) {
   return images[slug] ? `/research/${slug}` : href;
 }
 
-const unescape = (s: string) => s.replace(/\\([.#\-*_[\]()])/g, '$1');
-
 export function parseInline(raw: string): Inline[] {
-  const out: Inline[] = [];
-  const re = /\*\*(.+?)\*\*|\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
-  let last = 0; let m: RegExpExecArray | null;
-  while ((m = re.exec(raw))) {
-    if (m.index > last) out.push({ text: unescape(raw.slice(last, m.index)) });
-    if (m[1] !== undefined) out.push(...parseInline(m[1]).map(i => ({ ...i, bold: true })));
-    else out.push({ text: unescape(m[2]), href: rewriteHref(m[3]) });
-    last = re.lastIndex;
-  }
-  if (last < raw.length) out.push({ text: unescape(raw.slice(last)) });
-  return out;
+  return parseInlineMarkup(raw, rewriteHref);
 }
 
 function parseBody(md: string): { title: string; blocks: Block[] } {

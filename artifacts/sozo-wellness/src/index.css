@@ -102,12 +102,16 @@ a { color: inherit; text-decoration: none; }
 .brand-type { border-left: 1px solid #a9c7bd; padding-left: 13px; line-height: 1.3; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #315956; font-weight: 700; }
 .desktop-nav { display: flex; align-items: center; gap: clamp(14px, 1.7vw, 28px); margin-left: auto; }
 /* Keep the expanded partner navigation readable without crowding the logo or actions. */
-@media (min-width: 1241px) and (max-width: 1439px) {
+@media (min-width: 1241px) and (max-width: 1599px) {
   .header-inner .brand-type { display: none; }
   .header-inner { gap: 18px; }
   .desktop-nav { gap: 14px; }
   .header-actions { gap: 8px; }
   .header-actions .btn { padding-inline: 12px; }
+}
+/* The full logo tagline and navigation need more than the content column. */
+@media (min-width: 1600px) {
+  .site-header .header-inner { width: min(100% - 64px, 1560px); }
 }
 .nav-link { font-size: 15px; font-weight: 700; color: #204b48; transition: color .2s; white-space: nowrap; }
 .nav-link:hover, .nav-link.active { color: #ab7143; }
