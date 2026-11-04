@@ -154,3 +154,7 @@ to = "/services/wolfe-non-surgical-bodywork/index.html"
 [[services.production.rewrites]]
 from = "/chiropractic-care"
 to = "/chiropractic-care/index.html"
+
+[[services.production.rewrites]]
+from = "/services/whole-life-coaching"
+to = "/services/whole-life-coaching/index.html"

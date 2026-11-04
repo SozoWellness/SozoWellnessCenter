@@ -1,0 +1,56 @@
+.wlc-dimensions { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 12px; margin: 26px 0; padding: 0; }
+.wlc-dimensions li { display: inline-flex; align-items: center; gap: 9px; padding: 9px 18px 9px 13px; border: 1px solid #b4ccc2; border-radius: 999px; background: #f5f3e9; color: #174f4e; font-size: 17px; font-weight: 700; }
+.wlc-dimensions svg { color: #2a7771; }
+
+.wlc-preview { background: #e9efe8; }
+.wlc-preview-inner { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 56px; align-items: start; }
+.wlc-preview h2 { font-size: clamp(34px, 4vw, 54px); line-height: 1.15; letter-spacing: .005em; margin: 20px 0 0; }
+.wlc-preview p { font-size: 18px; line-height: 1.8; color: #31564f; margin: 0; }
+
+.wlc-hero h1 { max-width: 900px; line-height: 1.12; letter-spacing: .005em; }
+.wlc-hero p { max-width: 760px; }
+.wlc-hero-eyebrow { display: flex; margin-top: 28px; }
+.wlc-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+
+.wlc-sections .container { display: grid; gap: 0; }
+.wlc-section { display: grid; grid-template-columns: 70px minmax(0, .85fr) minmax(0, 1.15fr); gap: 32px; padding: 48px 0; border-top: 1px solid #c4d6cd; scroll-margin-top: 120px; }
+.wlc-section:first-child { border-top: 0; padding-top: 0; }
+.wlc-num { font: 400 28px 'Fraunces', Georgia, serif; color: #3c7469; }
+.wlc-section h2 { font-size: clamp(27px, 2.8vw, 38px); line-height: 1.22; margin: 0; }
+.wlc-section p, .wlc-benefit-grid p, .wlc-steps p { font-size: 18px; line-height: 1.8; color: #30574f; margin: 0 0 18px; }
+
+.wlc-benefits { background: #e9efe8; }
+.wlc-benefit-grid { list-style: none; padding: 0; margin: 40px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; }
+.wlc-benefit-grid li { border-top: 1px solid #aec8bb; padding: 26px 0 8px; }
+.wlc-benefit-grid h3, .wlc-steps h3 { font-size: clamp(23px, 2.2vw, 28px); line-height: 1.25; margin: 0 0 12px; color: #174f4e; }
+
+.wlc-steps { list-style: none; padding: 0; margin: 40px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 48px; }
+.wlc-steps li { display: grid; grid-template-columns: 56px 1fr; gap: 20px; }
+.wlc-step-no { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: #174f4e; color: #f4ead8; font: 500 22px 'Fraunces', Georgia, serif; }
+
+.wlc-therapies { background: #f5f1e4; }
+.wlc-therapy-list { list-style: none; padding: 0; margin: 40px 0 0; border-top: 1px solid #aec8bb; }
+.wlc-therapy-list li { border-bottom: 1px solid #aec8bb; }
+.wlc-therapy-list a { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr) 28px; gap: 28px; align-items: center; padding: 26px 8px; color: #174f4e; text-decoration: none; transition: background .2s; }
+.wlc-therapy-list a:hover { background: #e9efe8; }
+.wlc-therapy-list a:focus-visible, .wlc-preview a:focus-visible, .wlc-close a:focus-visible { outline: 3px solid #2a7771; outline-offset: 4px; }
+.wlc-therapy-name { font-size: clamp(23px, 2.2vw, 29px); line-height: 1.25; }
+.wlc-therapy-text { font-size: 17px; line-height: 1.7; color: #30574f; }
+.wlc-therapy-arrow { transition: transform .2s; }
+.wlc-therapy-list a:hover .wlc-therapy-arrow { transform: translateX(4px); }
+
+.wlc-close { background: #1b504c; color: #eff3e9; padding: clamp(70px, 8vw, 120px) 0; }
+.wlc-close .container { display: flex; justify-content: space-between; align-items: end; gap: 40px; }
+.wlc-close h2 { margin: 20px 0 0; font-size: clamp(36px, 4.4vw, 60px); line-height: 1.14; }
+.wlc-close p { margin: 22px 0 0; max-width: 600px; color: #d3e6dc; font-size: 18px; line-height: 1.75; }
+.wlc-close-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; flex-shrink: 0; }
+.wlc-close-link { display: inline-flex; align-items: center; gap: 8px; color: #eff3e9; font-size: 18px; font-weight: 700; text-decoration: underline; text-underline-offset: 5px; }
+
+@media (max-width: 850px) {
+  .wlc-preview-inner, .wlc-section, .wlc-benefit-grid, .wlc-steps { grid-template-columns: 1fr; gap: 20px; }
+  .wlc-benefit-grid { gap: 0; }
+  .wlc-therapy-list a { grid-template-columns: 1fr 24px; gap: 10px 16px; }
+  .wlc-therapy-text { grid-column: 1; }
+  .wlc-therapy-arrow { grid-column: 2; grid-row: 1; }
+  .wlc-close .container { flex-direction: column; align-items: flex-start; }
+}

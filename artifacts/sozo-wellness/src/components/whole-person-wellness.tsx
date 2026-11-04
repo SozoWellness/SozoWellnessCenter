@@ -1,8 +1,13 @@
 import { Link } from 'wouter';
-import { ArrowRight, Heart, Sparkles, Wind } from 'lucide-react';
+import { ArrowRight, Brain, Heart, Sparkles, Wind } from 'lucide-react';
 import './whole-person-wellness.css';
 
 const dimensions = [
+  {
+    title: 'Mental wellness',
+    icon: Brain,
+    text: 'Your thoughts, habits and the patterns behind your choices shape how you experience each day. We make room to notice those patterns with curiosity, consider a fresh perspective and choose practical next steps that reflect what matters to you.',
+  },
   {
     title: 'Physical wellness',
     icon: Wind,
@@ -25,9 +30,9 @@ export function WholePersonWellness() {
     <section id="whole-person-wellness" className="section whole-person" aria-labelledby="whole-person-heading">
       <div className="container">
         <header className="whole-person-intro">
-          <span className="eyebrow">Mind, body &amp; spirit</span>
+          <span className="eyebrow">Wellness from the root</span>
           <h2 id="whole-person-heading" className="section-title serif">Whole-person wellness means seeing all of you.</h2>
-          <p className="section-intro">Your physical, emotional and spiritual well-being are connected. That is why our approach starts with you as a person—your experiences, your hopes and the life you want to live—not simply a list of services.</p>
+          <p className="section-intro">We are whole life wellness coaches. Your mental, emotional, physical and spiritual well-being are connected, and we care for wellness from the root. That is why our approach starts with you as a person—your experiences, your hopes and the life you want to live—not simply a list of services.</p>
         </header>
         <div className="whole-person-grid">
           {dimensions.map(({ title, icon: Icon, text }) => (
@@ -46,7 +51,10 @@ export function WholePersonWellness() {
           <div>
             <p>We bring personalized wellness assessments and advanced therapies together with a holistic view of your daily life. We listen to what you are experiencing, consider your goals and explain the options that may fit—rather than assuming one service is the answer for everyone.</p>
             <p>Our wellness approach makes room for the medical care you already receive and the habits that support you between visits. Compassion, integrity, innovation and empowerment guide the process, with your questions and choices at the center.</p>
-            <Link href="/services/assessments" className="btn btn-outline" data-testid="link-whole-person-assessments">Explore our assessments <ArrowRight size={17} aria-hidden="true" /></Link>
+            <div className="whole-person-actions">
+              <Link href="/services/whole-life-coaching" className="btn btn-primary" data-testid="link-about-coaching">Whole life wellness coaching <ArrowRight size={17} aria-hidden="true" /></Link>
+              <Link href="/services/assessments" className="btn btn-outline" data-testid="link-whole-person-assessments">Explore our assessments <ArrowRight size={17} aria-hidden="true" /></Link>
+            </div>
           </div>
         </div>
       </div>

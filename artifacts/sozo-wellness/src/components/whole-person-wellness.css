@@ -1,7 +1,7 @@
 .whole-person { background: #e9efe8; scroll-margin-top: 110px; }
 .whole-person-intro { max-width: 850px; }
 .whole-person-intro .section-intro { margin-top: 24px; max-width: 760px; }
-.whole-person-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; margin-top: 44px; }
+.whole-person-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 56px; margin-top: 44px; }
 .whole-person-dimension { border-top: 1px solid #aec8bb; padding-top: 28px; }
 .whole-person-dimension > svg { color: #2a7771; }
 .whole-person-dimension h3 { font-size: clamp(27px, 2.7vw, 35px); line-height: 1.2; margin: 20px 0 16px; }
@@ -9,6 +9,7 @@
 .whole-person-integrative { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 56px; border-top: 1px solid #aec8bb; margin-top: 50px; padding-top: 42px; }
 .whole-person-integrative h3 { font-size: clamp(30px, 3vw, 40px); line-height: 1.2; margin: 20px 0; }
 .whole-person-integrative .btn { margin-top: 8px; }
+.whole-person-actions { display: flex; flex-wrap: wrap; gap: 14px; }
 .whole-person a:focus-visible { outline: 3px solid #2a7771; outline-offset: 5px; }
 .home-wellness-dimensions { margin: 26px 0; }
 .home-wellness-dimensions div { border-top: 1px solid #aec8bb; padding: 14px 0; }

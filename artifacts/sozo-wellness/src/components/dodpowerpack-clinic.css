@@ -60,3 +60,9 @@
 @media (prefers-reduced-motion: reduce) {
   .dod-item:hover .dod-visual img, .dod-item:hover .dod-art-svg, .dod-index a:hover, .dod-learn:hover svg { transform: none; }
 }
+
+.dod-coaching { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 28px; align-items: center; margin-top: clamp(60px, 8vw, 110px); padding: clamp(28px, 4vw, 44px); background: #e9efe8; border: 1px solid #b4ccc2; border-radius: 20px; }
+.dod-coaching > svg { color: #2a7771; }
+.dod-coaching h3 { margin: 14px 0 10px; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; color: #174f4e; }
+.dod-coaching p { margin: 0; font-size: 18px; line-height: 1.75; color: #30574f; }
+@media (max-width: 850px) { .dod-coaching { grid-template-columns: 1fr; gap: 18px; } }

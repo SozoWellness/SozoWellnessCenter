@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { ArrowRight, Phone, Hand, Waves, HeartPulse } from 'lucide-react';
+import { ArrowRight, Phone, Hand, Waves, HeartPulse, Compass } from 'lucide-react';
 import { ASSESSMENT_CTA } from '../lib/inquiry';
 import './dodpowerpack-clinic.css';
 
@@ -51,7 +51,7 @@ export function DODPowerPackClinic() {
         <span className="crumb"><Link href="/" data-testid="link-breadcrumb-home">Home</Link> / DODPowerPack Clinic</span>
         <div className="dod-badge fade-up"><span className="dod-seal" aria-hidden="true">D</span>Certified DODPowerPack Clinic</div>
         <h1 className="serif fade-up delay-1">DODPowerPack Clinic <em>at SOZO.</em></h1>
-        <p className="fade-up delay-2">Hands-on bodywork. Targeted pressure pulses. Support for circulation. Explore three approaches to movement and recovery, with personal guidance from our SOZO team.</p>
+        <p className="fade-up delay-2">Hands-on bodywork. Targeted pressure pulses. Support for circulation. Explore three approaches to movement and recovery, supported by our whole life wellness coaching and personal guidance from our SOZO team.</p>
         <nav className="dod-index fade-up delay-3" aria-label="The three approaches">
           {treatments.map(t => (
             <a key={t.key} href={`#dod-${t.key}`} data-testid={`link-jump-${t.key}`}>
@@ -67,7 +67,7 @@ export function DODPowerPackClinic() {
         <div className="dod-intro">
           <span className="eyebrow">Three approaches</span>
           <h2 id="dod-treatments-heading" className="serif">Different tools, <em>one person at the center.</em></h2>
-          <p>Your goals guide the next step. We’ll help you understand the differences between hands-on bodywork, targeted pressure pulses and external counterpulsation so you can explore the approach that fits you.</p>
+          <p>Your goals guide the next step. We’ll help you understand the differences between hands-on bodywork, targeted pressure pulses and external counterpulsation so you can explore the approach that fits you. Our whole life wellness coaching keeps your mental, emotional, physical and spiritual well-being in the same conversation.</p>
         </div>
 
         <ol className="dod-list">
@@ -93,6 +93,16 @@ export function DODPowerPackClinic() {
             );
           })}
         </ol>
+
+        <aside className="dod-coaching" aria-labelledby="dod-coaching-heading">
+          <Compass size={34} strokeWidth={1.4} aria-hidden="true" />
+          <div>
+            <span className="eyebrow">Alongside every approach</span>
+            <h3 id="dod-coaching-heading" className="serif">Whole life wellness coaching</h3>
+            <p>We are whole life wellness coaches. Beyond the treatment room, we make space to explore the patterns, daily choices and personal goals that shape your mental, emotional, physical and spiritual well-being, so your care reflects the whole you.</p>
+          </div>
+          <Link href="/services/whole-life-coaching" className="btn btn-primary" data-testid="link-dod-coaching">Explore coaching <ArrowRight size={17} aria-hidden="true" /></Link>
+        </aside>
       </div>
     </section>
 

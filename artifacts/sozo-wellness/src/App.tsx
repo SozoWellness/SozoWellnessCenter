@@ -36,6 +36,7 @@ import { PackagesPage } from '@/components/packages';
 import { DODPowerPackClinic } from '@/components/dodpowerpack-clinic';
 import { ChiropracticPage } from '@/components/chiropractic';
 import { WholePersonWellness } from '@/components/whole-person-wellness';
+import { WholeLifeCoachingPage, WholeLifeCoachingPreview } from '@/components/whole-life-coaching';
 import { JaneBookingLink } from '@/components/jane-booking-link';
 
 const queryClient = new QueryClient();
@@ -49,6 +50,7 @@ const services: { title: string; href: string; short: string; number: string; st
   { title: 'Cardio MedBed', href: '/services/cardio-medbed', short: 'Noninvasive EECP designed to support heart health, circulation and oxygen delivery.', number: '06' },
   { title: 'Wolfe Non-Surgical Bodywork', href: '/services/wolfe-non-surgical-bodywork', short: 'Focused hands-on bodywork for deep tissue restrictions, flexibility and more comfortable movement.', number: '07' },
   { title: 'Chiropractic', href: '/chiropractic-care', short: 'Meet JT Anderson, DC and Lauren Alvarez Schmitz, DC, and explore personalized care for pain, mobility and everyday movement.', number: '08' },
+  { title: 'Whole Life Wellness Coaching', href: '/services/whole-life-coaching', short: 'Wellness from the root: personal guidance for your mental, emotional, physical and spiritual well-being.', number: '09' },
 ];
 
 const serviceMenu: { title: string; href: string; number: string; status?: string }[] = [
@@ -74,8 +76,9 @@ export const meta: Record<string, [string, string]> = {
   '/research/how-cardio-medbed-works': ['How Cardio MedBed Works | SOZO Articles & Resources', 'Learn the science behind external counterpulsation and what to ask before treatment. Cardio MedBed is available at SOZO.'],
   '/research/cellsonic-treatments': ['Cellsonic Treatments: A Patient’s Guide | SOZO Articles & Resources', 'Explore Cellsonic applications, the treatment experience and questions to ask about your care at SOZO Wellness Center.'],
   '/research/the-technology-behind-cellsonic': ['The Technology Behind Cellsonic | SOZO Articles & Resources', 'Learn about Cellsonic pressure pulses, tissue repair and what patients can expect when considering treatment at SOZO.'],
-  '/': ['Wellness Center near The Villages, FL | SOZO', 'Whole-person wellness near The Villages, Florida. Explore SOZO’s integrative approach to physical, emotional and spiritual well-being, assessments and therapies.'],
-  '/services': ['Wellness Services near The Villages, FL | SOZO', 'Explore assessments, hyperbaric oxygen, shockwave, Rife, TheraWellness and Cardio MedBed EECP near The Villages at SOZO Wellness Center.'],
+  '/': ['Whole-Life Wellness near The Villages, FL | SOZO', 'Wellness from the root near The Villages. Our whole life wellness coaches connect mental, emotional, physical and spiritual well-being with SOZO’s assessments and therapies.'],
+  '/services': ['Wellness Services near The Villages, FL | SOZO', 'Explore Whole Life Wellness Coaching, assessments, hyperbaric oxygen, shockwave, Rife, TheraWellness and Cardio MedBed EECP near The Villages.'],
+  '/services/whole-life-coaching': ['Whole Life Wellness Coaching near The Villages | SOZO', 'Wellness from the root: explore mental, emotional, physical and spiritual well-being with SOZO’s whole life wellness coaches in Wildwood near The Villages.'],
   '/services/assessments': ['Wellness Assessments near The Villages | SOZO', 'Explore Vitalyzer, NeuralChek and live blood analysis assessments near The Villages. We’ll help you find a starting point for your wellness goals.'],
   '/services/rife': ['Rife Frequency Therapy near The Villages | SOZO', 'Explore guided Rife frequency sessions near The Villages, Florida. We’ll explain the equipment, answer your questions and help you settle in.'],
   '/services/shockwave': ['Shockwave Therapy near The Villages | SOZO', 'Explore Radial ESWT and CellSonic ESWT for deeper pain concerns near The Villages. Learn about potential support for pain relief, tissue recovery and movement.'],
@@ -85,7 +88,7 @@ export const meta: Record<string, [string, string]> = {
   '/services/packages': ['Freedom Wellness Credits & Packages near The Villages | SOZO', 'Explore SOZO Freedom Wellness Credit packages, ten example wellness pathways and our Circulation & Vitality Program near The Villages, Florida.'],
   '/dodpowerpack-clinic': ['DODPowerPack Clinic near The Villages | SOZO', 'Explore Wolfe Non-Surgical Bodywork, Cellsonic and Cardio MedBed at SOZO, a Certified DODPowerPack Clinic serving The Villages.'],
   '/services/wolfe-non-surgical-bodywork': ['Wolfe Non-Surgical Bodywork near The Villages | SOZO', 'Explore targeted hands-on bodywork for deep tissue restrictions, flexibility and comfortable movement. Learn what a Wolfe Non-Surgical Bodywork session involves.'],
-  '/about': ['About SOZO & Our Team | Serving The Villages, FL', 'Meet the SOZO team and discover whole-person wellness for mind, body and spirit. Holistic principles and personalized care serving The Villages, Florida.'],
+  '/about': ['About SOZO & Our Team | Serving The Villages, FL', 'Meet our whole life wellness coaches and discover wellness from the root: mental, emotional, physical and spiritual well-being near The Villages, Florida.'],
   '/testimonials': ['Patient Stories | SOZO Wellness Center', 'Read the personal stories people have shared with us, with each full testimonial told in their own words.'],
   '/request-assessment': ['Book Your Assessment | SOZO Wellness Center', 'Book online with SOZO through Jane, or contact our team about your wellness assessment near The Villages, Florida. Do not share medical history in the enquiry form.'],
   '/blog': ['Articles & Resources | SOZO Wellness Center', 'Explore articles and resources from SOZO Wellness Center about wellness assessments, therapies and whole-person care.'],
@@ -163,7 +166,7 @@ function Header() {
     ['Home', '/'], ['About', '/about'], ['Testimonials', '/testimonials'], ['Articles & Resources', '/blog'], ['Products & Partners', '/products-and-partners']
   ];
   return <>
-    <div className="topline"><div className="container"><span className="location">WHOLE-PERSON WELLNESS · SERVING THE VILLAGES, FL</span><a href="tel:+13528022248" data-testid="link-top-phone">Text or Call 352-802-2248</a></div></div>
+    <div className="topline"><div className="container"><span className="location">WHOLE-LIFE WELLNESS · SERVING THE VILLAGES, FL</span><a href="tel:+13528022248" data-testid="link-top-phone">Text or Call 352-802-2248</a></div></div>
     <header className="site-header">
       <div className="container header-inner">
         <Link href="/" className="brand" aria-label="SOZO Wellness Center home" data-testid="link-logo"><img src="/images/sozo-logo.png" width="76" height="76" alt="SOZO Wellness Center logo" /><span className="brand-type">Rooted in care<br />Serving The Villages</span></Link>
@@ -188,8 +191,8 @@ function Header() {
 function Footer() {
   return <footer className="site-footer"><div className="container">
     <div className="footer-grid">
-      <div><Link href="/" data-testid="link-footer-logo"><img className="footer-logo" src="/images/sozo-logo.png" width="120" height="120" alt="SOZO Wellness Center logo" /></Link><p className="footer-blurb">Rooted in health and wellness—for mind, body and spirit. Our whole-person approach brings physical, emotional and spiritual well-being into the conversation, with compassion and personal attention.</p></div>
-      <div className="footer-col"><h3>Explore</h3><Link href="/services" data-testid="link-footer-services">All services</Link><Link href="/services/assessments" data-testid="link-footer-assessments">Assessments</Link><Link href="/services/hyperbaric-oxygen" data-testid="link-footer-hyperbaric">Hyperbaric oxygen</Link><Link href="/about" data-testid="link-footer-about">Our story</Link><Link href="/blog" data-testid="link-footer-research">Articles &amp; Resources</Link><Link href="/products-and-partners" data-testid="link-footer-partners">Products &amp; Partners</Link></div>
+      <div><Link href="/" data-testid="link-footer-logo"><img className="footer-logo" src="/images/sozo-logo.png" width="120" height="120" alt="SOZO Wellness Center logo" /></Link><p className="footer-blurb">Wellness from the root—for the whole you. We are whole life wellness coaches, bringing mental, emotional, physical and spiritual well-being into the conversation alongside our assessments and therapies.</p></div>
+      <div className="footer-col"><h3>Explore</h3><Link href="/services" data-testid="link-footer-services">All services</Link><Link href="/services/whole-life-coaching" data-testid="link-footer-coaching">Whole Life Wellness Coaching</Link><Link href="/services/assessments" data-testid="link-footer-assessments">Assessments</Link><Link href="/services/hyperbaric-oxygen" data-testid="link-footer-hyperbaric">Hyperbaric oxygen</Link><Link href="/about" data-testid="link-footer-about">Our story</Link><Link href="/blog" data-testid="link-footer-research">Articles &amp; Resources</Link><Link href="/products-and-partners" data-testid="link-footer-partners">Products &amp; Partners</Link></div>
       <div className="footer-col"><h3>Connect</h3><JaneBookingLink className="" testId="link-footer-request"/><Link href="/request-assessment" data-testid="link-footer-enquiry">Contact / request information</Link><Link href="/testimonials" data-testid="link-footer-testimonials">Patient stories</Link><a href={SHOP} target="_blank" rel="noopener noreferrer" data-testid="link-footer-shop">Shop Now ↗</a><a href="tel:+13528022248" data-testid="link-footer-phone">Text or Call 352-802-2248</a><a href="mailto:info@sozorootedwellness.com" data-testid="link-footer-email">info@sozorootedwellness.com</a></div>
       <div className="footer-col"><h3>Visit us</h3><p>5029 Co Rd 159<br/>Wildwood, FL 34785</p><a href="https://maps.google.com/?q=5029+Co+Rd+159+Wildwood+FL+34785" target="_blank" rel="noopener noreferrer" data-testid="link-footer-directions">Get directions ↗</a><p>Serving The Villages and surrounding communities.</p></div>
     </div>
@@ -217,14 +220,30 @@ function ServicesList({ limit }: { limit?: number }) {
 
 function Home() {
   return <>
-    <section className="hero"><div className="hero-grid"><div className="hero-copy"><Eyebrow>Whole-person wellness · Serving The Villages</Eyebrow><h1 className="serif fade-up">A clearer starting point for <em>your wellness</em></h1><p className="fade-up delay-1">Your physical, emotional and spiritual well-being are connected. At SOZO near The Villages, we bring holistic principles, personalized assessments and advanced wellness therapies together—with you at the center.</p><div className="hero-actions fade-up delay-2"><Link href="/request-assessment" className="btn btn-primary" data-testid="link-hero-request">{ASSESSMENT_CTA} <ArrowRight size={17}/></Link><a href="#home-services" className="btn btn-outline" data-testid="link-hero-services">Explore our services <ArrowUpRight size={17}/></a></div></div><div className="hero-photo"><img src="/images/hyperbaric-chamber.png" width="1200" height="896" alt="Two visitors seated inside SOZO Wellness Center’s hyperbaric oxygen chamber" fetchPriority="high"/><div className="hero-photo-label"><strong>Step inside SOZO</strong>Our hyperbaric chamber at SOZO.</div></div></div><span className="hero-index">SOZO WELLNESS CENTER / 01</span></section>
+    <section className="hero"><div className="hero-grid"><div className="hero-copy"><Eyebrow>Whole Life Wellness Coaching · Serving The Villages</Eyebrow><h1 className="serif fade-up">Wellness from the root. <em>For the whole you.</em></h1><p className="fade-up delay-1">We are whole life wellness coaches. Your mental, emotional, physical and spiritual well-being are connected. At SOZO near The Villages, we bring personal guidance, holistic principles, assessments and advanced wellness therapies together—with you at the center.</p><div className="hero-actions fade-up delay-2"><Link href="/request-assessment" className="btn btn-primary" data-testid="link-hero-request">{ASSESSMENT_CTA} <ArrowRight size={17}/></Link><a href="#home-services" className="btn btn-outline" data-testid="link-hero-services">Explore our services <ArrowUpRight size={17}/></a></div></div><div className="hero-photo"><img src="/images/hyperbaric-chamber.png" width="1200" height="896" alt="Two visitors seated inside SOZO Wellness Center’s hyperbaric oxygen chamber" fetchPriority="high"/><div className="hero-photo-label"><strong>Step inside SOZO</strong>Our hyperbaric chamber at SOZO.</div></div></div><span className="hero-index">SOZO WELLNESS CENTER / 01</span></section>
     <BadgeBand/>
+    <WholeLifeCoachingPreview/>
     <ServiceDiscovery/>
     <AssessmentFeature/>
     <GuideComingSoon/>
     <GoalCards/>
     <PatientExcerpts/>
-    <section id="home-about" className="split-feature"><div className="split-visual"><img src="/images/inside-sozo.jpg" width="1024" height="705" loading="lazy" alt="Interior view of SOZO Wellness Center and its hyperbaric chamber"/><span className="image-caption">A look inside SOZO Wellness Center</span></div><div className="split-content"><Eyebrow>Rooted in health and wellness</Eyebrow><h2 className="serif">More than a service. Care for the whole you.</h2><p>“Sozo” means “to save, heal or make whole.” That purpose guides our whole-person approach: seeing your mind, body and spirit as connected, and making room for what matters most to you.</p><dl className="home-wellness-dimensions"><div><dt>Physical wellness</dt><dd>Movement, energy, rest and recovery for the life you want to live.</dd></div><div><dt>Emotional wellness</dt><dd>A compassionate space to feel heard and acknowledge the stresses and experiences you bring.</dd></div><div><dt>Spiritual wellness</dt><dd>Respect for your beliefs, your sense of purpose and the connections that help you feel whole.</dd></div></dl><p>Our integrative care approach combines holistic principles with modern wellness technology and personal attention—not a one-size-fits-all plan.</p><div className="home-philosophy-actions"><Link href="/about#whole-person-wellness" className="btn btn-text" data-testid="link-home-philosophy">Our whole-person approach <ArrowRight size={17}/></Link><Link href="/about#team" className="btn btn-outline" data-testid="link-home-team">Meet the Team <ArrowRight size={17}/></Link></div></div></section>
+    <section id="home-about" className="split-feature">
+      <div className="split-visual"><img src="/images/inside-sozo.jpg" width="1024" height="705" loading="lazy" alt="Interior view of SOZO Wellness Center and its hyperbaric chamber"/><span className="image-caption">A look inside SOZO Wellness Center</span></div>
+      <div className="split-content">
+        <Eyebrow>Rooted in health and wellness</Eyebrow>
+        <h2 className="serif">More than a service. Care for the whole you.</h2>
+        <p>“Sozo” means “to save, heal or make whole.” That purpose guides our whole life wellness coaching: seeing your mind, body and spirit as connected, and making room for what matters most to you.</p>
+        <dl className="home-wellness-dimensions">
+          <div><dt>Mental wellness</dt><dd>Space to explore your thoughts, perspectives and the daily choices that reflect your goals.</dd></div>
+          <div><dt>Emotional wellness</dt><dd>A compassionate space to feel heard and acknowledge the stresses and experiences you bring.</dd></div>
+          <div><dt>Physical wellness</dt><dd>Movement, energy, rest and recovery for the life you want to live.</dd></div>
+          <div><dt>Spiritual wellness</dt><dd>Respect for your beliefs, your sense of purpose and the connections that help you feel whole.</dd></div>
+        </dl>
+        <p>Our integrative care approach combines holistic principles with modern wellness technology and personal attention—not a one-size-fits-all plan.</p>
+        <div className="home-philosophy-actions"><Link href="/about#whole-person-wellness" className="btn btn-text" data-testid="link-home-philosophy">Our whole-person approach <ArrowRight size={17}/></Link><Link href="/about#team" className="btn btn-outline" data-testid="link-home-team">Meet the Team <ArrowRight size={17}/></Link></div>
+      </div>
+    </section>
     <CTA/>
   </>;
 }
@@ -282,7 +301,7 @@ function ServiceDetail({ path }: { path: string }) {
 
 function About() {
   return <>
-    <PageHero eyebrow="Our story" title="Rooted in wellness. Mind, body and spirit." text="Whole-person wellness is the foundation of SOZO. We bring holistic principles, modern wellness technology and compassionate personal attention together to support your physical, emotional and spiritual well-being." action/>
+    <PageHero eyebrow="Our story" title="Wellness from the root. Mind, body and spirit." text="We are whole life wellness coaches. Mental, emotional, physical and spiritual well-being belong together. At SOZO, personal guidance, holistic principles and modern wellness technology support a whole-person approach to your daily life." action/>
     <section className="split-feature"><div className="split-visual"><img src="/images/waiting-area.jpg" width="1024" height="768" alt="The welcoming waiting area at SOZO Wellness Center" loading="lazy"/><span className="image-caption">Welcome to SOZO · Serving The Villages</span></div><div className="split-content"><Eyebrow>Our name. Our purpose.</Eyebrow><h2 className="serif">To save, heal or make whole.</h2><p>Our name, SOZO, comes from an ancient Greek word. Its biblical roots speak to restoration of the whole person—not only physical healing, but emotional and spiritual renewal. That meaning shapes the way we welcome and listen to you.</p><p>Serving The Villages and nearby communities, we see wellness as more than the service you choose. Your experiences, relationships, beliefs and everyday life belong in the conversation. We bring warmth, honesty and respect to helping you explore your next step.</p></div></section>
     <WholePersonWellness/>
     <AboutTeam/>
@@ -391,6 +410,7 @@ function Router() {
       <Route path="/services/cardio-medbed">{() => <ServiceDetail path="/services/cardio-medbed"/>}</Route>
       <Route path="/services/wolfe-non-surgical-bodywork">{() => <ServiceDetail path="/services/wolfe-non-surgical-bodywork"/>}</Route>
       <Route path="/services/packages" component={PackagesPage}/>
+      <Route path="/services/whole-life-coaching" component={WholeLifeCoachingPage}/>
       <Route path="/dodpowerpack-clinic" component={DODPowerPackClinic}/>
       <Route path="/about" component={About}/>
       <Route path="/testimonials" component={Testimonials}/>

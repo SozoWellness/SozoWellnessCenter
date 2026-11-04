@@ -6,7 +6,7 @@ import './home-discovery.css';
 
 export function ServiceDiscovery() {
   return <section className="hd-services section" id="home-services" data-testid="section-discovery"><div className="container">
-    <div className="hd-head"><div><span className="eyebrow">Our services</span><h2 className="section-title serif">Find your place to <em>begin.</em></h2></div><p className="section-intro">Explore our assessments and therapies, including Cardio MedBed for heart and circulatory wellness.</p></div>
+    <div className="hd-head"><div><span className="eyebrow">Our services</span><h2 className="section-title serif">Find your place to <em>begin.</em></h2></div><p className="section-intro">Our whole life wellness coaches help you connect your goals with our assessments and therapies, including Cardio MedBed for heart and circulatory wellness.</p></div>
     <div className="hd-grid">{discoveryServices.map((s, i) => <Link key={s.href} href={s.href} className="hd-card" data-testid={`link-discover-${i}`}>
       <span className="hd-img"><img src={s.image} alt={s.alt} loading="lazy" width={600} height={420} style={{ objectPosition: s.position }}/></span>
       <span className="hd-body"><span className="hd-no">0{i + 1}</span>{s.status && <span className="hd-soon hd-service-status">{s.status}</span>}<h3>{s.title}</h3><p>{s.text}</p><span className="hd-more">Learn more <ArrowUpRight size={16} aria-hidden="true"/></span></span>
