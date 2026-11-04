@@ -87,6 +87,16 @@ delivery path, not cancellation after a reply or booking.
 
 ## Reply handling and staff availability
 
+The current website revisions must be reviewed by SOZO's owner before publishing.
+Do not publish them just to enable an automation test.
+
+**Why:** The user explicitly said they do not want this version published until
+the owner can review it.
+
+**How to apply:** Distinguish Preview from the actual deployed form before
+giving submission instructions. An existing Zap's direct-text routing test is
+not proof that the unpublished website-to-text flow works.
+
 Staff should respond to incoming replies in Quo, with an automated text fallback
 if staff do not respond right away, including after hours.
 During staffed hours, wait five minutes for a staff response before the fallback.
