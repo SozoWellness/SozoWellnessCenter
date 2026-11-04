@@ -116,6 +116,10 @@ Use different guards for the reply fallback and the original delayed follow-up.
 acknowledgements. A query starting at the website submission includes the
 initial outgoing acknowledgement, so blindly blocking every outgoing message
 would suppress every original follow-up.
+The user confirmed the guarded workflow with a real controlled website
+submission followed by a mobile reply. Its run history showed the filter
+stopping the run and the follow-up sending action not attempted. This verifies
+the replied case, not whether an unanswered enquiry still receives a follow-up.
 
 **How to apply:** Prefer identifying the initial acknowledgement by its actual
 message ID or creation timestamp when available, without sending action tests
