@@ -122,6 +122,10 @@ respond the next business day when they sent a direct test text.
 workflow. The user's Quo settings screenshot subsequently confirmed enabled
 incoming-message auto-replies during business hours and after hours. The
 daytime message acknowledges receipt without a stated wait.
+The user also confirmed receiving the next-business-day message during a
+controlled direct-text test whose live run visibly selected the After Hours
+branch in Eastern time. This supports retaining the native acknowledgement
+instead of adding a duplicate after-hours sending action.
 
 **How to apply:** Inspect existing Quo auto-replies and other relevant automations
 before adding an after-hours sender. Do not assume this direct-text result also
