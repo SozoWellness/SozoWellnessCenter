@@ -136,8 +136,9 @@ controlled enquiry without a reply, the user confirmed receiving the follow-up.
 Both original follow-up cases are verified. The user also confirmed receiving
 the separate reply fallback at five minutes after a controlled reply, showing
 that the earlier website acknowledgement did not suppress that fallback.
-This does not verify suppression after a staff answer or website-specific
-after-hours handling.
+The user then confirmed a manual Quo reply arrived and no automated fallback
+followed in the controlled staff-answer test. Both staffed-hours reply cases
+are verified; website-specific after-hours handling remains unverified.
 
 **How to apply:** Prefer identifying the initial acknowledgement by its actual
 message ID or creation timestamp when available, without sending action tests
