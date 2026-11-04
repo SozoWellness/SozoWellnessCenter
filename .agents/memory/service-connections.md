@@ -9,6 +9,12 @@ SOZO uses Jane for appointment booking; the website should point clients to SOZO
 
 The Perfect Day Lifestyle guidebook is free, and requests for it need to be captured.
 
+**Why:** The user specified these business requirements and existing services.
+
+**How to apply:** Use these providers and purposes when discussing or implementing the connections; confirm unspecified workflow details rather than assuming them.
+
+## Free book request and delivery
+
 For the book request, capture first name and email, without requiring a phone
 number. Provide an immediate PDF download and an emailed download link. Keep
 promotional email permission separate and optional; a book request must not
@@ -23,9 +29,18 @@ They also selected Google Workspace or Gmail when asked about their email servic
 assessment enquiries. Verify delivery for new and existing subscribers and
 repeat requests before replacing the coming-soon messaging.
 
-**Why:** The user specified these business requirements and existing services.
+Keep the original PDF on SOZO's approved public Google Drive sharing link.
+The form captures requests; it does not make the PDF private or prevent sharing.
 
-**How to apply:** Use these providers and purposes when discussing or implementing the connections; confirm unspecified workflow details rather than assuming them.
+**Why:** After being told that anyone with the link could access the book, the
+user supplied the Drive link for this purpose. The website is hosted on
+Cloudflare; serving private App Storage files would require an additional
+backend rather than a direct public file URL.
+
+**How to apply:** Preserve the book and author attribution, verify signed-out
+access, and do not use a temporary Replit preview URL as the download destination
+or add the full PDF to the static site/Git. Request fulfillment email must work
+without marketing enrollment.
 
 ## Jane booking and website enquiries
 

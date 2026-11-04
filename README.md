@@ -46,6 +46,12 @@ The included request form is not the finished live process. It currently does no
 
 The Perfect Day Guide is currently shown as **coming soon**. Leave that message in place until the approved guide, signup and delivery flow work.
 
+The dedicated `/perfect-day-lifestyle` page and separate protected book-request
+handler are prepared. See [Perfect Day delivery setup](PERFECT-DAY-DELIVERY.md)
+for the approved capture/consent behavior, Google Drive PDF, Gmail/Zapier setup,
+restricted testing, and activation checklist. Replit preview deliberately does
+not capture book requests or send emails.
+
 Before launch, send test enquiries and guide requests through the completed setup. Confirm that the right people receive the right messages and that marketing choices work as intended.
 
 Do not remove the existing form notice or promise automatic follow-up until that behavior has been connected and tested. Until then, visitors should text or call the clinic to arrange a visit.

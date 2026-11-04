@@ -1,6 +1,7 @@
 import { Link } from 'wouter';
 import { ArrowRight, Brain, Heart, Sparkles, Wind } from 'lucide-react';
 import { JaneBookingLink } from './jane-booking-link';
+import { PerfectDayInvitation } from './perfect-day-book';
 import {
   coachingIntro,
   coachingSections,
@@ -134,6 +135,7 @@ export function WholeLifeCoachingPage() {
         </div>
       </section>
 
+      <PerfectDayInvitation/>
       <section className="wlc-close" aria-labelledby="wlc-close-heading">
         <div className="container">
           <div>

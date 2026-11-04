@@ -1,7 +1,8 @@
 import { Link } from 'wouter';
-import { ArrowRight, ArrowUpRight, Mail } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { discoveryServices, excerpts, goalCards } from '@/data/discovery';
 import { ASSESSMENT_CTA, getInquiryHref } from '@/lib/inquiry';
+import { PerfectDayInvitation } from '@/components/perfect-day-book';
 import './home-discovery.css';
 
 export function ServiceDiscovery() {
@@ -30,12 +31,7 @@ export function AssessmentFeature() {
 }
 
 export function GuideComingSoon() {
-  return <section className="hd-guide" data-testid="section-guide"><div className="container"><div className="hd-guide-box">
-    <span className="hd-soon">Coming soon</span>
-    <h2 className="serif">The Perfect Day Guide</h2>
-    <p>Our upcoming guide will be available when you subscribe to SOZO’s email updates. Guide signup and delivery are coming soon.</p>
-    <span className="hd-guide-status"><Mail size={16} aria-hidden="true"/> Email signup coming soon</span>
-  </div></div></section>;
+  return <PerfectDayInvitation/>;
 }
 
 export function GoalCards() {

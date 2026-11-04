@@ -8,4 +8,8 @@
 
 export * from './assessmentRequestInput';
 export * from './assessmentRequestReceipt';
+export * from './guideAvailability';
+export * from './guideAvailabilityMode';
+export * from './guideRequestInput';
+export * from './guideRequestReceipt';
 export * from './healthStatus';

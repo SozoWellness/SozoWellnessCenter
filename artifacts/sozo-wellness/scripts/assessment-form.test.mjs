@@ -121,7 +121,8 @@ test('production verification is required and tokens stay out of saved form defa
   for (const callback of ['expired-callback', 'timeout-callback', 'error-callback']) {
     assert.ok(widget.includes(callback), callback);
   }
-  assert.match(widget, /action: 'assessment_request'/);
+  assert.match(widget, /action = 'assessment_request'/);
+  assert.match(widget, /sitekey: siteKey,\s+action,/);
   assert.match(widget, /api\.remove\(widgetId\)/);
   assert.match(widget, /type="button".*Retry security check/);
 });

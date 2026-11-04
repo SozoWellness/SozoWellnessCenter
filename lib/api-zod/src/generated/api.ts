@@ -9,6 +9,45 @@ import * as zod from 'zod';
 
 
 /**
+ * @summary Check whether the separate free-book request flow is enabled
+ */
+export const GetGuideAvailabilityResponse = zod.object({
+  "enabled": zod.boolean(),
+  "mode": zod.enum(['disabled', 'test', 'live'])
+})
+
+
+/**
+ * @summary Request the free Perfect Day Lifestyle PDF and an emailed link
+ */
+export const submitGuideRequestBodyFirstNameMax = 80;
+
+export const submitGuideRequestBodyEmailMax = 254;
+
+export const submitGuideRequestBodyTurnstileTokenMax = 2048;
+
+export const submitGuideRequestBodyWebsiteMax = 0;
+
+
+
+export const SubmitGuideRequestBody = zod.object({
+  "firstName": zod.string().min(1).max(submitGuideRequestBodyFirstNameMax),
+  "email": zod.string().email().max(submitGuideRequestBodyEmailMax),
+  "marketingConsent": zod.boolean().describe('Optional promotional email permission, independent of the requested book email.'),
+  "requestId": zod.string().uuid(),
+  "turnstileToken": zod.string().min(1).max(submitGuideRequestBodyTurnstileTokenMax),
+  "website": zod.string().max(submitGuideRequestBodyWebsiteMax).optional().describe('Honeypot')
+})
+
+export const SubmitGuideRequestResponse = zod.object({
+  "success": zod.literal(true),
+  "message": zod.string(),
+  "downloadUrl": zod.string().url(),
+  "requestId": zod.string().uuid()
+})
+
+
+/**
  * Returns server health status
  * @summary Health check
  */

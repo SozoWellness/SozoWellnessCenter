@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/api/assessment-requests"],
+  "include": ["/api/assessment-requests", "/api/guide-requests"],
   "exclude": []
 }

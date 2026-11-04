@@ -3,6 +3,7 @@ const siteverifyUrl = "https://challenges.cloudflare.com/turnstile/v0/siteverify
 /** No contact details are sent to Siteverify; never expose its raw response. */
 export async function verifyTurnstile(
   secret: string | undefined, token: string | undefined, ip: string, hostname: string,
+  action = "assessment_request",
 ): Promise<"verified" | "rejected" | "unavailable"> {
   if (!secret?.trim()) return "unavailable";
   if (!token || token.length > 2048) return "rejected";
@@ -28,7 +29,7 @@ export async function verifyTurnstile(
       }
       return "rejected";
     }
-    return data.hostname === hostname && data.action === "assessment_request"
+    return data.hostname === hostname && data.action === action
       ? "verified" : "rejected";
   } catch {
     // Fail closed on timeout, redirects, malformed JSON, and network errors.

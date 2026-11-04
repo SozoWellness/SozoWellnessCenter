@@ -5,6 +5,50 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+export type GuideAvailabilityMode = typeof GuideAvailabilityMode[keyof typeof GuideAvailabilityMode];
+
+
+export const GuideAvailabilityMode = {
+  disabled: 'disabled',
+  test: 'test',
+  live: 'live',
+} as const;
+
+export interface GuideAvailability {
+  enabled: boolean;
+  mode: GuideAvailabilityMode;
+}
+
+export interface GuideRequestInput {
+  /**
+     * @minLength 1
+     * @maxLength 80
+     */
+  firstName: string;
+  /** @maxLength 254 */
+  email: string;
+  /** Optional promotional email permission, independent of the requested book email. */
+  marketingConsent: boolean;
+  requestId: string;
+  /**
+     * @minLength 1
+     * @maxLength 2048
+     */
+  turnstileToken: string;
+  /**
+     * Honeypot
+     * @maxLength 0
+     */
+  website?: string;
+}
+
+export interface GuideRequestReceipt {
+  success: true;
+  message: string;
+  downloadUrl: string;
+  requestId: string;
+}
+
 export interface HealthStatus {
   status: string;
 }

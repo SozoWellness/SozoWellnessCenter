@@ -38,8 +38,9 @@ Keep direct text/call booking instructions unless an actual appointment-booking 
 
 ## 3. Finish the Perfect Day Guide
 
-- [ ] Obtain the separate custom instructions for guide signup and delivery.
-- [ ] Obtain the final approved guide file and approved email copy.
+- [x] Obtain the separate custom instructions for guide signup and delivery: first name/email, immediate PDF access, emailed link, optional separate marketing consent, no texts.
+- [x] Obtain the supplied PDF and SOZO's Google Drive sharing link.
+- [ ] Approve the draft sender and email copy in `PERFECT-DAY-DELIVERY.md`.
 - [ ] Follow those instructions to connect the signup and email flow.
 - [ ] Test a new signup and confirm the correct guide arrives.
 - [ ] Test an existing subscriber and a later repeat request as described in the custom flow.

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { loadTurnstile, type TurnstileApi } from '@/lib/turnstile-loader';
 
-export function AssessmentTurnstile({ siteKey, revision, onToken }: {
+export function AssessmentTurnstile({ siteKey, revision, onToken, action = 'assessment_request', testId = 'assessment-turnstile' }: {
   siteKey?: string; revision: number; onToken: (token: string) => void;
+  action?: 'assessment_request' | 'guide_request'; testId?: string;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const [retry, setRetry] = useState(0);
@@ -24,7 +25,7 @@ export function AssessmentTurnstile({ siteKey, revision, onToken }: {
         api = loaded;
         widgetId = api.render(container.current, {
           sitekey: siteKey,
-          action: 'assessment_request',
+          action,
           theme: 'light',
           size: 'flexible',
           'response-field': false,
@@ -43,9 +44,9 @@ export function AssessmentTurnstile({ siteKey, revision, onToken }: {
       active = false;
       if (api && widgetId !== undefined) api.remove(widgetId);
     };
-  }, [siteKey, revision, retry, onToken]);
+  }, [siteKey, revision, retry, onToken, action]);
 
-  return <div data-testid="assessment-turnstile" style={{ margin: '20px 0', minWidth: 0 }}>
+  return <div data-testid={testId} style={{ margin: '20px 0', minWidth: 0 }}>
     <div ref={container} style={{ minHeight: siteKey ? 65 : 0, maxWidth: '100%' }} />
     <p aria-live="polite" style={{ fontSize: 14, margin: '8px 0' }}>
       {status === 'verified' ? 'Security check complete.' :

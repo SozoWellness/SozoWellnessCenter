@@ -13,6 +13,47 @@ tags:
   - name: assessments
     description: Assessment request operations
 paths:
+  /guide-requests:
+    get:
+      operationId: getGuideAvailability
+      summary: Check whether the separate free-book request flow is enabled
+      responses:
+        "200":
+          description: Public availability without secrets or test recipient details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GuideAvailability"
+    post:
+      operationId: submitGuideRequest
+      summary: Request the free Perfect Day Lifestyle PDF and an emailed link
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GuideRequestInput"
+      responses:
+        "201":
+          description: Book request accepted by the delivery workflow, not proof of email delivery
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GuideRequestReceipt"
+        "400":
+          description: Invalid request, not forwarded
+        "403":
+          description: Security check or restricted-recipient check rejected
+        "413":
+          description: Request too large
+        "415":
+          description: JSON required
+        "429":
+          description: Too many attempts
+        "502":
+          description: Delivery is unconfirmed; do not automatically retry
+        "503":
+          description: Book request setup is unavailable; not forwarded
   /healthz:
     get:
       operationId: healthCheck
@@ -50,6 +91,33 @@ paths:
           description: Too many requests
 components:
   schemas:
+    GuideAvailability:
+      type: object
+      required: [enabled, mode]
+      properties:
+        enabled: { type: boolean }
+        mode: { type: string, enum: [disabled, test, live] }
+    GuideRequestInput:
+      type: object
+      additionalProperties: false
+      required: [firstName, email, marketingConsent, requestId, turnstileToken]
+      properties:
+        firstName: { type: string, minLength: 1, maxLength: 80 }
+        email: { type: string, format: email, maxLength: 254 }
+        marketingConsent:
+          type: boolean
+          description: Optional promotional email permission, independent of the requested book email.
+        requestId: { type: string, format: uuid }
+        turnstileToken: { type: string, minLength: 1, maxLength: 2048 }
+        website: { type: string, maxLength: 0, description: Honeypot, must remain empty }
+    GuideRequestReceipt:
+      type: object
+      required: [success, message, downloadUrl, requestId]
+      properties:
+        success: { type: boolean, enum: [true] }
+        message: { type: string }
+        downloadUrl: { type: string, format: uri }
+        requestId: { type: string, format: uuid }
     HealthStatus:
       type: object
       properties:

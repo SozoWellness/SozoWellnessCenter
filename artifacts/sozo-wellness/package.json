@@ -8,6 +8,7 @@
     "build": "vite build --config vite.config.ts && NODE_ENV=production node scripts/prerender.mjs && node scripts/check-search-pages.mjs",
     "check:search-pages": "node scripts/check-search-pages.mjs",
     "test:search-pages": "node --test scripts/check-search-pages.test.mjs",
+    "test:guide": "node --test scripts/guide-requests.test.mjs scripts/guide-form.test.mjs",
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
