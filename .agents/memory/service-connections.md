@@ -133,8 +133,11 @@ The user confirmed the guarded workflow with a real controlled website
 submission followed by a mobile reply. Its run history showed the filter
 stopping the run and the follow-up sending action not attempted. In a separate
 controlled enquiry without a reply, the user confirmed receiving the follow-up.
-Both original follow-up cases are verified; this does not verify the separate
-five-minute reply fallback or website-specific after-hours handling.
+Both original follow-up cases are verified. The user also confirmed receiving
+the separate reply fallback at five minutes after a controlled reply, showing
+that the earlier website acknowledgement did not suppress that fallback.
+This does not verify suppression after a staff answer or website-specific
+after-hours handling.
 
 **How to apply:** Prefer identifying the initial acknowledgement by its actual
 message ID or creation timestamp when available, without sending action tests
