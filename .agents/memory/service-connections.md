@@ -14,7 +14,10 @@ number. Provide an immediate PDF download and an emailed download link. Keep
 promotional email permission separate and optional; a book request must not
 trigger the assessment text-message sequence.
 
+SOZO uses Google Workspace or Gmail for email.
+
 **Why:** The user accepted this recommended setup and supplied the PDF.
+They also selected Google Workspace or Gmail when asked about their email service.
 
 **How to apply:** Treat book fulfillment separately from marketing enrollment and
 assessment enquiries. Verify delivery for new and existing subscribers and
