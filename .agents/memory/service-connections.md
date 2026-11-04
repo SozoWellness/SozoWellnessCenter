@@ -108,6 +108,19 @@ that deliberately rejects placeholders, and require controlled real-event
 verification before trusting the workflow. Never send an action test to the
 sample's recipient or claim sample tests prove live delivery.
 
+## Zapier inherited publishing warnings
+
+A Paths container warning can come from an untested child Delay step rather
+than a sending action or a path condition that correctly rejects the sample.
+
+**Why:** The user confirmed that testing the Delay alone cleared both its
+warning and the parent Paths warning, allowing the restricted reply Zap to
+publish without testing its SMS sending action.
+
+**How to apply:** Inspect the marked child steps first. Test a Delay individually
+when appropriate; never use a bulk path test or send an SMS merely to clear an
+inherited publishing warning.
+
 ## SMS guard query windows
 
 Use different guards for the reply fallback and the original delayed follow-up.
