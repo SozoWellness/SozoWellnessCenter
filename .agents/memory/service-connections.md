@@ -9,6 +9,17 @@ SOZO uses Jane for appointment booking; the website should point clients to SOZO
 
 The Perfect Day Lifestyle guidebook is free, and requests for it need to be captured.
 
+For the book request, capture first name and email, without requiring a phone
+number. Provide an immediate PDF download and an emailed download link. Keep
+promotional email permission separate and optional; a book request must not
+trigger the assessment text-message sequence.
+
+**Why:** The user accepted this recommended setup and supplied the PDF.
+
+**How to apply:** Treat book fulfillment separately from marketing enrollment and
+assessment enquiries. Verify delivery for new and existing subscribers and
+repeat requests before replacing the coming-soon messaging.
+
 **Why:** The user specified these business requirements and existing services.
 
 **How to apply:** Use these providers and purposes when discussing or implementing the connections; confirm unspecified workflow details rather than assuming them.
