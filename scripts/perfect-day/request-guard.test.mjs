@@ -118,6 +118,17 @@ test('test and live modes cannot be crossed and test emails are allowlisted',()=
   assert.equal(live.post(sample).decision,'restricted');
   assert.equal(live.post({...sample,is_test:false}).decision,'claimed');
 });
+test('authenticated validation diagnostics reveal only fixed field names, never supplied values',()=>{
+  const f=fixture();
+  const result=f.post({...sample,first_name:'',book_request_consent:undefined,email:'private-invalid-value'});
+  assert.equal(result.decision,'invalid_request');
+  assert.equal(result.invalid_fields,'first_name, email, book_request_consent');
+  assert.doesNotMatch(JSON.stringify(result),/private-invalid-value|example\.com/);
+  assert.equal(JSON.stringify(result).includes(key),false);
+  assert.equal(f.opens,0);
+  const unauth=f.post({...sample,auth_key:'wrong',email:'private-invalid-value'});
+  assert.equal(unauth.invalid_fields,undefined);
+});
 test('Zapier boolean strings normalize without treating arbitrary text as consent',()=>{
   const f=fixture();
   assert.equal(f.post({...sample,is_test:'true',book_request_consent:'true',sms_consent:'false',marketing_consent:'false'}).decision,'claimed');

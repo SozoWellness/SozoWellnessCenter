@@ -83,6 +83,12 @@ when a claim is refused. `duplicate`, `busy`, `disabled`, `restricted`,
 must all stop before Gmail. Refused claims are visible in Zap History, not email
 notifications from this helper.
 
+Authenticated validation failures also return `invalid_fields`, a list of
+fixed field names only, never their values. Use it to correct mappings instead
+of sharing entire request inputs or repeatedly guessing. A locally updated
+script must be saved and deployed as a new version before Zapier can see new
+diagnostics; the existing deployment URL and private settings can be preserved.
+
 The successful result contains `row_number` for later updates of the same
 sheet row. Do **not** add a second Google Sheets Create Row action.
 

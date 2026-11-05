@@ -47,11 +47,11 @@ function doPost(event) {
     if (!event || !event.postData ||
         event.postData.type.split(";")[0].trim().toLowerCase() !== "application/json" ||
         typeof event.postData.contents !== "string" || event.postData.contents.length > 8192) {
-      return bookReply_({ ok: false, decision: "invalid_request" });
+      return bookReply_({ ok: false, decision: "invalid_request", invalid_fields: "payload_type_or_size" });
     }
     input = JSON.parse(event.postData.contents);
     if (!input || Array.isArray(input) || typeof input !== "object") {
-      return bookReply_({ ok: false, decision: "invalid_request" });
+      return bookReply_({ ok: false, decision: "invalid_request", invalid_fields: "payload_object" });
     }
     var properties = PropertiesService.getScriptProperties();
     var key = properties.getProperty("BOOK_REQUEST_KEY");
@@ -64,8 +64,14 @@ function doPost(event) {
         (mode !== "test" && mode !== "live") || !sheetId) {
       return bookReply_({ ok: false, decision: "disabled" });
     }
-    var request = bookValidate_(input);
-    if (!request) return bookReply_({ ok: false, decision: "invalid_request" });
+    var validation = bookValidate_(input);
+    if (validation.invalidFields.length) {
+      return bookReply_({
+        ok: false, decision: "invalid_request",
+        invalid_fields: validation.invalidFields.join(", ")
+      });
+    }
+    var request = validation.request;
     var testEmail = (properties.getProperty("BOOK_TEST_EMAIL") || "").trim().toLowerCase();
     if ((mode === "test" && (!request.isTest || request.email !== testEmail)) ||
         (mode === "live" && request.isTest)) {
@@ -117,23 +123,31 @@ function doPost(event) {
 }
 
 function bookValidate_(input) {
+  var invalid = [];
   var id = typeof input.request_id === "string" ? input.request_id.toLowerCase() : "";
-  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(id)) return;
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(id)) invalid.push("request_id");
   var firstName = typeof input.first_name === "string" ? input.first_name.trim() : "";
   var email = typeof input.email === "string" ? input.email.trim().toLowerCase() : "";
   var submittedAt = typeof input.submitted_at === "string" ? input.submitted_at : "";
   var marketing = bookBoolean_(input.marketing_consent);
   var isTest = bookBoolean_(input.is_test);
-  if (!firstName || firstName.length > 80 || /[\u0000-\u001f\u007f]/.test(firstName) ||
-      email.length > 254 || !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email) ||
-      !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d{1,3})?Z$/.test(submittedAt) ||
-      !Number.isFinite(Date.parse(submittedAt)) ||
-      input.source !== "sozo_website_book" || input.form_type !== "perfect_day_book" ||
-      input.consent_version !== "perfect-day-request-v1" ||
-      bookBoolean_(input.book_request_consent) !== true ||
-      bookBoolean_(input.sms_consent) !== false ||
-      marketing === undefined || isTest === undefined) return;
-  return { id: id, firstName: firstName, email: email, submittedAt: submittedAt, marketing: marketing, isTest: isTest };
+  if (!firstName || firstName.length > 80 || /[\u0000-\u001f\u007f]/.test(firstName)) invalid.push("first_name");
+  if (email.length > 254 || !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email)) invalid.push("email");
+  if (!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d{1,3})?Z$/.test(submittedAt) ||
+      !Number.isFinite(Date.parse(submittedAt))) invalid.push("submitted_at");
+  if (input.source !== "sozo_website_book") invalid.push("source");
+  if (input.form_type !== "perfect_day_book") invalid.push("form_type");
+  if (input.consent_version !== "perfect-day-request-v1") invalid.push("consent_version");
+  if (bookBoolean_(input.book_request_consent) !== true) invalid.push("book_request_consent");
+  if (bookBoolean_(input.sms_consent) !== false) invalid.push("sms_consent");
+  if (marketing === undefined) invalid.push("marketing_consent");
+  if (isTest === undefined) invalid.push("is_test");
+  return {
+    invalidFields: invalid,
+    request: invalid.length ? null : {
+      id: id, firstName: firstName, email: email, submittedAt: submittedAt, marketing: marketing, isTest: isTest
+    }
+  };
 }
 
 function bookBoolean_(value) {
