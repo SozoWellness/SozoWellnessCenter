@@ -39,6 +39,17 @@ worked after this narrowly scoped normalization.
 **How to apply:** Do not treat Zapier's displayed boolean text as proof of its
 wire representation. Preserve strict consent meanings when normalizing it.
 
+For Zapier troubleshooting, use actual Test → Data in/Data out screenshots,
+not an explanation inferred from dynamic field mappings.
+
+**Why:** Copilot-style reports repeatedly inferred the intended new request ID
+from a valid mapping, while the actual response screenshot showed the earlier
+request ID. Changing the helper's duplicate logic would have addressed the
+wrong problem.
+
+**How to apply:** Verify the selected trigger record and resolved payload
+before retrying, issuing new IDs, or changing duplicate protection.
+
 The book's Mailchimp step may use email and subscription status only when its
 selected audience exposes no first-name/merge-field input. Keep first name in
 the request log and personalized delivery email; do not add a custom API just
