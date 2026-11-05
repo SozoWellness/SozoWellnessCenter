@@ -35,19 +35,26 @@ Do not test this action until its recipient is your approved test email.
 
 Do not edit or duplicate the assessment/text Zap or the outside-event capture Zap.
 
+For trigger mapping, select a **JSON POST** sample matching the website's
+payload. A browser-address-bar GET puts fields under `Querystring`, which is
+not the website's structure. Copy the pristine hook URL from its Copy control,
+not a browser tab containing test query parameters. Remove any temporary
+self-post sample action before publishing; otherwise it can create a Zap loop.
+
 1. **Webhooks by Zapier → Catch Hook.** Create a new hook.
 2. **Filter:** `form_type` exactly `perfect_day_book`,
    `book_request_consent` true, and `sms_consent` false.
-3. **Prepare a request log:** use a SOZO-owned Google Sheet to capture the request ID,
-   submitted time, first name, email, marketing consent, consent version,
-   test flag, and delivery status. Keep the sheet restricted to appropriate staff.
-   The log must include people who decline marketing, not just subscribers.
-   Do not create the row until the duplicate check in the next step has passed.
-4. **Duplicate protection:** look up `request_id` before creating a new row.
-   If that exact ID already exists, stop the duplicate run and inspect its status.
-   A genuinely new request by the same email has a new ID and may receive the book
-   again. Do not suppress all repeat requests by email address. If the request ID
-   is new, create its row with status `pending` before proceeding to Gmail.
+3. **Prepare the restricted request log and locked claim helper:** use the
+   SOZO-owned Requests sheet and the separately authorized Apps Script helper in
+   `scripts/perfect-day/README.md`. The helper checks the request ID, creates its
+   `pending` row and flushes it under one script lock. An ordinary separate
+   Sheets lookup/create or timed Delay is not sufficient concurrency protection.
+   The log includes people who decline marketing, not just subscribers.
+4. **Filter the claim result:** continue only when helper `ok` is true AND
+   `decision` is exactly `claimed`. HTTP 200 alone does not grant permission.
+   Duplicate, busy, invalid, restricted or failed claims must stop. A genuinely
+   new request from the same email has a new ID and may receive the book again.
+   Do not add a second Create Row action; use the helper's returned row number.
 5. **Gmail → Send Email**, using the mapped **email** field as the sole recipient.
    Use the draft below and map `first_name` and `book_download_url` as dynamic
    fields, not typed labels. Send a link, not a PDF attachment. Leave CC/BCC empty.
