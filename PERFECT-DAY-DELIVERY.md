@@ -36,6 +36,17 @@ timestamp. Both marketing actions and the final logging action remain untested.
 No Mailchimp enrollment test has been approved; review applicable active
 Mailchimp automations before requesting permission for one.
 
+After reporting no applicable active automations, the user prepared a new
+draft `SOZO — Email Subscriber Welcome`. The initial combined email/SMS
+template was converted to email-only by removing its SMS entry and action.
+The email signup trigger includes imported contacts; the user confirmed
+repeat entry is off. One separately approved Mailchimp preview email was
+received and its CTA worked. This does not verify automated signup entry.
+No SMS welcome flow or SMS enrollment has been authorized by this setup.
+Before an automated welcome test, obtain permission for the contact enrollment
+and additional sends, restrict this new flow to the approved test address,
+and verify that restriction before activation. Public launch remains blocked.
+
 This is a **controlled draft-Zap delivery test**, not public activation or
 end-to-end website acceptance. Next: optional marketing connection and remaining
 delivery/marketing acceptance checks. The Zap and revised website remain
