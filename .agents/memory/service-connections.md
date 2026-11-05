@@ -15,6 +15,19 @@ The Perfect Day Lifestyle guidebook is free, and requests for it need to be capt
 
 ## Free book request and delivery
 
+Use a JSON POST sample matching the website payload before mapping a new book
+Zap. Browser-address-bar GET samples appear under “Querystring” in Zapier and
+must not be used as the production field mappings.
+
+**Why:** A browser-generated sample exposed a different field structure than
+the website's JSON POST. A webhook URL copied from that browser tab also retained
+the synthetic query parameters.
+
+**How to apply:** Copy the original URL from the trigger's Copy control, with no
+query suffix. Verify the selected trigger record has plain JSON fields. Any
+temporary self-post sample action must remain draft-only and be removed before
+publishing; it can otherwise create a webhook loop.
+
 For the book request, capture first name and email, without requiring a phone
 number. Provide an immediate PDF download and an emailed download link. Keep
 promotional email permission separate and optional; a book request must not
