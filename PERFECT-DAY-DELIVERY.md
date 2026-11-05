@@ -29,8 +29,12 @@ The marketing-consent filter after logging stopped the marketing-false sample
 as expected. The user selected SOZO's existing Mailchimp audience and saved an
 untested Add/Update Subscriber action with email/status only; its available
 fields did not expose first-name merge mapping. First name remains in the
-request log and Gmail body. Tags and marketing-status logging are not yet
-configured or tested, and no Mailchimp enrollment test has been approved.
+request log and Gmail body. The user created an empty `Perfect Day Book` tag,
+selected it in the separate Add Subscriber to Tag action, and saved a final
+Sheet update for `marketing_status=subscribed_tagged` plus the current UTC
+timestamp. Both marketing actions and the final logging action remain untested.
+No Mailchimp enrollment test has been approved; review applicable active
+Mailchimp automations before requesting permission for one.
 
 This is a **controlled draft-Zap delivery test**, not public activation or
 end-to-end website acceptance. Next: optional marketing connection and remaining
