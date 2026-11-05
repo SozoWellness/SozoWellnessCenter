@@ -20,9 +20,13 @@ row. The SOZO Gmail sender was selected and the delivery email configured with
 dynamic trigger fields and no attachment. With permission for one email to an
 inbox they control, the user confirmed receipt and a working book link.
 
+The user also confirmed that the Google Sheets Update Spreadsheet Row action
+updated the claimed row's delivery status, Gmail message ID and timestamp
+while preserving the request details and creating no additional row. Its Row
+input uses the helper's dynamic row number; the other columns remain unmapped.
+
 This is a **controlled draft-Zap delivery test**, not public activation or
-end-to-end website acceptance. Next: configure and verify updating the existing
-ledger row with Gmail's message ID and sent/accepted status, then remaining
+end-to-end website acceptance. Next: optional marketing connection and remaining
 delivery/marketing acceptance checks. The Zap and revised website remain
 unpublished; no permission for another email send has been given.
 Do not copy private keys, deployment URLs, recipient details or request IDs into
