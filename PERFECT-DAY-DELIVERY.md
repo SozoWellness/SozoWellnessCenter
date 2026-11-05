@@ -25,6 +25,13 @@ updated the claimed row's delivery status, Gmail message ID and timestamp
 while preserving the request details and creating no additional row. Its Row
 input uses the helper's dynamic row number; the other columns remain unmapped.
 
+The marketing-consent filter after logging stopped the marketing-false sample
+as expected. The user selected SOZO's existing Mailchimp audience and saved an
+untested Add/Update Subscriber action with email/status only; its available
+fields did not expose first-name merge mapping. First name remains in the
+request log and Gmail body. Tags and marketing-status logging are not yet
+configured or tested, and no Mailchimp enrollment test has been approved.
+
 This is a **controlled draft-Zap delivery test**, not public activation or
 end-to-end website acceptance. Next: optional marketing connection and remaining
 delivery/marketing acceptance checks. The Zap and revised website remain

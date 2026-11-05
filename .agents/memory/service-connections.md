@@ -39,6 +39,17 @@ worked after this narrowly scoped normalization.
 **How to apply:** Do not treat Zapier's displayed boolean text as proof of its
 wire representation. Preserve strict consent meanings when normalizing it.
 
+The book's Mailchimp step may use email and subscription status only when its
+selected audience exposes no first-name/merge-field input. Keep first name in
+the request log and personalized delivery email; do not add a custom API just
+to make it a launch dependency.
+
+**Why:** The user reported no merge fields in the actual action and accepted
+saving the email-only configuration rather than adding a more complex API step.
+
+**How to apply:** Do not claim first name syncs to Mailchimp. Revisit that
+optional enhancement separately if the account's available fields change.
+
 For the book request, capture first name and email, without requiring a phone
 number. Provide an immediate PDF download and an emailed download link. Keep
 promotional email permission separate and optional; a book request must not
