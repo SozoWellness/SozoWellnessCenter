@@ -13,6 +13,28 @@ old packages” after being offered a separate staff editor and a partial replac
 review changes in preview, and obtain approval before pushing to Cloudflare.
 Do not introduce authentication, checkout, or a CMS merely to make pricing editable.
 
+## Owner's revised public package scope
+
+The owner's newer notes supersede the original 10/20/35-credit poster for the
+public package lineup: Pain Package, 5 sessions for $400, and Freedom packages
+of 6, 12, 22 and 36 sessions. Exclude Warrior, Half Warrior, internal-only
+memberships and Signature memberships. Search for and remove or replace legacy
+Pain Solutions Package A/B/C references.
+
+The accompanying photographed price sheet is explicitly marked
+“NOT TO BE SHARED WITH CLIENTS—INTERNAL ONLY.” Do not display the sheet, its
+membership offers, expiration rules, or unapproved prices on the public website.
+Confirm which Freedom prices are approved for public use; do not assume the
+photo's contents are all approved simply because it was attached.
+
+**Why:** The user supplied these notes from the owner's call together with an
+explicitly internal sheet; the written notes approve the public session counts
+and Pain Package price but leave other pricing details for manual confirmation.
+
+**How to apply:** Keep edits in Preview and flag unresolved public pricing,
+service eligibility, and the existing circulation program's disposition for
+approval. Do not infer that the handwritten holiday special is a public offer.
+
 Do not infer credit redemption exceptions, expiration, sharing, or eligibility
 rules from the posters. “Most services” using one credit is not an all-services
 guarantee.
