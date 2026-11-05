@@ -24,16 +24,18 @@ Pain Solutions Package A/B/C references.
 The accompanying photographed price sheet is explicitly marked
 “NOT TO BE SHARED WITH CLIENTS—INTERNAL ONLY.” Do not display the sheet, its
 membership offers, expiration rules, or unapproved prices on the public website.
-Confirm which Freedom prices are approved for public use; do not assume the
-photo's contents are all approved simply because it was attached.
+The user explicitly approved these Freedom prices for public display:
+6 sessions $600; 12 sessions $1,000; 22 sessions $1,800; 36 sessions $2,800.
+They also confirmed that the existing $5,000 Circulation & Vitality Program stays.
+This approval does not extend to the photo's other offers or expiration rules.
 
 **Why:** The user supplied these notes from the owner's call together with an
-explicitly internal sheet; the written notes approve the public session counts
-and Pain Package price but leave other pricing details for manual confirmation.
+explicitly internal sheet, then explicitly approved the four Freedom prices and
+retention of the existing circulation program when asked.
 
-**How to apply:** Keep edits in Preview and flag unresolved public pricing,
-service eligibility, and the existing circulation program's disposition for
-approval. Do not infer that the handwritten holiday special is a public offer.
+**How to apply:** Keep edits in Preview and flag unresolved service eligibility
+and terms for approval. Do not infer that the handwritten holiday special is a
+public offer.
 
 Do not infer credit redemption exceptions, expiration, sharing, or eligibility
 rules from the posters. “Most services” using one credit is not an all-services
