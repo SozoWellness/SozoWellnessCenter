@@ -26,31 +26,57 @@ while preserving the request details and creating no additional row. Its Row
 input uses the helper's dynamic row number; the other columns remain unmapped.
 
 The marketing-consent filter after logging stopped the marketing-false sample
-as expected. The user selected SOZO's existing Mailchimp audience and saved an
-untested Add/Update Subscriber action with email/status only; its available
-fields did not expose first-name merge mapping. First name remains in the
-request log and Gmail body. The user created an empty `Perfect Day Book` tag,
-selected it in the separate Add Subscriber to Tag action, and saved a final
-Sheet update for `marketing_status=subscribed_tagged` plus the current UTC
-timestamp. Both marketing actions and the final logging action remain untested.
-No Mailchimp enrollment test has been approved; review applicable active
-Mailchimp automations before requesting permission for one.
+as expected. The user selected SOZO's existing Mailchimp audience and prepared
+an email/status-only Add/Update Subscriber action; its available fields did not
+expose first-name merge mapping. First name remains in the log and Gmail body.
+A separate action adds the `Perfect Day Book` tag, and a final Sheet action
+records `marketing_status=subscribed_tagged` with the current timestamp.
 
-After reporting no applicable active automations, the user prepared a new
-draft `SOZO — Email Subscriber Welcome`. The initial combined email/SMS
-template was converted to email-only by removing its SMS entry and action.
-The email signup trigger includes imported contacts; the user confirmed
-repeat entry is off. One separately approved Mailchimp preview email was
-received and its CTA worked. This does not verify automated signup entry.
-No SMS welcome flow or SMS enrollment has been authorized by this setup.
-Before an automated welcome test, obtain permission for the contact enrollment
-and additional sends, restrict this new flow to the approved test address,
-and verify that restriction before activation. Public launch remains blocked.
+At the user's request, `SOZO — Email Subscriber Welcome` was also prepared.
+Its initial combined template was converted to email-only by removing the SMS
+entry and action. The email signup trigger includes imported contacts, repeat
+entry is off, and a separately approved preview email and its CTA were checked.
+The user reviewed existing automations before permitting the enrollment test.
 
-This is a **controlled draft-Zap delivery test**, not public activation or
-end-to-end website acceptance. Next: optional marketing connection and remaining
-delivery/marketing acceptance checks. The Zap and revised website remain
-unpublished; no permission for another email send has been given.
+For the explicitly approved integration test, the user selected a fresh Gmail
+alias absent from the audience, saved an exact-address entry filter and
+temporarily activated only that restricted welcome flow. The earlier attempted
+test using an existing contact was abandoned without deleting that contact.
+Actual POST results revealed an earlier sample ID was being reused; selecting
+the new trigger sample resolved the duplicate-output mismatch. Duplicate checks
+were not weakened. The user then confirmed a fresh claim and passing filter,
+receipt of its book email and successful logging with request details intact.
+
+The user finally confirmed the fresh alias received its automated welcome,
+was Subscribed with the book tag, and had correct sent/marketing statuses in
+the request row. They also confirmed the welcome flow is now **paused**.
+Both Sheets update actions must explicitly use **Overwrite All Columns=False**;
+their Row inputs are dynamic helper row numbers, not fixed test row numbers.
+
+### Current safe state and remaining acceptance
+
+- The book Zap is **unpublished**; the revised website has not been published.
+- The welcome flow is **paused**, retaining its exact-test-address filter and
+  disabled repeat entry. General welcome activation is not authorized.
+- The helper remains enabled in **test mode**, restricted to the test address
+  entered directly in its Script Properties. Public website delivery remains
+  disabled. No approval remains for additional sends beyond the completed tests.
+- No SMS flow/enrollment was enabled. Existing assessment/Quo/booking workflows
+  were outside this setup and were not intentionally changed.
+- Completed checks are **user-confirmed manual Zap action tests**, not proof of
+  an automatic full Zap run or an end-to-end website request. Do not mark the
+  whole setup complete on this evidence alone.
+- Still unverified: the full isolated website-to-webhook journey, real
+  overlapping-claim behavior in Google, returning-subscriber preference
+  preservation, deliberate failure/recovery cases, and a signed-out full PDF
+  download on a phone. Local guard mocks are not substitutes for those checks.
+- Remaining testing needs separate authorization and an isolated arrangement;
+  never publish the owner's unreviewed website just to conduct it.
+
+For approved general launch, confirm all remaining acceptance checks, publish
+and enable the book workflow only with permission, and separately replace the
+Mailchimp test-address restriction with the approved general entry rules before
+reactivating the welcome. Do not leave it silently limited to the test alias.
 Do not copy private keys, deployment URLs, recipient details or request IDs into
 this checkpoint.
 
