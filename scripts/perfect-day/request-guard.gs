@@ -151,8 +151,11 @@ function bookValidate_(input) {
 }
 
 function bookBoolean_(value) {
-  if (value === true || value === "true") return true;
-  if (value === false || value === "false") return false;
+  if (typeof value === "boolean") return value;
+  if (typeof value !== "string") return;
+  var normalized = value.trim().toLowerCase();
+  if (normalized === "true") return true;
+  if (normalized === "false") return false;
 }
 
 function bookHeadersMatch_(sheet) {

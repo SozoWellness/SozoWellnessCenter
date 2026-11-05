@@ -134,6 +134,22 @@ test('Zapier boolean strings normalize without treating arbitrary text as consen
   assert.equal(f.post({...sample,is_test:'true',book_request_consent:'true',sms_consent:'false',marketing_consent:'false'}).decision,'claimed');
   assert.equal(f.rows[1][4],'false');
 });
+test('case and whitespace in true/false text normalize without guessing consent',()=>{
+  const f=fixture();
+  assert.equal(f.post({
+    ...sample,is_test:'True',book_request_consent:' TRUE ',sms_consent:'False',marketing_consent:' false '
+  }).decision,'claimed');
+  assert.equal(f.rows[1][4],'false');
+  assert.equal(f.rows[1][6],'true');
+  for(const invalid of [undefined,null,'','yes','no','1','0',1,0,[],['true'],{}]){
+    assert.equal(f.context.bookBoolean_(invalid),undefined);
+  }
+  const noConsent=fixture().post({...sample,book_request_consent:' FALSE '});
+  assert.equal(noConsent.ok,false);
+  assert.equal(noConsent.invalid_fields,'book_request_consent');
+  const sms=fixture().post({...sample,sms_consent:' TRUE '});
+  assert.equal(sms.ok,false);assert.equal(sms.invalid_fields,'sms_consent');
+});
 test('formula-leading names and addresses are escaped; marketing still cannot send from this helper',()=>{
   const f=fixture({BOOK_TEST_EMAIL:'+test@example.com'});
   assert.equal(f.post({...sample,first_name:'=IMPORTXML("x")',email:'+test@example.com',marketing_consent:true}).decision,'claimed');
