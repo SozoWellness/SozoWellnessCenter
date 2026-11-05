@@ -1,5 +1,13 @@
 # SOZO Wellness Center — Website Handoff
 
+## Current owner review
+
+The November 5 owner updates are prepared in Preview only, not published.
+Start with `WEBSITE-LAUNCH-READINESS.md` for completed checks, outstanding owner
+decisions and launch blockers. Companion reports are `WEBSITE-WORKFLOW-AUDIT.md`,
+`WEBSITE-SERVICE-REVIEW.md` and `RESOURCE-ORGANIZATION-PLAN.md`.
+No review document authorizes a live-site change or real message test.
+
 Prepared for SOZO's internal web team on October 30, 2026.
 
 ## Start here

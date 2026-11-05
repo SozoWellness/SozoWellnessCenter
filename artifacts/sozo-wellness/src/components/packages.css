@@ -79,8 +79,9 @@
 .pk-close-phone { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-size: 17px; font-weight: 700; color: #f4faf5; border-bottom: 1px solid #a8c8bb; }
 .pk-close-phone:hover { color: #fff; }
 
-.pk-credits { margin: 10px 0 0; font-size: 18px; color: #31564f; }
-.pk-credits strong { font: 500 24px 'Fraunces', Georgia, serif; color: #8a5a2f; margin-right: 4px; }
+.pk-sessions { margin: 10px 0 0; font-size: 18px; color: #31564f; }
+.pk-sessions strong { font: 500 24px 'Fraunces', Georgia, serif; color: #8a5a2f; margin-right: 4px; }
+.pk-grid.pk-count-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .pk-card-desc { margin: 18px 0 0; font-size: 17px; line-height: 1.65; color: #1f4a46; }
 .pk-special-card { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 0; background: #fffdf5; border: 1px solid #c5d6cb; border-top: 3px solid #b88355; border-radius: 4px; }
 .pk-special-card > div { padding: clamp(24px, 3.5vw, 40px); min-width: 0; }

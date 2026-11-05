@@ -2,6 +2,11 @@
 
 Prepared October 30, 2026. For SOZO's internal web team.
 
+**Current review:** see `WEBSITE-LAUNCH-READINESS.md` and
+`WEBSITE-WORKFLOW-AUDIT.md` for the November 5 findings and later controlled-test
+evidence. The archive/import instructions and unchecked boxes below describe
+the earlier handoff; they are not a current status report or launch approval.
+
 **Your project contact will provide separate custom instructions for the forms and automations.**
 Use this checklist to review the website and prepare for launch. It does not ask SOZO's team to design a technical setup.
 

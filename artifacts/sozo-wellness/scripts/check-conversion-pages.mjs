@@ -21,7 +21,7 @@ for (const file of pages) {
   for (const id of ['link-header-request', 'link-footer-request']) {
     const link = anchor(html, id);
     assert.equal(clean(link), label, `${file}: inconsistent booking label`);
-    assert.equal(href(link), '/request-assessment', `${file}: incorrect booking destination`);
+    assert.equal(href(link), 'https://sozowellnesscenter.janeapp.com', `${file}: incorrect booking destination`);
   }
   assert.match(anchor(html, 'link-header-request'), /btn-primary/);
   for (const id of ['link-top-phone', 'link-footer-phone']) {
@@ -63,9 +63,9 @@ for (const [i, [route, interest]] of pathways.entries()) {
 
 const form = await page('request-assessment');
 assert.match(form, /data-testid="notice-booking-status"/);
-assert.match(clean(form), /does not book an appointment or notify our team yet/);
+assert.match(clean(form), /Submitting a request does not book an appointment/);
 assert.match(anchor(form, 'link-form-phone'), /btn-primary/);
-assert.match(clean(form), /Save my request/);
+assert.match(clean(form), /Submit my request/);
 const assessmentPage = await page('services/assessments');
 for (const [i, interest] of ['Vitalyzer', 'NeuralChek', 'Live blood analysis'].entries()) {
   const cta = anchor(assessmentPage, `link-assessment-request-${i}`);

@@ -1,0 +1,30 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "W3jPzseBwIpR7MF0w0Jp8"
+uri = "file://generated-artifacts/owner-review/sozo-owner-review.html"
+type = "html"
+title = "SOZO Owner Review & Launch Readiness"
+description = "Self-contained report: completed package updates, workflow audit, service and book questions, resource proposal, QA evidence and launch blockers. Preview only; not launch approval."
+logical_id = "dd46ee7d-cb50-44d2-bc9f-eb5ddd40fadd"
+content_hash = "sha256:5d3d051e89338f62040cac392ea3c4261ca91c3250c3ff47d7ee2bc24ef7c664"
+size = 44510
+mtime_ms = 1793897698437
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:a9138c22-171c-43e5-bcfb-68a2626c6fa9/dd46ee7d-cb50-44d2-bc9f-eb5ddd40fadd/e0f79ee3-2fee-4e4a-8144-1ca99a98001a"
+storage_version_token = "1793897724797230"
+content_type = "text/html"
+
+[[outputs]]
+id = "-IWUgnn3rr6IMsGrzQBoY"
+uri = "file://generated-artifacts/owner-review/resource-inventory.csv"
+type = "table"
+title = "SOZO Resource Inventory"
+description = "Inventory of 144 uploaded/public files, with file sizes and hashes for duplicate review. No assets were moved or deleted."
+logical_id = "c606a4b1-4ac4-40a5-9627-5ebe1e52ba9f"
+content_hash = "sha256:c587a74123f319584ec2be8e7853bd00e69ed01137c3d5d51596ca362b925a93"
+size = 23506
+mtime_ms = 1793897491525
+storage_uri = "gcs://replit-rams-assets-spock/rams/assets/repl:a9138c22-171c-43e5-bcfb-68a2626c6fa9/c606a4b1-4ac4-40a5-9627-5ebe1e52ba9f/c0cda323-8de4-4119-9063-3eeee223da3f"
+storage_version_token = "1793897725440362"
+content_type = "text/csv"

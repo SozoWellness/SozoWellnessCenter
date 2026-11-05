@@ -145,8 +145,10 @@ enabling or submitting the test. Keep the outside-event workflow unchanged.
    delay. Quo/carrier charges may apply. No messages are sent by local tests.
 5. Verify both actual texts and the corresponding Zap run. Do not use Zapier's
    full Test Run or retest with the synthetic mapping sample. If delivery is
-   uncertain, inspect history before resubmitting. The existing follow-up is
-   unconditional: replies or Jane bookings do not automatically cancel it.
+    uncertain, inspect history before resubmitting. The follow-up now has a
+    message-history guard: controlled tests confirmed suppression after a
+    visitor reply and delivery when no reply was received. No Jane-booking
+    cancellation integration has been verified; do not infer one from SMS tests.
 6. When the test finishes, return to `contact_capture_test` or disable delivery
    and redeploy. Disabling new submissions does not cancel an already queued
    Zapier delay. Review pending runs separately if a queued follow-up must stop.

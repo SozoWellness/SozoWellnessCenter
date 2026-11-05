@@ -2,6 +2,11 @@
 
 Checked October 30, 2026.
 
+**Historical archive verification.** For current package changes, local checks
+and outstanding launch blockers, see `WEBSITE-LAUNCH-READINESS.md`. Later user-
+confirmed automation tests are distinguished in `WEBSITE-WORKFLOW-AUDIT.md`;
+the older exclusions below do not negate those later observations.
+
 The client-facing instructions were subsequently simplified to reflect that the project contact will provide custom form and automation flows. This was a documentation update only; the application code and its existing form behavior have not changed. The checks below do not imply that those custom flows have been connected.
 
 ## Passed

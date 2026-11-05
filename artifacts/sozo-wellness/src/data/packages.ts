@@ -1,43 +1,58 @@
-// SOZO's approved Freedom credit and Wellness Pathways posters are the source.
+// The owner's revised task list and explicit public-price approval are the source.
 // Edit this catalog through Replit, review the preview, then approve a push.
-// Staff have not finalized credit exceptions, expiration, sharing or other terms.
+// Staff have not finalized service eligibility, redemption, expiration or sharing.
 // Do not infer those rules or reuse the superseded service-specific packages.
 
 export type FreedomPackage = {
   id: string;
   name: string;
-  credits: number;
+  sessions: number;
   price: number;
   description: string;
 };
 
 export const freedomPackages: FreedomPackage[] = [
   {
-    id: 'starter-freedom',
-    name: 'Starter Freedom Package',
-    credits: 10,
+    id: 'freedom-6',
+    name: 'Freedom Package — 6 Sessions',
+    sessions: 6,
+    price: 600,
+    description: 'A starting point for making time for your wellness.',
+  },
+  {
+    id: 'freedom-12',
+    name: 'Freedom Package — 12 Sessions',
+    sessions: 12,
     price: 1000,
-    description: 'Perfect for exploring wellness therapies and beginning your health journey.',
+    description: 'Make room for regular sessions with guidance from our team.',
   },
   {
-    id: 'freedom',
-    name: 'Freedom Package',
-    credits: 20,
-    price: 1700,
-    description: 'Greater value for clients seeking a customized wellness plan and consistent support.',
+    id: 'freedom-22',
+    name: 'Freedom Package — 22 Sessions',
+    sessions: 22,
+    price: 1800,
+    description: 'Plan a series of visits around your personal wellness goals.',
   },
   {
-    id: 'freedom-plus',
-    name: 'Freedom Plus Package',
-    credits: 35,
+    id: 'freedom-36',
+    name: 'Freedom Package — 36 Sessions',
+    sessions: 36,
     price: 2800,
-    description: 'Maximum value for comprehensive wellness experiences and long-term goals.',
+    description: 'Support a longer-term wellness routine with a larger session package.',
   },
 ];
 
-export const creditPolicy = {
-  summary: 'Most services may be redeemed using one Freedom Wellness Credit per session.',
-  termsNote: 'Our team will confirm the credit requirements for your selected services and the applicable package terms before you decide.',
+export const painPackage = {
+  id: 'pain-5',
+  name: 'Pain Package',
+  sessions: 5,
+  price: 400,
+  description: 'Talk with our team about your goals and the sessions included in this package.',
+};
+
+export const packagePolicy = {
+  summary: 'Choose a session package with personal guidance from our team.',
+  termsNote: 'Before you decide, our team will confirm which services are included, how your selected sessions apply, and the package terms.',
 };
 
 export const circulationProgram = {
