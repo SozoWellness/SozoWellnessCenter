@@ -14,9 +14,17 @@ protected Google Apps Script helper. Its anonymous GET returned
 
 The user confirmed that the helper POST and Google Sheet write worked after
 true/false text normalization. Local mocked guard tests: 13 passing.
-This is **log-only synthetic testing**, not book email delivery or public
-activation. Next: guard-result filter, duplicate-stop verification, verified
-Gmail sender/copy, approved-recipient delivery tests and optional marketing.
+The user subsequently confirmed that the guard-result filter stopped a
+duplicate sample, then allowed a fresh claimed sample that created a pending
+row. The SOZO Gmail sender was selected and the delivery email configured with
+dynamic trigger fields and no attachment. With permission for one email to an
+inbox they control, the user confirmed receipt and a working book link.
+
+This is a **controlled draft-Zap delivery test**, not public activation or
+end-to-end website acceptance. Next: configure and verify updating the existing
+ledger row with Gmail's message ID and sent/accepted status, then remaining
+delivery/marketing acceptance checks. The Zap and revised website remain
+unpublished; no permission for another email send has been given.
 Do not copy private keys, deployment URLs, recipient details or request IDs into
 this checkpoint.
 
