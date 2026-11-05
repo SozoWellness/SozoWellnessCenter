@@ -28,6 +28,17 @@ query suffix. Verify the selected trigger record has plain JSON fields. Any
 temporary self-post sample action must remain draft-only and be removed before
 publishing; it can otherwise create a webhook loop.
 
+For Zapier true/false inputs, normalize capitalization and surrounding spaces
+for explicit `true`/`false` text only; do not infer consent from other strings,
+numbers or missing fields.
+
+**Why:** The four book-guard boolean fields failed validation despite Zapier's
+Data in display showing true/false. The user confirmed the real Zap and Sheet
+worked after this narrowly scoped normalization.
+
+**How to apply:** Do not treat Zapier's displayed boolean text as proof of its
+wire representation. Preserve strict consent meanings when normalizing it.
+
 For the book request, capture first name and email, without requiring a phone
 number. Provide an immediate PDF download and an emailed download link. Keep
 promotional email permission separate and optional; a book request must not

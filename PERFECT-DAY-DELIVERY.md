@@ -4,6 +4,22 @@ The website and Cloudflare handler are prepared. **This is not a live delivery
 connection yet.** Do not enable public requests until the separate Zap and real
 recipient tests below pass. Nothing here authorizes a GitHub push or publication.
 
+## Setup checkpoint — November 5, 2026
+
+The user has prepared the separate draft book Zap with a JSON POST trigger
+sample and passing form/consent filter. The temporary self-post sample action
+was removed. They created the restricted Requests sheet and installed the
+protected Google Apps Script helper. Its anonymous GET returned
+`post_required` after deployment access was corrected to Anyone.
+
+The user confirmed that the helper POST and Google Sheet write worked after
+true/false text normalization. Local mocked guard tests: 13 passing.
+This is **log-only synthetic testing**, not book email delivery or public
+activation. Next: guard-result filter, duplicate-stop verification, verified
+Gmail sender/copy, approved-recipient delivery tests and optional marketing.
+Do not copy private keys, deployment URLs, recipient details or request IDs into
+this checkpoint.
+
 ## What visitors will receive
 
 - The original **The Perfect Day Lifestyle**, by **Dr. Darrell Wolfe**, Edition 15.
