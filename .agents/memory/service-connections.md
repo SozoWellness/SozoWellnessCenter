@@ -9,6 +9,20 @@ SOZO uses Jane for appointment booking; the website should point clients to SOZO
 
 The Perfect Day Lifestyle guidebook is free, and requests for it need to be captured.
 
+## Therapy scope confirmed by the user
+
+SOZO calls Pulse Light Therapy **Red Light Therapy** as well. Add Foot Detox
+and Pulse / Red Light as service pages using the old site's content adapted to
+the new brand and the user-supplied photos. Leave Cryogenics off for now, and
+leave Ozone, BrainTap and H-Wave where and as they are for now.
+
+**Why:** The user explicitly confirmed the naming equivalence and narrowed the
+scope after comparing the old Therapies page with the new site.
+
+**How to apply:** Do not infer other technology equivalences or expand these
+additions into a broader therapy migration. Do not change the deferred offerings
+without a new request.
+
 **Why:** The user specified these business requirements and existing services.
 
 **How to apply:** Use these providers and purposes when discussing or implementing the connections; confirm unspecified workflow details rather than assuming them.

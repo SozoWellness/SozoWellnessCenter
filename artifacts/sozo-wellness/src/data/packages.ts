@@ -89,7 +89,7 @@ export const wellnessServices: WellnessService[] = [
   { id: 'cellsonic', name: 'CellSonic', href: '/services/shockwave' },
   { id: 'therawellness', name: 'TheraWellness', href: '/services/therawellness' },
   { id: 'ozone-therapy', name: 'Ozone Therapy' },
-  { id: 'red-light-therapy', name: 'Red Light Therapy' },
+  { id: 'red-light-therapy', name: 'Red Light Therapy', href: '/services/red-light-therapy' },
   { id: 'pemf-therapy', name: 'PEMF Therapy', aliases: ['OLY Life PEMF'] },
   { id: 'focused-shockwave', name: 'Focused Shockwave Therapy', href: '/services/shockwave', aliases: ['Focused Shockwave'] },
 ];

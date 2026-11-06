@@ -9,6 +9,8 @@ export const discoveryServices: DiscoveryService[] = [
   { title: 'Rife frequency', href: '/services/rife', image: '/images/clinic/rife-session.webp', alt: 'A visitor resting on a frequency mat in the Rife treatment room', text: 'Guided, mat-based electromagnetic frequency sessions offered as complementary wellness.', interest: 'Rife frequency' },
   { title: 'TheraWellness', href: '/services/therawellness', image: '/images/clinic/therawellness-session.webp', alt: 'A visitor lying comfortably during a TheraWellness session', text: 'Personalized, noninvasive wellness sessions focused on relaxation, balance and a calmer mind.', interest: 'TheraWellness' },
   { title: 'Cardio MedBed', href: '/services/cardio-medbed', image: '/images/clinic/cardio-medbed-lifestyle.webp', alt: 'A person resting on a Cardio MedBed with leg cuffs while a practitioner adjusts the controls', text: 'Explore noninvasive EECP for heart health, circulation and oxygen delivery.', interest: 'Cardio MedBed' },
+  { title: 'Pulse / Red Light Therapy', href: '/services/red-light-therapy', image: '/images/clinic/red-light-session.webp', alt: 'A visitor resting during a Pulse / Red Light Therapy session', text: 'Noninvasive, personalized polychromatic light sessions with comfort, recovery and everyday well-being in mind.', interest: 'Wellness assessments' },
+  { title: 'Foot Detox', href: '/services/foot-detox', image: '/images/clinic/foot-detox-session.webp', alt: 'The Foot Detox treatment room at SOZO with the AO Infinity device', text: 'A seated, noninvasive AO Infinity session with personal guidance and a quiet moment for you.', interest: 'Wellness assessments' },
 ];
 
 export const goalCards = [
@@ -30,5 +32,7 @@ export const serviceHeroes: Record<string, { interest: InquiryInterest; cta: str
   '/services/therawellness': { interest: 'TheraWellness', cta: ASSESSMENT_CTA, highlights: ['Noninvasive, personalized wellness', 'Relaxation, balance and mental calm', 'Guidance built around your goals'] },
   '/services/cardio-medbed': { interest: 'Cardio MedBed', cta: ASSESSMENT_CTA, highlights: ['Noninvasive external counterpulsation', 'Inflatable cuffs synchronized with your heartbeat', 'Designed to support heart and circulatory wellness'] },
   '/services/wolfe-non-surgical-bodywork': { interest: 'Wolfe Non-Surgical Bodywork', cta: ASSESSMENT_CTA, highlights: ['Targeted, hands-on deep tissue work', 'Focused on flexibility and comfortable movement', 'Your health history and comfort come first'] },
+  '/services/red-light-therapy': { interest: 'Wellness assessments', cta: ASSESSMENT_CTA, highlights: ['Pulse Light, also known as Red Light Therapy', 'Neurocare Pro Platinum polychromatic light', 'Personalized, noninvasive and full-body capable'] },
+  '/services/foot-detox': { interest: 'Wellness assessments', cta: ASSESSMENT_CTA, highlights: ['AO Infinity Foot Detox device', 'Seated, noninvasive and fully clothed', 'Suitability conversation before you book'] },
 };
 export { getInquiryHref };

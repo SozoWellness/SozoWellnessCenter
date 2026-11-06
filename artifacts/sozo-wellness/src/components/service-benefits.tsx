@@ -1,4 +1,4 @@
-import { BedDouble, Compass, HeartHandshake, Leaf, MessageCircleQuestion, Footprints, Waves, Activity, Sparkles, Info, Wind, ClipboardList, type LucideIcon } from 'lucide-react';
+import { BedDouble, Compass, HeartHandshake, Leaf, MessageCircleQuestion, Footprints, Waves, Activity, Sparkles, Info, Wind, ClipboardList, Sun, Armchair, type LucideIcon } from 'lucide-react';
 
 type Block = { title: string; text: string };
 type Group = { label: string; intro: string; from: number; to?: number; icons: LucideIcon[] };
@@ -28,6 +28,14 @@ const configs: Record<string, Group[]> = {
       intro: 'We’ll walk you through the session before you begin.',
       from: 3, icons: [ClipboardList],
     },
+  ],
+  '/services/red-light-therapy': [
+    { label: 'Goals people explore with Pulse / Red Light Therapy.', intro: 'Potential benefits depend on the device and the individual. We talk openly about what to reasonably expect.', from: 0, to: 3, icons: [Activity, Sparkles, Waves] },
+    { label: 'Know what to expect.', intro: 'A personalized session, with your history and comfort considered first.', from: 3, icons: [Sun, ClipboardList, HeartHandshake] },
+  ],
+  '/services/foot-detox': [
+    { label: 'What a Foot Detox session offers.', intro: 'A comfortable seat, a quiet room and personal guidance from our team.', from: 0, to: 3, icons: [Armchair, Leaf, MessageCircleQuestion] },
+    { label: 'Clear expectations, whole-person care.', intro: 'We describe the experience honestly and help you decide whether it fits your goals.', from: 3, icons: [Info, Compass, ClipboardList] },
   ],
   '/services/shockwave': [
     { label: 'Two approaches. One personal plan.', intro: 'We offer Radial ESWT and CellSonic ESWT. Our team discusses which approach fits your area of concern.', from: 0, to: 2, icons: [Waves, Activity] },

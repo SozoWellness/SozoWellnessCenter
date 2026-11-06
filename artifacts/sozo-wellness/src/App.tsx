@@ -25,6 +25,8 @@ import { cardioMedBedDetails } from '@/data/cardio-medbed';
 import { wolfeBodyworkDetails } from '@/data/wolfe-bodywork';
 import { rifeDetails } from '@/data/rife';
 import { theraWellnessDetails } from '@/data/therawellness';
+import { footDetoxDetails } from '@/data/foot-detox';
+import { redLightTherapyDetails } from '@/data/red-light-therapy';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { PrivacyPolicy } from '@/components/privacy-policy';
@@ -49,9 +51,11 @@ const services: { title: string; href: string; short: string; number: string; st
   { title: 'Rife frequency', href: '/services/rife', short: 'Guided, mat-based electromagnetic frequency sessions offered as complementary wellness.', number: '04' },
   { title: 'TheraWellness', href: '/services/therawellness', short: 'Personalized, noninvasive wellness sessions focused on relaxation, balance and a calmer mind.', number: '05' },
   { title: 'Cardio MedBed', href: '/services/cardio-medbed', short: 'Noninvasive EECP designed to support heart health, circulation and oxygen delivery.', number: '06' },
-  { title: 'Wolfe Non-Surgical Bodywork', href: '/services/wolfe-non-surgical-bodywork', short: 'Focused hands-on bodywork for deep tissue restrictions, flexibility and more comfortable movement.', number: '07' },
-  { title: 'Chiropractic', href: '/chiropractic-care', short: 'Meet JT Anderson, DC and Lauren Alvarez Schmitz, DC, and explore personalized care for pain, mobility and everyday movement.', number: '08' },
-  { title: 'Whole Life Wellness Coaching', href: '/services/whole-life-coaching', short: 'Wellness from the root: personal guidance for your mental, emotional, physical and spiritual well-being.', number: '09' },
+  { title: 'Pulse / Red Light Therapy', href: '/services/red-light-therapy', short: 'Noninvasive, personalized polychromatic light sessions with comfort, recovery and well-being in mind.', number: '07' },
+  { title: 'Foot Detox', href: '/services/foot-detox', short: 'A seated, noninvasive AO Infinity session with personal guidance and time to slow down.', number: '08' },
+  { title: 'Wolfe Non-Surgical Bodywork', href: '/services/wolfe-non-surgical-bodywork', short: 'Focused hands-on bodywork for deep tissue restrictions, flexibility and more comfortable movement.', number: '09' },
+  { title: 'Chiropractic', href: '/chiropractic-care', short: 'Meet JT Anderson, DC and Lauren Alvarez Schmitz, DC, and explore personalized care for pain, mobility and everyday movement.', number: '10' },
+  { title: 'Whole Life Wellness Coaching', href: '/services/whole-life-coaching', short: 'Wellness from the root: personal guidance for your mental, emotional, physical and spiritual well-being.', number: '11' },
 ];
 
 const serviceMenu: { title: string; href: string; number: string; status?: string }[] = [
@@ -87,6 +91,8 @@ export const meta: Record<string, [string, string]> = {
   '/services/hyperbaric-oxygen': ['Hyperbaric Oxygen near The Villages | SOZO', 'Recovery starts at the cellular level. Discover oxygen-focused chamber sessions near The Villages, with personal guidance at SOZO Wellness Center.'],
   '/services/therawellness': ['TheraWellness near The Villages | SOZO Wellness Center', 'Explore guided TheraWellness sessions near The Villages, with intended wellness benefits for relaxation, calm, personal balance and restorative rest.'],
   '/services/cardio-medbed': ['Cardio MedBed EECP near The Villages | SOZO', 'Available at SOZO: explore Cardio MedBed EECP for heart and circulatory wellness. Learn how it works, potential benefits and what a session involves.'],
+  '/services/red-light-therapy': ['Pulse / Red Light Therapy near The Villages | SOZO', 'Explore Pulse Light, also known as Red Light Therapy, at SOZO: noninvasive, personalized polychromatic light sessions for comfort, recovery and well-being near The Villages.'],
+  '/services/foot-detox': ['Foot Detox near The Villages | SOZO Wellness Center', 'Explore seated, noninvasive Foot Detox sessions with the AO Infinity device at SOZO near The Villages. Learn what to expect and ask our team about suitability.'],
   '/services/packages': ['Wellness Credit Packages near The Villages | SOZO', 'Explore SOZO Freedom packages of 6, 12, 22 and 36 wellness credits, Pain Packages of 5 or 10 credits, and our Circulation & Vitality Program near The Villages, Florida.'],
   '/dodpowerpack-clinic': ['DODPowerPack Clinic near The Villages | SOZO', 'Explore Wolfe Non-Surgical Bodywork, Cellsonic and Cardio MedBed at SOZO, a Certified DODPowerPack Clinic serving The Villages.'],
   '/services/wolfe-non-surgical-bodywork': ['Wolfe Non-Surgical Bodywork near The Villages | SOZO', 'Explore targeted hands-on bodywork for deep tissue restrictions, flexibility and comfortable movement. Learn what a Wolfe Non-Surgical Bodywork session involves.'],
@@ -261,6 +267,8 @@ const details: Record<string, Detail> = {
   '/services/therawellness': theraWellnessDetails,
   '/services/cardio-medbed': cardioMedBedDetails,
   '/services/wolfe-non-surgical-bodywork': wolfeBodyworkDetails,
+  '/services/red-light-therapy': redLightTherapyDetails,
+  '/services/foot-detox': footDetoxDetails,
 };
 function ServiceDetail({ path }: { path: string }) {
   const d = details[path];
@@ -412,6 +420,8 @@ function Router() {
       <Route path="/services/therawellness">{() => <ServiceDetail path="/services/therawellness"/>}</Route>
       <Route path="/services/cardio-medbed">{() => <ServiceDetail path="/services/cardio-medbed"/>}</Route>
       <Route path="/services/wolfe-non-surgical-bodywork">{() => <ServiceDetail path="/services/wolfe-non-surgical-bodywork"/>}</Route>
+      <Route path="/services/red-light-therapy">{() => <ServiceDetail path="/services/red-light-therapy"/>}</Route>
+      <Route path="/services/foot-detox">{() => <ServiceDetail path="/services/foot-detox"/>}</Route>
       <Route path="/services/packages" component={PackagesPage}/>
       <Route path="/services/whole-life-coaching" component={WholeLifeCoachingPage}/>
       <Route path="/perfect-day-lifestyle" component={PerfectDayBookPage}/>

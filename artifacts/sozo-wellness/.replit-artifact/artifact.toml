@@ -44,6 +44,14 @@ from = "/services/therawellness"
 to = "/services/therawellness/index.html"
 
 [[services.production.rewrites]]
+from = "/services/red-light-therapy"
+to = "/services/red-light-therapy/index.html"
+
+[[services.production.rewrites]]
+from = "/services/foot-detox"
+to = "/services/foot-detox/index.html"
+
+[[services.production.rewrites]]
 from = "/about"
 to = "/about/index.html"
 

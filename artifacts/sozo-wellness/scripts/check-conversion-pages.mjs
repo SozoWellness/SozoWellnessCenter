@@ -136,5 +136,8 @@ for (const [id, name] of [
   assert(clean(physician).includes(name), `Missing service name: ${name}`);
 }
 assert.match(physician, /<h1[^>]*>Independent physician care <em>near The Villages\.<\/em><\/h1>/);
-assert.equal(href(anchor(await page('services'), 'link-service-08')), '/chiropractic-care');
+const servicesPage = await page('services');
+assert.equal(href(anchor(servicesPage, 'link-service-07')), '/services/red-light-therapy');
+assert.equal(href(anchor(servicesPage, 'link-service-08')), '/services/foot-detox');
+assert.equal(href(anchor(servicesPage, 'link-service-10')), '/chiropractic-care');
 console.log(`Conversion checks passed: ${pages.length} pages, four pathways, three assessment selections, five testimonials and separate provider destinations.`);
