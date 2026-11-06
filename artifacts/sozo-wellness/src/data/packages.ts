@@ -6,7 +6,7 @@
 export type FreedomPackage = {
   id: string;
   name: string;
-  sessions: number;
+  credits: number;
   price: number;
   description: string;
 };
@@ -14,45 +14,54 @@ export type FreedomPackage = {
 export const freedomPackages: FreedomPackage[] = [
   {
     id: 'freedom-6',
-    name: 'Freedom Package — 6 Sessions',
-    sessions: 6,
+    name: 'Freedom Package — 6 Credits',
+    credits: 6,
     price: 600,
     description: 'A starting point for making time for your wellness.',
   },
   {
     id: 'freedom-12',
-    name: 'Freedom Package — 12 Sessions',
-    sessions: 12,
+    name: 'Freedom Package — 12 Credits',
+    credits: 12,
     price: 1000,
     description: 'Make room for regular sessions with guidance from our team.',
   },
   {
     id: 'freedom-22',
-    name: 'Freedom Package — 22 Sessions',
-    sessions: 22,
+    name: 'Freedom Package — 22 Credits',
+    credits: 22,
     price: 1800,
     description: 'Plan a series of visits around your personal wellness goals.',
   },
   {
     id: 'freedom-36',
-    name: 'Freedom Package — 36 Sessions',
-    sessions: 36,
+    name: 'Freedom Package — 36 Credits',
+    credits: 36,
     price: 2800,
-    description: 'Support a longer-term wellness routine with a larger session package.',
+    description: 'Support a longer-term wellness routine with a larger wellness credit package.',
   },
 ];
 
-export const painPackage = {
-  id: 'pain-5',
-  name: 'Pain Package',
-  sessions: 5,
-  price: 400,
-  description: 'Talk with our team about your goals and the sessions included in this package.',
-};
+export const painPackages: FreedomPackage[] = [
+  {
+    id: 'pain-5',
+    name: 'Pain Package — 5 Credits',
+    credits: 5,
+    price: 400,
+    description: 'A focused starting point with guidance for your personal wellness goals.',
+  },
+  {
+    id: 'pain-10',
+    name: 'Pain Package — 10 Credits',
+    credits: 10,
+    price: 800,
+    description: 'More wellness credits to support your personalized plan.',
+  },
+];
 
 export const packagePolicy = {
-  summary: 'Choose a session package with personal guidance from our team.',
-  termsNote: 'Before you decide, our team will confirm which services are included, how your selected sessions apply, and the package terms.',
+  summary: 'Choose a wellness credit package with personal guidance from our team.',
+  termsNote: 'Our team will confirm how wellness credits apply to your selected services and explain the package terms before you decide.',
 };
 
 export const circulationProgram = {

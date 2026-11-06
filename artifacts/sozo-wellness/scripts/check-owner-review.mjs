@@ -71,17 +71,17 @@ for (const [file, html] of htmlCache) {
 }
 const packageHtml = htmlCache.get(path.join(output, 'services/packages/index.html'));
 assert(packageHtml, 'Build the website before running this audit.');
-for (const [id, sessions, price] of [
+for (const [id, credits, price] of [
   ['freedom-6', 6, '$600'], ['freedom-12', 12, '$1,000'],
   ['freedom-22', 22, '$1,800'], ['freedom-36', 36, '$2,800'],
+  ['pain-5', 5, '$400'], ['pain-10', 10, '$800'],
 ]) {
-  assert(packageHtml.includes(`data-testid="text-session-count-${id}">${sessions}`));
+  assert(packageHtml.includes(`data-testid="text-credit-count-${id}">${credits}`));
   assert(packageHtml.includes(`data-testid="text-price-${id}">${price}`));
 }
-assert(packageHtml.includes('data-testid="text-pain-session-count">5'));
-assert(packageHtml.includes('data-testid="text-pain-price">$400'));
+assert(packageHtml.includes('Wellness Credit Packages'));
 assert(packageHtml.includes('data-testid="text-circulation-price">$5,000'));
-const forbidden = /Pain Solutions Package [ABC]|Starter Freedom|Freedom Plus|wellness credits|Per credit|Warrior Package|Half Warrior|Signature Membership|Holiday Special/i;
+const forbidden = /Pain Solutions Package [ABC]|Starter Freedom|Freedom Plus|Per credit|Warrior Package|Half Warrior|Signature Membership|Holiday Special/i;
 for (const [file, html] of htmlCache) assert(!forbidden.test(html), `Obsolete/internal package wording in ${file}`);
 
 const inventory = [];

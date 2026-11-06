@@ -1,6 +1,6 @@
 import { Link } from 'wouter';
 import { ArrowRight, Phone, Check, Info, CalendarDays } from 'lucide-react';
-import { freedomPackages, painPackage, packagePolicy, circulationProgram, wellnessServices, wellnessPathways, formatPrice } from '../data/packages';
+import { freedomPackages, painPackages, packagePolicy, circulationProgram, wellnessServices, wellnessPathways, formatPrice } from '../data/packages';
 import { getInquiryHref } from '../lib/inquiry';
 import { JaneBookingLink } from './jane-booking-link';
 import './packages.css';
@@ -11,7 +11,7 @@ const ENQUIRY_HREF = getInquiryHref('Wellness assessments');
 
 const jumpLinks = [
   { id: 'packages', label: 'Freedom Packages' },
-  { id: 'pain-package', label: 'Pain Package' },
+  { id: 'pain-package', label: 'Pain Packages' },
   { id: 'package-details', label: 'Package details' },
   { id: 'special-program', label: 'Circulation & Vitality Program' },
   { id: 'pathways', label: 'Wellness Pathways' },
@@ -27,9 +27,9 @@ export function PackagesPage() {
     <section className="page-hero pk-hero">
       <div className="container">
         <span className="crumb"><Link href="/" data-testid="link-breadcrumb-home">Home</Link> / Packages</span>
-        <div className="pk-eyebrow-row"><span className="eyebrow">Wellness Packages</span></div>
+        <div className="pk-eyebrow-row"><span className="eyebrow">Wellness Credit Packages</span></div>
         <h1 className="serif fade-up">Your wellness. <em>Your next step.</em></h1>
-        <p className="fade-up delay-1">Explore our Freedom session packages, Pain Package and Circulation &amp; Vitality Program. Read at your own pace, then talk with our team about the services and package that fit your goals.</p>
+        <p className="fade-up delay-1">Explore our Freedom and Pain wellness credit packages and Circulation &amp; Vitality Program. Read at your own pace, then talk with our team about the services and package that fit your goals.</p>
         <div className="pk-hero-actions fade-up delay-2">
           <JaneBookingLink testId="link-hero-booking" />
           <a href={PHONE_HREF} className="btn btn-outline" data-testid="link-hero-phone"><Phone size={17} aria-hidden="true" /> {PHONE_LABEL}</a>
@@ -59,15 +59,15 @@ export function PackagesPage() {
             <span className="pk-group-no" aria-hidden="true">01</span>
             <div>
               <p className="pk-group-sub">Your wellness routine</p>
-              <h2 id="packages-heading" className="serif">Freedom Packages</h2>
-              <p className="pk-group-desc">Choose from four session packages. We’ll help you explore your options and confirm the included services before you decide.</p>
+              <h2 id="packages-heading" className="serif">Freedom Wellness Credit Packages</h2>
+              <p className="pk-group-desc">Each package can be applied toward a variety of wellness services. Our team will help you determine which services best support your goals.</p>
             </div>
           </header>
           <div className={`pk-grid pk-count-${freedomPackages.length}`}>
             {freedomPackages.map(p => (
               <article key={p.id} className="pk-card" aria-labelledby={`${p.id}-name`} data-testid={`card-package-${p.id}`}>
                 <h3 id={`${p.id}-name`} className="serif">{p.name}</h3>
-                <p className="pk-sessions"><strong data-testid={`text-session-count-${p.id}`}>{p.sessions}</strong> sessions</p>
+                <p className="pk-sessions"><strong data-testid={`text-credit-count-${p.id}`}>{p.credits}</strong> wellness credits</p>
                 <dl className="pk-price">
                   <div className="pk-price-main"><dt>Package price</dt><dd data-testid={`text-price-${p.id}`}>{formatPrice(p.price)}</dd></div>
                 </dl>
@@ -85,15 +85,20 @@ export function PackagesPage() {
         <section id="pain-package" className="pk-guide" aria-labelledby="pain-package-heading" data-testid="section-pain-package">
           <div>
             <p className="pk-group-sub">A focused starting point</p>
-            <h2 id="pain-package-heading" className="serif">{painPackage.name}</h2>
+            <h2 id="pain-package-heading" className="serif">Pain Packages</h2>
           </div>
           <div>
-            <p className="pk-sessions"><strong data-testid="text-pain-session-count">{painPackage.sessions}</strong> sessions</p>
-            <dl className="pk-price">
-              <div className="pk-price-main"><dt>Package price</dt><dd data-testid="text-pain-price">{formatPrice(painPackage.price)}</dd></div>
-            </dl>
-            <p>{painPackage.description}</p>
-            <Link href={ENQUIRY_HREF} className="btn btn-text" data-testid="link-enquire-pain">Enquire about the Pain Package <ArrowRight size={16} aria-hidden="true" /></Link>
+            {painPackages.map(p => (
+              <article key={p.id} className="pk-pain-option" aria-labelledby={`${p.id}-name`} data-testid={`card-package-${p.id}`}>
+                <h3 id={`${p.id}-name`} className="serif">{p.name}</h3>
+                <p className="pk-sessions"><strong data-testid={`text-credit-count-${p.id}`}>{p.credits}</strong> wellness credits</p>
+                <dl className="pk-price">
+                  <div className="pk-price-main"><dt>Package price</dt><dd data-testid={`text-price-${p.id}`}>{formatPrice(p.price)}</dd></div>
+                </dl>
+                <p>{p.description}</p>
+                <Link href={ENQUIRY_HREF} className="btn btn-text" data-testid={`link-enquire-${p.id}`}>Enquire about the {p.name} <ArrowRight size={16} aria-hidden="true" /></Link>
+              </article>
+            ))}
           </div>
         </section>
 
@@ -108,7 +113,7 @@ export function PackagesPage() {
 
         <section className="pk-service-directory" aria-labelledby="wellness-services-heading" data-testid="section-wellness-services">
           <h2 id="wellness-services-heading" className="serif">Explore our wellness services</h2>
-          <p>Explore these services with our team. This directory is not a list of package inclusions; we’ll confirm which sessions apply to your selected package.</p>
+          <p>Explore these services with our team. This directory is not a list of package inclusions; we’ll help you determine how your wellness credits can support the services that fit your goals.</p>
           <ul className="pk-service-list">
             {wellnessServices.map(service => (
               <li key={service.id} data-testid={`service-${service.id}`}>
@@ -185,7 +190,7 @@ export function PackagesPage() {
         <div>
           <span className="eyebrow light">Next step</span>
           <h2 id="pk-close-heading" className="serif">Start with a conversation, <em>not a commitment.</em></h2>
-          <p>Text or call our team to talk through your goals, confirm which sessions are included in your selected package, and review terms before you decide.</p>
+          <p>Text or call our team to talk through your goals, personalize your wellness credit package, and review terms before you decide.</p>
         </div>
         <div className="pk-close-actions">
           <JaneBookingLink className="btn btn-light" testId="link-close-booking" />

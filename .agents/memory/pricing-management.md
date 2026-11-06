@@ -15,6 +15,20 @@ Do not introduce authentication, checkout, or a CMS merely to make pricing edita
 
 ## Owner's revised public package scope
 
+The owner's later review confirms **Wellness Credit Packages** as the official
+language, replacing session-based package amounts throughout the Packages page.
+The Pain Package options are 5 credits for $400 and 10 credits for $800, with the
+10-credit option below the 5-credit option. Freedom amounts are wellness credits,
+not guaranteed session counts. The separately described circulation schedule
+still uses actual visits and session durations.
+
+**Why:** The user relayed these explicit owner revisions after the initial
+session-based public package approval.
+
+**How to apply:** Use credits for package balances without inferring one credit
+per session or inventing service redemption rules. This terminology supersedes
+the earlier session-based description below.
+
 The owner's newer notes supersede the original 10/20/35-credit poster for the
 public package lineup: Pain Package, 5 sessions for $400, and Freedom packages
 of 6, 12, 22 and 36 sessions. Exclude Warrior, Half Warrior, internal-only

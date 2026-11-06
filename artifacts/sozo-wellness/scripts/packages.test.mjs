@@ -2,16 +2,16 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import {
-  freedomPackages, painPackage, circulationProgram, packagePolicy,
+  freedomPackages, painPackages, circulationProgram, packagePolicy,
   wellnessServices, wellnessPathways, formatPrice,
 } from '../src/data/packages.ts';
 
-test('Freedom packages match the owner-approved public sessions and prices', () => {
-  assert.deepEqual(freedomPackages.map(p => [p.name, p.sessions, p.price]), [
-    ['Freedom Package — 6 Sessions', 6, 600],
-    ['Freedom Package — 12 Sessions', 12, 1000],
-    ['Freedom Package — 22 Sessions', 22, 1800],
-    ['Freedom Package — 36 Sessions', 36, 2800],
+test('Freedom packages match the owner-approved public credits and prices', () => {
+  assert.deepEqual(freedomPackages.map(p => [p.name, p.credits, p.price]), [
+    ['Freedom Package — 6 Credits', 6, 600],
+    ['Freedom Package — 12 Credits', 12, 1000],
+    ['Freedom Package — 22 Credits', 22, 1800],
+    ['Freedom Package — 36 Credits', 36, 2800],
   ]);
   assert.equal(new Set(freedomPackages.map(p => p.id)).size, 4);
   assert.equal(formatPrice(1700), '$1,700');
@@ -19,11 +19,12 @@ test('Freedom packages match the owner-approved public sessions and prices', () 
   assert.equal(formatPrice(85.5), '$85.50');
 });
 
-test('Pain Package exposes only its approved five sessions and $400 price', () => {
-  assert.equal(painPackage.name, 'Pain Package');
-  assert.equal(painPackage.sessions, 5);
-  assert.equal(painPackage.price, 400);
-  assert.doesNotMatch(JSON.stringify(painPackage), /expire|buy 8|free|shockwave|cellsonic/i);
+test('Pain Packages expose the approved five- and ten-credit options in order', () => {
+  assert.deepEqual(painPackages.map(p => [p.name, p.credits, p.price]), [
+    ['Pain Package — 5 Credits', 5, 400],
+    ['Pain Package — 10 Credits', 10, 800],
+  ]);
+  assert.doesNotMatch(JSON.stringify(painPackages), /expire|buy 8|free|shockwave|cellsonic/i);
 });
 
 test('Circulation program keeps the separate approved price and session schedule', () => {
@@ -52,7 +53,7 @@ test('all ten example pathways and the ten listed services are retained', () => 
 });
 
 test('package policy does not turn unknown terms or credit equivalence into promises', () => {
-  assert.match(packagePolicy.summary, /session package/);
+  assert.match(packagePolicy.summary, /wellness credit package/);
   assert.match(packagePolicy.termsNote, /team will confirm/i);
   assert.doesNotMatch(JSON.stringify(packagePolicy), /never expire|no expiration|unlimited|all services|shareable|one.*credit/i);
   assert.doesNotMatch(circulationProgram.pricingNote, /not purchased with|cannot use|credit.?ineligible/i);
@@ -63,7 +64,7 @@ test('the obsolete package catalog and metadata are removed', () => {
   const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
   assert.doesNotMatch(data, /Pain Package [ABC]|HBOT Package [ABC]|Brain Mapping Package|TheraWellness Standard Package|TheraWellness Boost Package|Custom Package/);
   const metadata = app.split('\n').find(line => line.includes("'/services/packages':"));
-  assert.match(metadata, /Freedom & Pain Session Packages/);
+  assert.match(metadata, /Wellness Credit Packages/);
   assert.doesNotMatch(metadata, /Brain Mapping is coming soon/);
 });
 
@@ -71,7 +72,8 @@ test('public package UI does not expose old credit rules or internal offers', ()
   const data = readFileSync(new URL('../src/data/packages.ts', import.meta.url), 'utf8');
   const component = readFileSync(new URL('../src/components/packages.tsx', import.meta.url), 'utf8');
   assert.doesNotMatch(data + component, /Pain Solutions Package [ABC]|Warrior|Signature Membership|Maintenance Membership|Holiday Special|Starter Freedom|Freedom Plus|Per credit|one Freedom Wellness Credit/i);
-  assert.doesNotMatch(component, /p\.credits|how-credits-work|text-per-credit/);
-  assert.match(component, /painPackage\.price/);
+  assert.doesNotMatch(component, /p\.sessions|session packages|how-credits-work|text-per-credit/);
+  assert.match(component, /painPackages\.map/);
+  assert.match(component, /Each package can be applied toward a variety of wellness services\. Our team will help you determine which services best support your goals\./);
   assert.match(component, /not a list of package inclusions/);
 });
