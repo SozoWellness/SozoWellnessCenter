@@ -14,3 +14,13 @@ The owner has approved all website changes, and the user has requested launch pr
 **Why:** On November 9, 2026, the user said all changes were approved and it was time to get everything ready to move the domain. This supersedes the earlier owner-review hold.
 
 **How to apply:** Prepare launch checks and a domain cutover plan, but obtain confirmation before changing DNS or activating unfinished book or marketing workflows. Content approval does not establish successful delivery tests.
+
+Do not make a website-only eligibility guard or public activation of the new
+five-minute reply fallback a launch prerequisite. Leave that fallback restricted
+to the test number and revisit it after launch.
+
+**Why:** The user agreed to defer the fallback to avoid disrupting staff and
+explicitly said launching the site is the priority for today.
+
+**How to apply:** Preserve Quo's existing native acknowledgements and manual
+staff replies. Do not remove the reply Zap's test-phone filter during cutover.
