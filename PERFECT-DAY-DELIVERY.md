@@ -39,6 +39,15 @@ This verifies the returning-subscribed-contact marketing-true path, not behavior
 for unsubscribed/cleaned contacts or new-subscriber welcome enrollment.
 Both approved website-test email sends have now been consumed.
 
+The user chose not to repeat the fresh-alias welcome integration test, since
+the welcome had already been verified separately. They subsequently confirmed
+that the welcome's exact-test-address restriction was removed, Include imported
+contacts remains checked, repeat entry is off, and the email-only flow is saved
+and still paused. No existing-contact enrollment was requested.
+This prepares general welcome entry rules; it is not public activation.
+Cloudflare and the Google helper remain in test mode. Older descriptions of a
+retained exact-address welcome filter no longer describe the current setup.
+
 The user has prepared the separate draft book Zap with a JSON POST trigger
 sample and passing form/consent filter. The temporary self-post sample action
 was removed. They created the restricted Requests sheet and installed the
