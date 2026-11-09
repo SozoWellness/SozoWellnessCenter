@@ -28,6 +28,17 @@ The approval for that one email has been consumed; further sends or enrollments
 require separate permission. The older safe-state notes below describe the
 November 5 checkpoint and are superseded by this update where they conflict.
 
+In a separately approved second website submission, the user checked marketing
+consent using the same allowed, already-Subscribed contact. They confirmed all
+checks passed: another book email and download link, a new request row with
+marketing consent true, delivery `sent_accepted` and marketing
+`subscribed_tagged`, and the automatic Zap completing its marketing actions.
+The existing contact remained Subscribed with the book tag while retaining
+previous profile details and unrelated tags. The welcome remained paused.
+This verifies the returning-subscribed-contact marketing-true path, not behavior
+for unsubscribed/cleaned contacts or new-subscriber welcome enrollment.
+Both approved website-test email sends have now been consumed.
+
 The user has prepared the separate draft book Zap with a JSON POST trigger
 sample and passing form/consent filter. The temporary self-post sample action
 was removed. They created the restricted Requests sheet and installed the
