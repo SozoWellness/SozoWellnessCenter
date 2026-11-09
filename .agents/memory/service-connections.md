@@ -104,6 +104,15 @@ without marketing enrollment.
 
 ## Jane booking and website enquiries
 
+Quo monitoring is sufficient for staff notification of website enquiries; do
+not add separate staff email alerts.
+
+**Why:** The user explicitly selected Quo monitoring rather than staff email
+alerts during launch preparation.
+
+**How to apply:** Keep enquiry capture in Quo regardless of optional messaging
+consent. Do not introduce a staff-email integration as a launch requirement.
+
 Keep direct Jane booking separate from the website enquiry workflow. Use styled
 external booking links rather than the supplied fixed-size 177×28 iframe button;
 do not send enquiry form values to Jane through URL parameters.
