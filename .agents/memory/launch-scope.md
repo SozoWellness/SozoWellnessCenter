@@ -9,8 +9,8 @@ QR codes, resource links/organization and poster updates are post-launch work; t
 
 **How to apply:** Keep these resource updates out of the pre-launch book-delivery work; do not revive the resource proposal as a launch prerequisite.
 
-Use a separate published review address while the owner reviews the new site. Do not connect or switch the existing SOZO domain yet.
+The owner has approved all website changes, and the user has requested launch preparation for moving the existing domain to the new site. Keep the separate review address available until the cutover.
 
-**Why:** The user approved a stable published review address and explicitly said they are not ready to change the URL/domain to the new site.
+**Why:** On November 9, 2026, the user said all changes were approved and it was time to get everything ready to move the domain. This supersedes the earlier owner-review hold.
 
-**How to apply:** Keep the current live site and DNS unchanged. Review publishing is not authorization to activate unfinished book or marketing workflows.
+**How to apply:** Prepare launch checks and a domain cutover plan, but obtain confirmation before changing DNS or activating unfinished book or marketing workflows. Content approval does not establish successful delivery tests.
