@@ -156,6 +156,17 @@ delivery path, not cancellation after a reply or booking.
 
 ## Reply handling and staff availability
 
+The delayed reply fallback must cover **website enquiries only**, not all
+incoming conversations on SOZO's Quo number.
+
+**Why:** The user explicitly selected website enquiries only when reviewing
+removal of the test-phone restriction during launch preparation.
+
+**How to apply:** Do not simply remove the test-sender allowlist and thereby
+broaden the workflow to the whole number. Require a reliable website-enquiry
+eligibility check and preserve SMS consent before public activation. Keep
+Quo's existing native acknowledgements separate.
+
 The current website revisions must be reviewed by SOZO's owner before publishing.
 Do not publish them just to enable an automation test.
 
