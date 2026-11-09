@@ -6,6 +6,28 @@ recipient tests below pass. Nothing here authorizes a GitHub push or publication
 
 ## Setup checkpoint — November 5, 2026
 
+### Website acceptance update — November 9, 2026
+
+The approved website code is now deployed to the separate Cloudflare Pages
+address; no custom-domain cutover was performed. The user confirmed the book
+Zap is published and On, and that the Google helper remains restricted to the
+same test email as Cloudflare. A read-only availability check confirmed
+`enabled: true, mode: test`. The Mailchimp welcome remains paused.
+
+After explicit approval for one transactional email, the user submitted the
+Cloudflare book form once with marketing unchecked. They confirmed the immediate
+download appeared, exactly one book email arrived with a working link, and the
+new request row retained marketing consent false with delivery status
+`sent_accepted` and a Gmail message ID. They also confirmed the automatic Zap run
+stopped at the marketing filter after logging, skipping Mailchimp actions.
+
+This verifies one complete website-to-email non-marketing journey. It does not
+verify the website marketing-true branch, overlapping claims, returning-contact
+preference/tag preservation, failure recovery, or full phone PDF download.
+The approval for that one email has been consumed; further sends or enrollments
+require separate permission. The older safe-state notes below describe the
+November 5 checkpoint and are superseded by this update where they conflict.
+
 The user has prepared the separate draft book Zap with a JSON POST trigger
 sample and passing form/consent filter. The temporary self-post sample action
 was removed. They created the restricted Requests sheet and installed the
