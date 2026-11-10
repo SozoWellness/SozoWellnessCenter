@@ -31,11 +31,97 @@ The website acceptance evidence below remains valid; the user declined another
 redundant fresh-alias welcome test. No post-cutover form was submitted and no
 email or text was sent by these read-only checks. Real simultaneous Google
 claims, provider failure/ambiguous-send recovery, unsubscribed/cleaned contact
-handling, full signed-out phone PDF download, and distributed edge rate limiting
-remain unverified. Public activation is not evidence that these cases passed.
+handling and full signed-out phone PDF download remain unverified.
+Edge burst protection was subsequently enabled and checked as documented below;
+it is not a globally shared hourly limit.
+Public activation is not evidence that the remaining cases passed.
 The existing helper is an at-most-one-claim guard, not exactly-once email delivery.
 Further testing must use separately approved isolated recipients and avoid
 replaying a successful or ambiguous Gmail send.
+
+### Edge burst protection — November 10, 2026
+
+Before this change, user-supplied Cloudflare dashboard evidence showed the
+domain on the Free plan with **0/1 rate limiting rules** and no rate limiting
+rules created. After the exact proposal and its limitations were explained,
+the user explicitly approved the rule and deployed it themselves. No Cloudflare
+integration, account administration, billing access, plan upgrade, application
+deployment, or secret access was used for this change.
+
+The subsequent dashboard screenshots showed the rule active with the exact
+path match, Block action, threshold and duration below. Free-plan IP counting
+is the available characteristic per Cloudflare's plan documentation; the
+supplied settings crop did not separately show that selector.
+
+| Setting | Value |
+| --- | --- |
+| Zone | `sozorootedwellness.com` |
+| Rule name | Protect book requests |
+| Match | `(http.request.uri.path eq "/api/guide-requests")` |
+| Counting characteristic | IP (Free-plan characteristic) |
+| Threshold | 10 requests per 10 seconds |
+| Action | Block |
+| Mitigation duration | 10 seconds |
+| Status | Active in supplied dashboard evidence |
+
+**Why all methods:** Free-plan rate limiting permits path matching but not
+HTTP-method matching. The approved path-only rule covers POST requests and
+GET availability checks at this endpoint, not only POST. It leaves ordinary
+pages, assessment endpoints and the external PDF link out of its match. The
+threshold allows ordinary page visits and retries; clients on a shared public
+IP share the counter and can temporarily block one another.
+
+**Non-sending live verification:** A GET to the apex domain's endpoint returned
+200 with `enabled: true` and `mode: live`. A bounded, sequential burst stopped
+at the first 429: nine further GETs returned 200, then the tenth returned 429.
+The homepage returned 200 while the endpoint was blocked. After a 12-second
+wait the endpoint returned 200 with live availability again. A single GET on
+the www endpoint also returned 200 with live availability; www burst enforcement
+was not independently exercised. These observations confirm edge blocking on
+the apex endpoint, not a precise enforcement boundary under concurrency.
+
+No POST, Turnstile token, client contact, webhook invocation, book email,
+marketing enrollment or SMS was used. Only status codes and the non-sensitive
+availability flags were inspected; client IPs, cookies, request identifiers,
+response headers and secret values were not recorded in this documentation.
+The handler and form were unchanged: book fulfillment remains independent of
+optional marketing consent, and book requests do not establish SMS consent.
+
+**Protection layers and limitations:**
+
+- Turnstile server verification still checks the book-specific action and
+  hostname before webhook forwarding. Origin, JSON/schema and body-size checks
+  remain in place. The handler's five-attempts-per-hour throttle is still
+  best-effort per isolate; it is neither durable nor globally shared.
+- The Cloudflare rule operates at the edge rather than inside an isolate.
+  Its IP counters are scoped per Cloudflare data center, not globally shared.
+  Enforcement can lag by seconds; it is not an exact request quota.
+- This is short-burst mitigation, not sustained hourly abuse prevention,
+  recipient-based throttling, or protection against rotating IPs/botnets.
+  No global five-per-hour guarantee is claimed.
+- Zone rules do not automatically protect the separate `pages.dev` project
+  hostname or preview aliases. Their exposure and appropriate restriction
+  require a separate review; no alternate-host protection is claimed here.
+- No new client-identifier storage or application logging was introduced.
+  Cloudflare necessarily processes source IPs for counting; this is not a
+  claim that the provider retains no security telemetry.
+- Live POST blocking was deliberately not exercised because the method-agnostic
+  rule can be checked with harmless GETs. Full delivery failure/deduplication
+  verification remains separate and requires isolated, approved arrangements.
+
+**Operate and reverse:** Review the rule's event counts and legitimate-user
+reports in Cloudflare without exporting client identifiers. If ordinary users
+are blocked, obtain approval to adjust or disable this specific rule under
+the domain's Security → Security rules page; do not delete unrelated rules,
+disable Turnstile or change consent requirements. Disabling the edge rule
+removes burst protection but leaves application checks in place. Any stronger
+global counter, alternate-host restriction, paid plan, or production settings
+change requires a separate proposal and approval.
+
+References checked November 10, 2026:
+[plan availability](https://developers.cloudflare.com/waf/rate-limiting-rules/#availability),
+[counter scope and enforcement limits](https://developers.cloudflare.com/waf/rate-limiting-rules/request-rate/),
+[dashboard settings](https://developers.cloudflare.com/waf/rate-limiting-rules/create-zone-dashboard/).
 
 ## Setup checkpoint — November 5, 2026
 
@@ -310,9 +396,11 @@ launch approval. Save/redeploy after the setting change. To stop new requests,
 set `GUIDE_DELIVERY_ENABLED` to `false` and redeploy; queued Zap runs need separate
 attention in Zapier.
 
-Configure an edge rate-limit rule for `POST /api/guide-requests` before public
-launch. The built-in five-attempts-per-hour guard is best-effort per isolate,
-not distributed protection across Cloudflare locations.
+Edge burst protection is now active for `/api/guide-requests`; see the dated
+checkpoint above for approval, Free-plan settings, verification and limitations.
+It includes POST and GET because method matching is unavailable on Free.
+Neither this per-data-center edge rule nor the built-in per-isolate hourly guard
+is a globally shared five-attempts-per-hour limit.
 
 ## Preview behavior and maintenance
 

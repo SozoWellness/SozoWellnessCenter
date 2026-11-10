@@ -2,3 +2,4 @@
 - [Turnstile runtime constraints](turnstile-loading.md) — async SDK loading rejects ready(); Workers fetch rejects redirect:"error". Node mocks must model both restrictions.
 - [Pricing management](pricing-management.md) — Replit-managed Freedom pricing replaces legacy packages; credit exceptions and terms require staff approval.
 - [Post-launch resources](launch-scope.md) — QR codes, resource organization and poster updates are deferred; do not make them book-delivery or launch prerequisites.
+- [Book edge scope](book-edge-protection.md) — approved Free-plan path-only protection includes GET; edge counters are not a global hourly quota.
