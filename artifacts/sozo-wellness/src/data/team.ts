@@ -10,7 +10,7 @@ export type TeamMember = {
 // Names, roles and portraits from SOZO's Team page; repeated carousel entries omitted.
 // Linked providers retain their own role and practice relationship.
 export const teamMembers: TeamMember[] = [
-  { id: 'darcelle-burandt', name: 'Darcelle Burandt, LPC', role: 'Therapist', image: '/images/team/darcelle-burandt.jpg' },
+  { id: 'darcelle-burandt', name: 'Darcelle Burandt', role: 'Certified Whole Life Health Coach', image: '/images/team/darcelle-burandt.jpg' },
   { id: 'gary-cupo', name: 'Gary Cupo', role: 'Wellness Practitioner', image: '/images/team/gary-cupo.jpg' },
   { id: 'leisa-bodway', name: 'Leisa Bodway', role: 'SOZO Ambassador', image: '/images/team/leisa-bodway.jpg' },
   { id: 'lynne-barta', name: 'Lynne Barta', role: 'SOZO Ambassador', image: '/images/team/lynne-barta.jpg' },

@@ -100,6 +100,11 @@ for (const html of [home, about]) {
 }
 assert.equal(href(anchor(about, 'link-whole-person-assessments')), '/services/assessments');
 assert.match(about, /data-testid="card-team-darcelle-burandt"/);
+const darcelleCard = about.match(/<li[^>]*data-testid="card-team-darcelle-burandt"[^>]*>([\s\S]*?)<\/li>/)?.[1];
+assert(darcelleCard, 'Missing Darcelle team card');
+assert.match(clean(darcelleCard), /Darcelle Burandt/);
+assert.match(clean(darcelleCard), /Certified Whole Life Health Coach/);
+assert.doesNotMatch(clean(darcelleCard), /\bLPC\b|\bTherapist\b/);
 assert(about.indexOf('card-team-darcelle-burandt') < about.indexOf('card-team-gary-cupo'), 'Darcelle must remain first');
 for (const [id, destination] of [
   ['jt-anderson', '/chiropractic-care#jt-anderson'],
