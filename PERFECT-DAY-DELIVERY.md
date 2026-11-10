@@ -1,8 +1,41 @@
 # Perfect Day Lifestyle: book delivery setup
 
-The website and Cloudflare handler are prepared. **This is not a live delivery
-connection yet.** Do not enable public requests until the separate Zap and real
-recipient tests below pass. Nothing here authorizes a GitHub push or publication.
+The book request connection is publicly enabled following explicit owner-content
+approval and user launch approval. The latest operational checkpoint below
+supersedes the historical restricted-test states. Future sends, code publication,
+and configuration changes still require authorization appropriate to their scope.
+
+## Public activation checkpoint — November 10, 2026
+
+The user explicitly approved public book delivery, confirmed changing the Google
+helper and Cloudflare book modes to live, and redeployed Cloudflare. A read-only
+check on the final domain returned `{"enabled":true,"mode":"live"}`.
+The book Zap remains published and On. Saved test-recipient properties were
+retained; they are not allowlists in live mode.
+
+The user separately approved activating the email-only Mailchimp welcome for
+future qualifying subscribers, not bulk enrollment of existing contacts. Their
+screenshot showed Active with repeat entry unchecked. Imported-contact entry
+had previously been confirmed enabled. No test action or new send was performed
+as part of activation. Public enquiry mode was also changed by the user under
+separate approval; the separate reply-handling fallback remains test-only.
+
+The user approved the domain cutover. Both apex and www now return the new SOZO
+homepage over HTTPS with HTTP 200. The book page returns HTTP 200, and the apex
+homepage was visually inspected. Google Workspace's five MX records remain
+present with matching priorities. The SPF include dependency missing from the
+initial DNS scan was copied and its public resolution verified. These DNS
+checks do not establish actual mailbox send/receive success.
+
+The website acceptance evidence below remains valid; the user declined another
+redundant fresh-alias welcome test. No post-cutover form was submitted and no
+email or text was sent by these read-only checks. Real simultaneous Google
+claims, provider failure/ambiguous-send recovery, unsubscribed/cleaned contact
+handling, full signed-out phone PDF download, and distributed edge rate limiting
+remain unverified. Public activation is not evidence that these cases passed.
+The existing helper is an at-most-one-claim guard, not exactly-once email delivery.
+Further testing must use separately approved isolated recipients and avoid
+replaying a successful or ambiguous Gmail send.
 
 ## Setup checkpoint — November 5, 2026
 
