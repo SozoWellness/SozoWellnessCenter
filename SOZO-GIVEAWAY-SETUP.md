@@ -7,6 +7,12 @@ Replit-hosted site. It is deliberately **draft/closed to entries by default**.
 This code change does not create a Cloudflare database, grant staff access, modify
 Mailchimp, send emails, publish the website, or change existing automations.
 
+**Approved simplified launch:** use the existing Mailchimp account to view and
+export tagged entrants, then select and record the winner manually. No new
+staff-login service is required. The already-created D1 database remains a
+quiet backup entry ledger, preserving timestamps, consent, duplicate protection,
+and entries during a Mailchimp outage. It is not a second staff dashboard.
+
 The Replit preview displays the entry/rules/thank-you pages but does not collect
 entries or simulate administrator access. Production capture requires the
 dedicated Cloudflare bindings below. Do not print or distribute a campaign QR
@@ -33,7 +39,7 @@ The dates and value are confirmed; the following still require approval/setup:
 - Any additional clinically necessary prize-use conditions must be supplied
   and approved; the system has not invented treatment-clearance or forfeiture
   conditions.
-- Authorized staff email addresses. Do not put them in public site code.
+- Existing Mailchimp permissions for the staff who will export the entry list.
 
 ## Technical setup — implementer, not a clinic-staff assignment
 
@@ -58,35 +64,18 @@ In Workers & Pages → **sozowellnesscenter** → Settings → Bindings, add the
 binding. Keep the existing project, form secrets, build command, and output
 directory. No DNS changes are needed.
 
-### 2. Staff-only access through Cloudflare Access
+### 2. Administration uses the existing Mailchimp login
 
-Use Cloudflare Access for this Cloudflare-hosted site's private tools; do not
-add a Replit-only login/proxy to production.
+Do not complete Zero Trust billing or create an Auth0 account. No new login
+provider, approved-staff environment variables, or Access application is needed.
+Use existing Mailchimp account permissions and MFA for staff access.
 
-Create a self-hosted Access application protecting **both** paths on the live
-site, under the **same application audience**:
-
-- `sozorootedwellness.com/giveaway-admin`
-- `sozorootedwellness.com/api/giveaway-admin`
-
-If staff use `www`, include its equivalent paths in that same application, or
-require staff to use the apex address above. Configure a policy allowing only
-the owner-approved staff emails and a supported staff sign-in method. Require
-MFA through the identity provider where available. Do not create a public
-allow-all or bypass policy. This does **not** protect public entry/rules pages.
-
-Set these Pages Production text variables:
-
-| Variable | Value |
-| --- | --- |
-| `GIVEAWAY_ACCESS_TEAM` | The team's slug, without `.cloudflareaccess.com` |
-| `GIVEAWAY_ACCESS_AUD` | This Access application's audience identifier |
-| `GIVEAWAY_ADMIN_EMAILS` | Comma-separated approved staff emails |
-
-The API verifies the signed Access JWT's issuer, signature, expiry, audience,
-and allowlisted email on **every** private request. A forged email header,
-missing configuration, or direct visit through `pages.dev` grants no access.
-Protecting the page alone is insufficient; configure both paths.
+`/giveaway-admin` now provides only Mailchimp instructions and a QR link builder.
+It displays no entrant data and makes no private API requests. The retained
+custom administration API returns 404 by default, even with otherwise valid
+Access credentials. Do not set `GIVEAWAY_CUSTOM_ADMIN_ENABLED`; those deferred
+tools are not part of this launch. They must not be enabled without separately
+approved authentication, configuration, and testing.
 
 ### 3. Mailchimp and security configuration
 
@@ -114,6 +103,9 @@ In **SOZO Main Audience**, verify the merge fields before opening entries:
 | First name | `FNAME` | Text |
 | Mobile phone | `PHONE` | Phone |
 | Wellness interest | `WELLNESS` | Text |
+| Giveaway entry time (UTC ISO timestamp) | `GVENTERED` | Text |
+| Giveaway entry identifier | `GVENTRYID` | Text |
+| Giveaway QR/source label | `GVSOURCE` | Text |
 
 **Mailchimp limits merge tags to ten characters**, so the brief's
 `WELLNESS_INTEREST` cannot be the literal merge tag. Use the display label
@@ -122,16 +114,24 @@ value is also retained in the entry database and CSV.
 
 Create/verify these tags:
 
+- `HBOT Giveaway — Nov 20, 2026` — the event-specific entry list, not an email permission.
 - `Vendor Event`
 - `Hyperbaric Giveaway`
 - `QR Code Lead` — applied only when a `qr_source` is supplied.
 
-The API preserves existing unsubscribe/cleaned/pending/transactional statuses.
-It never silently resubscribes an existing non-subscribed contact. Their
-giveaway entry is still saved and eligible, with marketing sync marked
-`suppressed`. A new contact explicitly agreeing to the required email checkbox
-is created subscribed; an existing subscribed contact remains subscribed.
-Other existing tags are not removed.
+The event-specific tag is applied to successfully synced entrants regardless
+of their existing subscription status. The other three tags are applied only
+to subscribed contacts. Existing unsubscribe/cleaned/pending/transactional
+statuses are not changed. `suppressed` means the entry reached Mailchimp but
+marketing remains disabled; it does **not** mean an ineligible giveaway entry.
+Provider rejections remain failed in D1 and require reconciliation before drawing.
+A new contact explicitly agreeing to the required email checkbox is created
+subscribed. Other existing tags are not removed.
+
+`GVENTERED` is the actual giveaway entry time for returning subscribers too.
+Do not use Mailchimp's original subscription date to identify entrants.
+`GVENTRYID` supports reconciliation with the backup ledger. `GVSOURCE` uses the
+submitted QR source, then UTM source, or `direct`; full UTM values remain in D1.
 
 ### 4. Dedicated four-email Mailchimp flow
 
@@ -164,23 +164,28 @@ configuration check, not authorization to change existing email behavior.
 
 1. Publish the code to Cloudflare only after site-owner approval; initially leave
    `GIVEAWAY_ENABLED=false`.
-2. Confirm staff login works, an unauthorized visitor cannot access either
-   admin path, and alternate hostnames expose no private data.
-3. Save the dates, prize value, and approved rules through `/giveaway-admin`.
-   Public rules draw these values from the database.
+2. Confirm existing Mailchimp staff access and entry-tag export permissions.
+   Verify the custom admin API stays disabled on all hostnames.
+3. Confirm the seeded dates and prize value in D1. Public rules draw these
+   values from the database. Only after explicit final rules approval, an
+   implementer can update `rules_approved=1,status='active'` for
+   `id='hyperbaric-giveaway'` using the authenticated Cloudflare D1 console.
+   Do not change dates, value, or rules after entries have started.
 4. Use an isolated Preview database and test Mailchimp audience/paused flow for
    a single approved entry test. Use the live Turnstile widget with its allowed
    hostname; never substitute bypass tokens or test keys into Production.
 5. Verify saved entry, source, consent, duplicate rejection, tags, and exports.
-   Verify the signed-in dashboard before trusting its operations.
+   Include both a returning subscriber and an opt-out in the isolated checks;
+   both must appear in the event segment without resubscribing the opt-out.
 6. With explicit approval, configure the approved production audience/flow,
-   save Active status and `GIVEAWAY_ENABLED=true`, then redeploy. The dates and
+   set `GIVEAWAY_ENABLED=true`, then redeploy. The active status, dates and
    rules must also permit entry. Do not silently enable a live email sequence.
 7. Confirm the live entry form is open, then generate final production QR codes.
 
 ## QR source tracking
 
-Staff can generate a link and downloadable SVG QR in the private dashboard.
+Staff can generate a link and downloadable SVG QR at `/giveaway-admin`.
+This non-sensitive resource page is not an entrant dashboard or login screen.
 No external QR service sees visitor/contact data.
 
 Example:
@@ -203,41 +208,57 @@ without the tagged URL are recorded as untracked/direct.
 Campaign pages and admin/receipt pages are noindex and excluded from the sitemap.
 No new navigation link advertises an unapproved campaign.
 
-## Day-to-day administration
+## Day-to-day administration in Mailchimp
 
-- Search by first name, email, or phone. Entries are paginated, 25 at a time.
-- View total entries, Eastern-calendar day counts, wellness goals, and QR sources.
-- CSV exports escape spreadsheet formulas. Keep files private and delete local
-  copies when no longer needed.
-- The email export contains records that had email consent and successful sync;
-  it is **not** a live Mailchimp suppression-status export. Do not use it to
-  resubscribe anyone or overwrite a current unsubscribe.
-- Failed Mailchimp calls do not erase entries. Retry explicitly from the
-  dashboard. Stale processing leases become retryable after two minutes.
-  Never treat an unavailable provider as a delivered email.
+- Open the SOZO Main Audience and filter by the exact tag
+  `HBOT Giveaway — Nov 20, 2026`. Do not filter by original subscription date.
+- View/search entrants and their interest, source, and giveaway entry time in
+  the existing Mailchimp interface.
+- Export the tagged segment to CSV. Include **all contact statuses**, not just
+  subscribed contacts. Mailchimp may provide separate CSVs per status; combine
+  them for the eligible drawing pool.
+- Use Mailchimp's current subscribed segment for promotional emails, never the
+  full giveaway export. A giveaway tag does not override an unsubscribe.
+- Keep downloaded files private, do not upload contact lists to public
+  random-picker websites, and delete copies when no longer needed.
+- Failed Mailchimp calls do not erase entries. Before drawing, an implementer
+  must reconcile the backup ledger with Mailchimp, including any failed or
+  interrupted syncs. Never treat an unavailable provider as a delivered email.
 - One email and one normalized US phone number per campaign are enforced by
   database uniqueness. This helps enforce one entry per person, but is not
   identity verification; staff still review eligibility.
-- Dates, prize value, and rules version lock after the first entry. Pause or
-  close the campaign rather than altering entrants' terms.
+- The form checks the event window on the server and closes automatically at
+  6 p.m. EST. Its kill switch can pause entries without changing their terms.
+
+Read-only D1 pre-draw reconciliation check (expected result: zero):
+
+```sql
+SELECT COUNT(*) AS entries_needing_reconciliation
+FROM giveaway_entries
+WHERE campaign_id='hyperbaric-giveaway'
+AND sync_status NOT IN ('synced','suppressed');
+```
+
+If nonzero, stop before drawing. The implementer must recover those rows from
+the private D1 console, match each `id` to `GVENTRYID` in Mailchimp, and add
+missing event records without overriding opt-outs. Compare the full D1 entry
+count against unique Mailchimp event entry identifiers; investigate any mismatch.
+Do not draw from an incomplete segment.
 
 ## Drawing the winner
 
-Close the campaign **after** its end time. Start the random drawing from the
-private dashboard. Review the pending candidate, then use the separate
-confirmation button. The pending pick is saved and cannot be rerolled by
-refreshing. Cryptographically secure rejection sampling avoids modulo bias.
+After 6 p.m. EST, complete reconciliation, export the full event-tagged segment,
+and review eligibility and duplicate people. Freeze that final eligible list.
+Number its rows from 1 to N and make one random selection locally, without
+uploading personal information to another service.
 
-Confirming does **not** send an email or text. Contact the winner through the
-normal staff process; only then click **Mark notified**. If the winner does not
-respond within seven full days, staff can release the record as unclaimed and
-draw an alternate. Previous picks are excluded and historical records retained.
-The tool records selection time, confirmation, notification, actor, and eligible
-entry count. A partial unique index prevents simultaneous active winners.
-
-Do not run a real drawing merely to test the dashboard. Use an isolated test
-database for test drawings. Define the clinic's retention/deletion policy for
-giveaway contacts and secure database backups before operating the promotion.
+Record the selected entry identifier, name, selection timestamp, eligible count,
+and staff member privately before contacting the winner. Save the frozen list
+and selection record so a spreadsheet refresh cannot silently replace the pick.
+Contact the winner through the normal staff process and record the notification
+time. Only after seven full days without response may an alternate be selected;
+exclude previous picks and retain their records. There is no automated drawing,
+winner email, or text message in this simplified launch.
 
 ## Verification commands
 

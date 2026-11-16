@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-// Cloudflare owns the dedicated entry database and Access login. Preview never
+// Cloudflare owns the dedicated entry ledger; staff use Mailchimp. Preview never
 // fabricates entries, administrator authentication, or successful email delivery.
 router.get('/giveaway', (_req, res) => {
   res.set('Cache-Control', 'no-store').json({
@@ -16,6 +16,6 @@ router.post('/giveaway', (_req, res) => {
   res.set('Cache-Control', 'no-store').status(503).json({ error: 'This preview does not capture giveaway entries or send emails.' });
 });
 router.all('/giveaway-admin', (_req, res) => {
-  res.set('Cache-Control', 'no-store').status(403).json({ error: 'Private administration requires the configured Cloudflare Access login and dedicated giveaway database.' });
+  res.set('Cache-Control', 'no-store').status(404).json({ error: 'Giveaway administration is managed in Mailchimp. Custom administration is not enabled.' });
 });
 export default router;

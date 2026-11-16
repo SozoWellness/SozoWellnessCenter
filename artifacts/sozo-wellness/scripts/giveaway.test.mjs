@@ -8,6 +8,7 @@ import { onRequest as redirectAPI } from '../../../functions/hyperbaric-giveaway
 import { randomIndex } from '../../../functions/_giveaway/draws.ts';
 import { csv } from '../../../functions/_giveaway/common.ts';
 import { syncEntry } from '../../../functions/_giveaway/mailchimp.ts';
+import { GIVEAWAY_ENTRY_TAG } from '../src/lib/giveaway-contract.ts';
 
 // Real SQLite enforces the same schema and constraints as Cloudflare D1.
 function database(t, draft = false) {
@@ -43,7 +44,7 @@ async function jwt(overrides = {}) {
   return `${payload}.${base64(await crypto.subtle.sign('RSASSA-PKCS1-v1_5', keys.privateKey, new TextEncoder().encode(payload)))}`;
 }
 function env(db) {
-  return { GIVEAWAY_DB: db, GIVEAWAY_ENABLED: 'true', TURNSTILE_SECRET_KEY: 'test-only-not-real',
+  return { GIVEAWAY_DB: db, GIVEAWAY_ENABLED: 'true', GIVEAWAY_CUSTOM_ADMIN_ENABLED: 'true', TURNSTILE_SECRET_KEY: 'test-only-not-real',
     MAILCHIMP_API_KEY: 'test-only-not-real', MAILCHIMP_SERVER_PREFIX: 'us1', MAILCHIMP_GIVEAWAY_AUDIENCE_ID: 'test123',
     GIVEAWAY_ACCESS_TEAM: 'sozo-test', GIVEAWAY_ACCESS_AUD: 'test-audience', GIVEAWAY_ADMIN_EMAILS: 'staff@example.com' };
 }
@@ -69,7 +70,7 @@ function mockNetwork(t, options = {}) {
     if (options.offline) return new Response('Provider unavailable',{status:503});
     if (String(url).endsWith('/tags')) return new Response(null,{status:204});
     if (!init.method || init.method === 'GET') return options.member ? Response.json({status:options.member}) : new Response(null,{status:404});
-    return Response.json({ status:'subscribed' });
+    return Response.json({ status: options.savedStatus || options.member || 'subscribed' });
   });
   return calls;
 }
@@ -102,7 +103,7 @@ test('unconfigured campaign stays closed; anonymous and forged admin access fail
   const availability = await (await publicAPI({env:{},request:request('/api/giveaway')})).json();
   assert.equal(availability.acceptingEntries,false);
   assert.equal((await enter({})).status,503);
-  assert.equal((await adminAPI({env:{},request:request('/api/giveaway-admin',undefined,{'Cf-Access-Authenticated-User-Email':'staff@example.com'})})).status,403);
+  assert.equal((await adminAPI({env:{},request:request('/api/giveaway-admin',undefined,{'Cf-Access-Authenticated-User-Email':'staff@example.com'})})).status,404);
   const {db} = database(t);
   assert.equal((await admin(env(db),undefined,'/api/giveaway-admin','forged.token.string')).status,403);
   assert.equal(calls.length,0);
@@ -122,7 +123,10 @@ test('entry is saved with source and email consent before idempotent Mailchimp m
   assert.equal(put.parsed.status_if_new,'subscribed');
   assert.equal(put.parsed.status,undefined);
   assert.equal(put.parsed.merge_fields.WELLNESS,'More Energy');
-  assert.deepEqual(calls.find(c=>c.url.endsWith('/tags')).parsed.tags.map(t=>t.name),['Vendor Event','Hyperbaric Giveaway','QR Code Lead']);
+  assert.equal(put.parsed.merge_fields.GVENTERED,row.created_at);
+  assert.equal(put.parsed.merge_fields.GVENTRYID,row.id);
+  assert.equal(put.parsed.merge_fields.GVSOURCE,'event-poster');
+  assert.deepEqual(calls.find(c=>c.url.endsWith('/tags')).parsed.tags.map(t=>t.name),[GIVEAWAY_ENTRY_TAG,'Vendor Event','Hyperbaric Giveaway','QR Code Lead']);
   const before = calls.length;
   assert.equal(await syncEntry(env(db),row.id),'synced');
   assert.equal(calls.length,before);
@@ -164,18 +168,46 @@ test('provider failure preserves entry and authenticated retry does not create a
   assert.equal(sql.prepare('SELECT count(*) n FROM giveaway_entries').get().n,1);
 });
 
-test('unsubscribed contacts are not resubscribed or tagged; their giveaway entry remains valid', async t => {
+test('unsubscribed contacts get the entry tag, not marketing tags or resubscription', async t => {
   const {db,sql} = database(t); const calls = mockNetwork(t,{member:'unsubscribed'});
   const receipt = await (await enter(env(db))).json();
   assert.equal(receipt.marketingStatus,'suppressed');
   assert.equal(sql.prepare('SELECT count(*) n FROM giveaway_entries').get().n,1);
-  assert.equal(calls.filter(c=>c.method==='PUT'||c.url.endsWith('/tags')).length,0);
+  const put=calls.find(c=>c.method==='PUT');
+  assert.equal(put.parsed.status,undefined);
+  assert.equal(put.parsed.timestamp_opt,undefined);
+  assert.equal(put.parsed.merge_fields.GVENTERED,sql.prepare('SELECT created_at FROM giveaway_entries').get().created_at);
+  assert.deepEqual(calls.find(c=>c.url.endsWith('/tags')).parsed.tags,[{name:GIVEAWAY_ENTRY_TAG,status:'active'}]);
+});
+
+test('custom administration stays unavailable even with valid credentials unless explicitly enabled', async t => {
+  const {db}=database(t); const calls=mockNetwork(t);
+  const e={...env(db),GIVEAWAY_CUSTOM_ADMIN_ENABLED:undefined};
+  assert.equal((await admin(e,undefined)).status,404);
+  assert.equal((await admin(e,{action:'draw'})).status,404);
+  assert.equal(calls.length,0);
+});
+
+test('returning subscribers receive an event timestamp without changing their original opt-in date', async t => {
+  const {db,sql}=database(t); const calls=mockNetwork(t,{member:'subscribed'});
+  assert.equal((await enter(env(db))).status,201);
+  const put=calls.find(c=>c.method==='PUT');
+  assert.equal(put.parsed.timestamp_opt,undefined);
+  assert.equal(put.parsed.status,undefined);
+  assert.equal(put.parsed.merge_fields.GVENTERED,sql.prepare('SELECT created_at FROM giveaway_entries').get().created_at);
+});
+
+test('an unsubscribe racing member update receives only the event tag', async t => {
+  const {db}=database(t); const calls=mockNetwork(t,{member:'subscribed',savedStatus:'unsubscribed'});
+  const response=await (await enter(env(db))).json();
+  assert.equal(response.marketingStatus,'suppressed');
+  assert.deepEqual(calls.find(c=>c.url.endsWith('/tags')).parsed.tags.map(t=>t.name),[GIVEAWAY_ENTRY_TAG]);
 });
 
 test('direct entry receives no QR tag; no invented attribution', async t => {
   const {db} = database(t); const calls = mockNetwork(t);
   assert.equal((await enter(env(db),input({attribution:{}}))).status,201);
-  assert.deepEqual(calls.find(c=>c.url.endsWith('/tags')).parsed.tags.map(t=>t.name),['Vendor Event','Hyperbaric Giveaway']);
+  assert.deepEqual(calls.find(c=>c.url.endsWith('/tags')).parsed.tags.map(t=>t.name),[GIVEAWAY_ENTRY_TAG,'Vendor Event','Hyperbaric Giveaway']);
 });
 
 test('authenticated search, source summaries, CSV exports and CSV formula protection', async t => {

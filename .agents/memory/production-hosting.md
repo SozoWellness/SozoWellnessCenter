@@ -25,3 +25,14 @@ for giveaway staff access.
 
 **How to apply:** Do not resume that checkout or ask for payment details again.
 Use a verified no-card alternative only after the user approves the change.
+
+For the one-day hyperbaric giveaway, the user approved the simpler Mailchimp
+setup: existing staff login, tagged entrant exports, and manual winner selection
+instead of the custom dashboard and a new authentication service.
+
+**Why:** The user asked for a simpler way to run the giveaway without adding
+payment details or another staff-login service.
+
+**How to apply:** Keep Mailchimp as the staff interface; do not resume Auth0 or
+Zero Trust onboarding for this launch. Background backup storage does not imply
+that the user approved bringing the custom dashboard back.

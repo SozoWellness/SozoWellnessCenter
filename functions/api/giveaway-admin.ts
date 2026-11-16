@@ -7,6 +7,9 @@ import { syncEntry } from '../_giveaway/mailchimp.ts';
 import type { GiveawayEnv } from '../_giveaway/types.ts';
 
 export async function onRequest({ request, env }: { request: Request; env: GiveawayEnv }): Promise<Response> {
+  if (env.GIVEAWAY_CUSTOM_ADMIN_ENABLED !== 'true') {
+    return json(404, { error: 'Giveaway administration is managed in Mailchimp. Custom administration is not enabled.' });
+  }
   if (!['GET','POST'].includes(request.method)) return json(405, { error: 'Method not allowed.' }, { Allow: 'GET, POST' });
   const actor = await administrator(request,env);
   if (!actor) return json(403, { error: 'Administrator sign-in is required. Open this page through your configured Cloudflare Access login. If access has not been configured, the dashboard stays locked.' });

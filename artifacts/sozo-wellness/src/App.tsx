@@ -72,7 +72,7 @@ export const meta: Record<string, [string, string]> = {
   '/hyperbaric-giveaway': ['Hyperbaric Oxygen Therapy Giveaway | SOZO', 'Visit SOZO’s giveaway entry page for eligibility, prize details, and official rules.'],
   '/giveaway/thank-you': ['Giveaway Entry | SOZO Wellness Center', 'Your next steps after entering the SOZO Hyperbaric Oxygen Therapy Giveaway.'],
   '/official-rules': ['Hyperbaric Giveaway Official Rules | SOZO', 'Eligibility, entry period, prize details, and winner-selection rules for SOZO’s Hyperbaric Oxygen Therapy Giveaway.'],
-  '/giveaway-admin': ['Private Giveaway Administration | SOZO', 'Private giveaway management for authorized SOZO Wellness Center staff.'],
+  '/giveaway-admin': ['Giveaway Resources | SOZO', 'Source-tracked QR links and Mailchimp management guidance for the SOZO giveaway.'],
   '/chiropractic-care': ['Chiropractic Care near The Villages, FL | SOZO', 'Meet JT Anderson, DC and Lauren Alvarez Schmitz, DC. Explore chiropractic care for neck and back pain, sports recovery and mobility at SOZO near The Villages.'],
   '/independent-physicians': ['Regenerative Medicine near The Villages | Kevin Stasney, MD', 'Explore EBOO, stem cell therapy, PRP, hormone replacement therapy and wellness optimization near The Villages with Kevin Stasney, MD at independent Years Younger MD.'],
   '/products-and-partners': ['Products & Partners | SOZO Wellness Center', 'Explore SOZO’s recommended wellness products and affiliate partners, from nutrition and sleep to frequency technology, plus H-Wave available through our clinic.'],

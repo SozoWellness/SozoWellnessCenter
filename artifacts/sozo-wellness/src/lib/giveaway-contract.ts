@@ -2,6 +2,7 @@
 import type { GiveawayCampaign } from '@workspace/api-client-react';
 export type { GiveawayEntryInput, GiveawayEntry, GiveawayDraw, GiveawayAvailability, GiveawayAdminData } from '@workspace/api-client-react';
 export type CampaignSettings = GiveawayCampaign;
+export const GIVEAWAY_ENTRY_TAG = 'HBOT Giveaway — Nov 20, 2026';
 export const WELLNESS_GOALS = ['More Energy', 'Pain Relief', 'Recovery & Healing', 'Stress Relief', 'Heart Health', 'General Wellness', 'Other'] as const;
 export type WellnessGoal = typeof WELLNESS_GOALS[number];
 export const EMPTY_CAMPAIGN: CampaignSettings = {

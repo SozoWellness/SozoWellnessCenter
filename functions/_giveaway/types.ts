@@ -11,6 +11,8 @@ export interface GiveawayDatabase {
 export interface GiveawayEnv {
   GIVEAWAY_DB?: GiveawayDatabase;
   GIVEAWAY_ENABLED?: string;
+  /** Deferred custom tools are disabled for the Mailchimp-managed launch. */
+  GIVEAWAY_CUSTOM_ADMIN_ENABLED?: string;
   TURNSTILE_SECRET_KEY?: string;
   MAILCHIMP_API_KEY?: string;
   MAILCHIMP_SERVER_PREFIX?: string;

@@ -61,7 +61,7 @@ export async function onRequest({ request, env }: { request: Request; env: Givea
     }
     // Capture is durable before marketing sync. A provider outage never discards the entry.
     let marketingStatus = 'pending';
-    try { marketingStatus = await syncEntry(env, id); } catch { /* Saved entry remains retryable in admin. */ }
+    try { marketingStatus = await syncEntry(env, id); } catch { /* Reconcile the durable entry before the winner export. */ }
     return json(201, { entryId: id, marketingStatus });
   } catch {
     return json(503, { error: 'The giveaway service is temporarily unavailable. Please try again later.' });
