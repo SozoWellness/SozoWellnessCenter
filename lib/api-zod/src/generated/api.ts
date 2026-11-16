@@ -56,7 +56,7 @@ export const SubmitGiveawayEntryBody = zod.object({
   "email": zod.string().email().max(submitGiveawayEntryBodyEmailMax),
   "phone": zod.string().describe('US mobile number normalized server-side'),
   "wellnessInterest": zod.string().optional(),
-  "marketingConsent": zod.boolean().describe('Must be true; permission for email only'),
+  "marketingConsent": zod.boolean().describe('Explicit optional promotional-email choice. False is eligible for entry and does not authorize a new subscription or SMS.'),
   "rulesAccepted": zod.boolean().describe('Must be true'),
   "eligible": zod.boolean().describe('Must be true'),
   "turnstileToken": zod.string().max(submitGiveawayEntryBodyTurnstileTokenMax),

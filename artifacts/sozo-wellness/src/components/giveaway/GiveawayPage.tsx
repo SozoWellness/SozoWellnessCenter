@@ -32,7 +32,6 @@ export function GiveawayPage() {
     if (!form.firstName.trim()) e.firstName = 'Please enter your first name.';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = 'Please enter a valid email address.';
     if (!/^(?:1)?[2-9]\d{9}$/.test(form.phone.replace(/[\s().+-]/g, ''))) e.phone = 'Please enter a valid US mobile number, including its area code.';
-    if (!checks.marketingConsent) e.marketingConsent = 'Please check the email agreement to enter.';
     if (!checks.rulesAccepted) e.rulesAccepted = 'Please accept the Official Rules.';
     if (!checks.eligible) e.eligible = 'Please confirm you are a Florida legal resident age 18 or older.';
     if (!token) e.turnstile = 'Please wait for the security check to finish.';
@@ -81,7 +80,7 @@ export function GiveawayPage() {
     <div>
       <label className="gw-check" data-invalid={errors[key] ? 'true' : undefined}>
         <input type="checkbox" checked={checks[key]} onChange={(e) => setChecks({ ...checks, [key]: e.target.checked })}
-          aria-invalid={errors[key] ? 'true' : undefined} aria-describedby={errors[key] ? `gw-${key}-err` : undefined} required data-testid={`checkbox-${key}`} />
+          aria-invalid={errors[key] ? 'true' : undefined} aria-describedby={errors[key] ? `gw-${key}-err` : undefined} required={key !== 'marketingConsent'} data-testid={`checkbox-${key}`} />
         <span>{children}</span>
       </label>
       {errors[key] && <p className="gw-err" id={`gw-${key}-err`} style={{ marginTop: 6 }}>{errors[key]}</p>}
@@ -168,7 +167,8 @@ export function GiveawayPage() {
                 <input id="gw-website" tabIndex={-1} autoComplete="off" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} />
               </div>
               <div className="gw-checks">
-                {check('marketingConsent', <>{CONSENT} <em style={{ fontStyle: 'normal', fontWeight: 600 }}>(Email only.)</em></>)}
+                {check('marketingConsent', <><strong>Optional:</strong> {CONSENT} <em style={{ fontStyle: 'normal', fontWeight: 600 }}>(Email only.)</em></>)}
+                <p className="gw-hint">Promotional emails are not required to enter or win. Choosing not to subscribe will not affect your chances.</p>
                 {check('rulesAccepted', <>I have read and agree to the <Link href="/official-rules" target="_blank" rel="noopener noreferrer" aria-label="Official Rules (opens in a new tab)" data-testid="link-form-rules">Official Rules</Link>.</>)}
                 {check('eligible', <>I am a legal resident of Florida and 18 years of age or older.</>)}
               </div>

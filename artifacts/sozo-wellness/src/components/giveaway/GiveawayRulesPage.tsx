@@ -28,7 +28,7 @@ export function GiveawayRulesPage() {
           {q.isError && <div className="gw-alert" role="alert" style={{ marginBottom: 24 }}>Campaign details could not be loaded. <button type="button" className="gw-mini" onClick={() => q.refetch()} data-testid="button-retry-rules">Try again</button></div>}
           {!approved && !q.isLoading && (
             <div className="notice" role="note" style={{ marginTop: 0, marginBottom: 28 }} data-testid="status-rules-draft">
-              <strong>Draft, pending Sponsor approval.</strong> These rules are not final. Dates and prize value shown as "{PENDING}" have not been set.
+              <strong>Draft, pending Sponsor approval.</strong> These rules remain subject to final Sponsor approval.
             </div>
           )}
           <p className="gw-npn">NO PURCHASE NECESSARY TO ENTER OR WIN. A purchase or payment of any kind will not increase your chances of winning.</p>
@@ -46,7 +46,7 @@ export function GiveawayRulesPage() {
             <li><h2>Prize</h2><p>One (1) prize will be awarded: ten (10) complimentary Hyperbaric Oxygen Therapy sessions at SOZO Wellness Center. Approximate retail value: {value}.</p></li>
             <li><h2>Winner selection</h2><p>After the entry period closes, one winner will be selected in a random drawing from all eligible entries received. Odds of winning depend on the number of eligible entries received.</p></li>
             <li><h2>Winner notification</h2><p>The potential winner will be contacted by email and/or phone using the information provided at entry. If the potential winner does not respond within seven (7) days of notification, the prize may be forfeited and an alternate winner selected at random from the remaining eligible entries.</p></li>
-            <li><h2>Communications and privacy</h2><p>Your mobile number is used to contact the winner about the giveaway. Entering does not enroll you in marketing text messages. Entry includes agreement to receive wellness information, educational resources, and occasional promotional emails from SOZO Wellness Center; you may unsubscribe at any time. See our <Link href="/privacy-policy">Privacy Policy</Link>.</p></li>
+            <li><h2>Communications and privacy</h2><p>We use your contact details to administer the giveaway and contact the winner. Promotional emails are optional and are not required to enter or win. Choosing not to subscribe will not affect your chances. If you opt in, you may unsubscribe at any time. Entering does not enroll you in marketing text messages. See our <Link href="/privacy-policy">Privacy Policy</Link>.</p></li>
             <li><h2>Acceptance of rules</h2><p>By entering, participants agree to be bound by these Official Rules and by the decisions of the Sponsor, which are final on all matters relating to this giveaway.</p></li>
           </ol>
           <p className="gw-fine">Questions? Call or text SOZO at 352-802-2248. <Link href="/enter-to-win">Back to the giveaway</Link></p>

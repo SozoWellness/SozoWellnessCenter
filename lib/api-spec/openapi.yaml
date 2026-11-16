@@ -182,7 +182,7 @@ components:
         email: { type: string, format: email, maxLength: 254 }
         phone: { type: string, description: US mobile number normalized server-side }
         wellnessInterest: { type: string }
-        marketingConsent: { type: boolean, description: Must be true; permission for email only, never SMS }
+        marketingConsent: { type: boolean, description: Explicit optional promotional-email choice. False is eligible for entry and does not authorize a new subscription or SMS. }
         rulesAccepted: { type: boolean, description: Must be true }
         eligible: { type: boolean, description: Must be true, Florida legal resident age 18+ }
         turnstileToken: { type: string, maxLength: 2048 }

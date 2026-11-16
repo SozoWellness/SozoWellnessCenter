@@ -19,10 +19,15 @@ test('Cloudflare routes giveaway functions without removing existing form routes
   assert.deepEqual(routes.exclude,[]);
 });
 
-function database(t, draft = false) {
+function database(t, draft = false, optionalConsent = true) {
   const sql = new DatabaseSync(':memory:');
   sql.exec(readFileSync(new URL('../../../migrations/giveaway/0001_giveaway.sql', import.meta.url), 'utf8'));
   sql.exec(readFileSync(new URL('../../../migrations/giveaway/0002_campaign_terms.sql', import.meta.url), 'utf8'));
+  if (optionalConsent) {
+    sql.exec('BEGIN');
+    sql.exec(readFileSync(new URL('../../../migrations/giveaway/0003_optional_email_consent.sql', import.meta.url), 'utf8'));
+    sql.exec('COMMIT');
+  }
   t.after(() => sql.close());
   const prepare = (query) => {
     let values = [];
@@ -78,7 +83,7 @@ function mockNetwork(t, options = {}) {
     if (options.offline) return new Response('Provider unavailable',{status:503});
     if (String(url).endsWith('/tags')) return new Response(null,{status:204});
     if (!init.method || init.method === 'GET') return options.member ? Response.json({status:options.member}) : new Response(null,{status:404});
-    return Response.json({ status: options.savedStatus || options.member || 'subscribed' });
+    return Response.json({ status: options.savedStatus || options.member || JSON.parse(init.body).status_if_new });
   });
   return calls;
 }
@@ -106,6 +111,30 @@ test('owner-provided dates and prize value remain draft and match Eastern Time',
   assert.equal(sql.prepare('SELECT prize_value FROM giveaway_campaigns').get().prize_value,2100);
 });
 
+test('optional-consent migration preserves all old entry data and winner references', t => {
+  const {sql}=database(t,true,false);
+  sql.prepare(`INSERT INTO giveaway_entries
+    (id,campaign_id,first_name,email,phone,created_at,marketing_consent,rules_version)
+    VALUES('legacy-entry','hyperbaric-giveaway','Legacy','legacy@example.com','+13525550109','2026-11-20T15:00:00.000Z',1,'1')`).run();
+  sql.prepare(`INSERT INTO giveaway_draws
+    (id,campaign_id,entry_id,status,selected_at,selected_by,eligible_count)
+    VALUES('legacy-draw','hyperbaric-giveaway','legacy-entry','confirmed','2026-11-21T15:00:00.000Z','test fixture',1)`).run();
+  const before=sql.prepare('SELECT * FROM giveaway_entries').get();
+  sql.exec('BEGIN');
+  sql.exec(readFileSync(new URL('../../../migrations/giveaway/0003_optional_email_consent.sql', import.meta.url),'utf8'));
+  sql.exec('COMMIT');
+  assert.deepEqual(sql.prepare('SELECT * FROM giveaway_entries').get(),before);
+  assert.equal(sql.prepare('SELECT entry_id FROM giveaway_draws').get().entry_id,'legacy-entry');
+  assert.deepEqual(sql.prepare('PRAGMA foreign_key_check').all(),[]);
+  assert.equal(sql.prepare('SELECT rules_version FROM giveaway_campaigns').get().rules_version,'2');
+  const insert=sql.prepare(`INSERT INTO giveaway_entries
+    (id,campaign_id,first_name,email,phone,created_at,marketing_consent,rules_version)
+    VALUES(?,?,?,?,?,?,?,?)`);
+  insert.run('new-entry','hyperbaric-giveaway','New','new@example.com','+13525550108','2026-11-20T15:05:00.000Z',0,'2');
+  assert.equal(sql.prepare("SELECT consent_version FROM giveaway_entries WHERE id='new-entry'").get().consent_version,'giveaway-email-v2');
+  assert.throws(()=>insert.run('invalid','hyperbaric-giveaway','Invalid','invalid@example.com','+13525550107','2026-11-20T15:10:00.000Z',2,'2'),/CHECK/);
+});
+
 test('unconfigured campaign stays closed; anonymous and forged admin access fail closed', async t => {
   const calls = mockNetwork(t);
   const availability = await (await publicAPI({env:{},request:request('/api/giveaway')})).json();
@@ -126,7 +155,8 @@ test('entry is saved with source and email consent before idempotent Mailchimp m
   const row = sql.prepare('SELECT * FROM giveaway_entries').get();
   assert.equal(row.id,result.entryId); assert.equal(row.qr_source,'event-poster');
   assert.equal(row.email,'entrant@example.com'); assert.equal(row.phone,'+13525550101');
-  assert.equal(row.marketing_consent,1); assert.equal(row.rules_version,'1');
+  assert.equal(row.marketing_consent,1); assert.equal(row.rules_version,'2');
+  assert.equal(row.consent_version,'giveaway-email-v2');
   const put = calls.find(c=>c.method==='PUT');
   assert.equal(put.parsed.status_if_new,'subscribed');
   assert.equal(put.parsed.status,undefined);
@@ -149,15 +179,50 @@ test('duplicate email and phone are rejected atomically without a second marketi
   assert.equal(calls.filter(c=>c.method==='PUT').length,1);
 });
 
-test('invalid fields, missing consent, ineligible entry and honeypot never reach marketing', async t => {
+test('invalid fields, ambiguous consent, missing rules, ineligible entry and honeypot never reach marketing', async t => {
   const {db,sql} = database(t); const calls = mockNetwork(t);
-  for (const patch of [{marketingConsent:false},{rulesAccepted:false},{eligible:false},{website:'spam'},{phone:'123'},{wellnessInterest:'Private diagnosis'},{email:'invalid'}]) {
+  for (const patch of [{marketingConsent:undefined},{marketingConsent:'false'},{marketingConsent:null},{rulesAccepted:false},{eligible:false},{website:'spam'},{phone:'123'},{wellnessInterest:'Private diagnosis'},{email:'invalid'}]) {
     assert.equal((await enter(env(db),input(patch))).status,400);
   }
   assert.equal(sql.prepare('SELECT count(*) n FROM giveaway_entries').get().n,0);
   assert.equal(calls.length,0);
 });
 
+test('unchecked email consent creates a valid non-subscribed entry without marketing tags', async t => {
+  const {db,sql}=database(t); const calls=mockNetwork(t);
+  const response=await enter(env(db),input({marketingConsent:false}));
+  assert.equal(response.status,201);
+  assert.equal((await response.json()).marketingStatus,'suppressed');
+  const row=sql.prepare('SELECT * FROM giveaway_entries').get();
+  assert.equal(row.marketing_consent,0);
+  assert.equal(row.consent_version,'giveaway-email-v2');
+  const put=calls.find(c=>c.method==='PUT');
+  assert.equal(put.parsed.status_if_new,'transactional');
+  assert.equal(put.parsed.status,undefined);
+  assert.equal(put.parsed.timestamp_opt,undefined);
+  assert.equal(put.parsed.merge_fields.GVEMAIL,'no');
+  assert.deepEqual(calls.find(c=>c.url.endsWith('/tags')).parsed.tags.map(t=>t.name),[GIVEAWAY_ENTRY_TAG]);
+});
+
+test('unchecked consent preserves a returning subscription but adds no giveaway marketing permission', async t => {
+  const {db}=database(t); const calls=mockNetwork(t,{member:'subscribed'});
+  assert.equal((await enter(env(db),input({marketingConsent:false}))).status,201);
+  const put=calls.find(c=>c.method==='PUT');
+  assert.equal(put.parsed.status,undefined);
+  assert.equal(put.parsed.merge_fields.GVEMAIL,'no');
+  assert.equal(put.parsed.timestamp_opt,undefined);
+  assert.deepEqual(calls.find(c=>c.url.endsWith('/tags')).parsed.tags.map(t=>t.name),[GIVEAWAY_ENTRY_TAG]);
+});
+
+test('optional-consent UI and rules leave contact, eligibility and rules requirements intact', () => {
+  const form=readFileSync(new URL('../src/components/giveaway/GiveawayPage.tsx',import.meta.url),'utf8');
+  const rules=readFileSync(new URL('../src/components/giveaway/GiveawayRulesPage.tsx',import.meta.url),'utf8');
+  assert.match(form,/required=\{key !== 'marketingConsent'\}/);
+  assert.doesNotMatch(form,/if \(!checks\.marketingConsent\)/);
+  assert.match(form,/if \(!checks\.rulesAccepted\)/);
+  assert.match(form,/if \(!checks\.eligible\)/);
+  assert.match(rules,/Promotional emails are optional and are not required to enter or win/);
+});
 test('wrong action or hostname in a Turnstile result is rejected', async t => {
   const {db} = database(t);
   mockNetwork(t,{turnstile:{success:true,hostname:'wrong.example',action:'guide_request'}});

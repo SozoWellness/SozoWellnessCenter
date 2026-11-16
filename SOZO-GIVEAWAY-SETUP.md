@@ -31,10 +31,10 @@ The dates and value are confirmed; the following still require approval/setup:
 - Final official rules and eligibility. The supplied draft requires Florida
   residency, age 18+, one entry per person, random selection, and seven days to
   respond after winner notification.
-- Review the required promotional-email consent in the brief with the person
-  approving the promotion's rules. Marketing consent is currently required as
-  requested, distinct from rules acceptance and eligibility. **A phone number
-  does not authorize promotional texts.** Review applicable giveaway,
+- The owner approved **optional promotional-email consent**, distinct from
+  required rules acceptance and eligibility. Email and phone remain required
+  for entry administration and winner contact. **A phone number does not
+  authorize promotional texts.** Review applicable giveaway,
   advertising, privacy, and therapy eligibility requirements before launch.
 - Any additional clinically necessary prize-use conditions must be supplied
   and approved; the system has not invented treatment-clearance or forfeiture
@@ -47,7 +47,7 @@ The dates and value are confirmed; the following still require approval/setup:
 
 Create a **new** D1 database for this giveaway. Do not convert, replace, or migrate
 the existing website/request database. Apply `migrations/giveaway/0001_giveaway.sql`
-and then `0002_campaign_terms.sql` to that new database, then bind it to the existing Pages project as
+then `0002_campaign_terms.sql` and `0003_optional_email_consent.sql`, then bind it to the existing Pages project as
 `GIVEAWAY_DB` in Production. Use a separate empty database for any Pages Preview
 environment; never bind a test deployment to real entries.
 
@@ -58,7 +58,20 @@ environment (do not paste API credentials into chat):
 wrangler d1 create sozo-hyperbaric-giveaway
 wrangler d1 execute sozo-hyperbaric-giveaway --remote --file=migrations/giveaway/0001_giveaway.sql
 wrangler d1 execute sozo-hyperbaric-giveaway --remote --file=migrations/giveaway/0002_campaign_terms.sql
+wrangler d1 execute sozo-hyperbaric-giveaway --remote --file=migrations/giveaway/0003_optional_email_consent.sql
 ```
+
+**Existing giveaway database:** 0003 is a one-time table rebuild that copies
+every existing entry field/row and retains winner references, then permits
+consent values 0 and 1. It does not delete entrants, alter their past consent,
+or change dates/prize value. Keep entries disabled, confirm a restorable D1
+backup/Time Travel state, and apply transactionally with an authorized operator.
+Do not apply it to any other database. It resets rules version 1 to draft version
+2 with rules approval off; final rules approval and activation are still separate.
+If operating through the D1 dashboard instead of Wrangler, first confirm entries
+and draws are empty; stop and use a transactional operator migration otherwise.
+Do not publish/activate the optional-consent release before 0003 and GVEMAIL
+below are ready.
 
 In Workers & Pages → **sozowellnesscenter** → Settings → Bindings, add the D1
 binding. Keep the existing project, form secrets, build command, and output
@@ -86,7 +99,7 @@ Never place any secret in a `VITE_` variable or send it through chat.
 
 | Variable | Type | Purpose |
 | --- | --- | --- |
-| `MAILCHIMP_API_KEY` | Secret | Restricted operator-managed Mailchimp API access |
+| `MAILCHIMP_API_KEY` | Secret | Dedicated server-only Mailchimp API key |
 | `MAILCHIMP_SERVER_PREFIX` | Text | The account's data center, such as `usN` |
 | `MAILCHIMP_GIVEAWAY_AUDIENCE_ID` | Text | ID of the existing **SOZO Main Audience** |
 | `GIVEAWAY_ENABLED` | Text | Keep `false` until the campaign is approved and tested |
@@ -106,6 +119,7 @@ In **SOZO Main Audience**, verify the merge fields before opening entries:
 | Giveaway entry time (UTC ISO timestamp) | `GVENTERED` | Text |
 | Giveaway entry identifier | `GVENTRYID` | Text |
 | Giveaway QR/source label | `GVSOURCE` | Text |
+| Giveaway promotional-email choice | `GVEMAIL` | Text (`yes` or `no`) |
 
 **Mailchimp limits merge tags to ten characters**, so the brief's
 `WELLNESS_INTEREST` cannot be the literal merge tag. Use the display label
@@ -125,8 +139,13 @@ to subscribed contacts. Existing unsubscribe/cleaned/pending/transactional
 statuses are not changed. `suppressed` means the entry reached Mailchimp but
 marketing remains disabled; it does **not** mean an ineligible giveaway entry.
 Provider rejections remain failed in D1 and require reconciliation before drawing.
-A new contact explicitly agreeing to the required email checkbox is created
-subscribed. Other existing tags are not removed.
+A new contact who checks the optional email box is created subscribed. An
+unchecked box creates a non-subscribed member (`transactional` in the Marketing
+API, not a separate paid sending service). No opt-in timestamp or marketing
+tags are added in that case. Existing members' subscription statuses are never
+changed, including an already-subscribed person who leaves this event's box
+unchecked. `GVEMAIL=no` records that choice and excludes this entry from the
+giveaway promotional sequence. Other existing tags are not removed.
 
 `GVENTERED` is the actual giveaway entry time for returning subscribers too.
 Do not use Mailchimp's original subscription date to identify entrants.
@@ -137,7 +156,9 @@ submitted QR source, then UTM source, or `direct`; full UTM values remain in D1.
 
 Use the approved content in `campaigns/hyperbaric-giveaway/emails.md`. Create the
 flow in Mailchimp, **paused at first**. Trigger on the `Hyperbaric Giveaway` tag
-being added to a subscribed member. Disable re-entry.
+being added, with eligibility requiring **subscribed AND GVEMAIL=yes**.
+Do not trigger promotional messages solely from the event entry tag.
+Disable re-entry.
 
 Timing is relative to entry:
 
@@ -217,8 +238,9 @@ No new navigation link advertises an unapproved campaign.
 - Export the tagged segment to CSV. Include **all contact statuses**, not just
   subscribed contacts. Mailchimp may provide separate CSVs per status; combine
   them for the eligible drawing pool.
-- Use Mailchimp's current subscribed segment for promotional emails, never the
-  full giveaway export. A giveaway tag does not override an unsubscribe.
+- For giveaway promotional emails, require the event tag, current subscribed
+  status, and `GVEMAIL=yes`; never send to the full giveaway export. A giveaway
+  tag does not override an unsubscribe or an unchecked event email preference.
 - Keep downloaded files private, do not upload contact lists to public
   random-picker websites, and delete copies when no longer needed.
 - Failed Mailchimp calls do not erase entries. Before drawing, an implementer

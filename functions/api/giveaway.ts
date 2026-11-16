@@ -25,9 +25,9 @@ export async function onRequest({ request, env }: { request: Request; env: Givea
     if (!firstName || firstName.length > 80 || /[\u0000-\u001f]/.test(firstName) ||
       email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !phone ||
       (interest && !(WELLNESS_GOALS as readonly string[]).includes(interest)) ||
-      input.marketingConsent !== true || input.rulesAccepted !== true || input.eligible !== true ||
+      typeof input.marketingConsent !== 'boolean' || input.rulesAccepted !== true || input.eligible !== true ||
       (input.website !== undefined && input.website !== '')) {
-      return json(400, { error: 'Check your name, email, US mobile number, consent, eligibility, and rules acceptance.' });
+      return json(400, { error: 'Check your name, email, US mobile number, email preference, eligibility, and rules acceptance.' });
     }
     const ip = request.headers.get('CF-Connecting-IP');
     if (!ip) return json(403, { error: 'Unable to verify your entry. Please try again on the website.' });
@@ -50,10 +50,10 @@ export async function onRequest({ request, env }: { request: Request; env: Givea
     // The INSERT SELECT rechecks campaign state atomically with duplicate constraints.
     try {
       const inserted = await env.GIVEAWAY_DB!.prepare(`INSERT INTO giveaway_entries
-        (id,campaign_id,first_name,email,phone,wellness_interest,created_at,marketing_consent,rules_version,qr_source,utm_source,utm_medium,utm_campaign,utm_content)
-        SELECT ?,id,?,?,?,?,?,1,rules_version,?,?,?,?,? FROM giveaway_campaigns
+        (id,campaign_id,first_name,email,phone,wellness_interest,created_at,marketing_consent,consent_version,rules_version,qr_source,utm_source,utm_medium,utm_campaign,utm_content)
+        SELECT ?,id,?,?,?,?,?,?,'giveaway-email-v2',rules_version,?,?,?,?,? FROM giveaway_campaigns
         WHERE id=? AND status='active' AND rules_approved=1 AND prize_value>0 AND starts_at<=? AND ends_at>?`)
-        .bind(id, firstName, email, phone, interest, timestamp, clean('qrSource'), clean('utmSource'), clean('utmMedium'), clean('utmCampaign'), clean('utmContent'), CAMPAIGN_ID, timestamp, timestamp).run();
+        .bind(id, firstName, email, phone, interest, timestamp, input.marketingConsent ? 1 : 0, clean('qrSource'), clean('utmSource'), clean('utmMedium'), clean('utmCampaign'), clean('utmContent'), CAMPAIGN_ID, timestamp, timestamp).run();
       if (inserted.meta.changes !== 1) return json(409, { error: 'The entry period has ended or the giveaway has been paused.' });
     } catch (error) {
       if (/unique/i.test(String(error))) return json(409, { error: 'An entry with this email or mobile number has already been received. Only one entry per person is allowed.' });

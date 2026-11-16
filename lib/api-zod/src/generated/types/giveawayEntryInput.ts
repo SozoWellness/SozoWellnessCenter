@@ -18,7 +18,7 @@ export interface GiveawayEntryInput {
   /** US mobile number normalized server-side */
   phone: string;
   wellnessInterest?: string;
-  /** Must be true; permission for email only */
+  /** Explicit optional promotional-email choice. False is eligible for entry and does not authorize a new subscription or SMS. */
   marketingConsent: boolean;
   /** Must be true */
   rulesAccepted: boolean;

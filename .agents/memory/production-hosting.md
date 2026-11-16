@@ -37,6 +37,18 @@ payment details or another staff-login service.
 Zero Trust onboarding for this launch. Background backup storage does not imply
 that the user approved bringing the custom dashboard back.
 
+The user approved optional promotional-email consent for giveaway entry.
+Contact email/phone, rules acceptance, and Florida/age eligibility remain
+required. An unchecked email box must not create a marketing subscription or
+authorize the giveaway email sequence; existing subscription preferences remain
+unchanged.
+
+**Why:** The owner chose to separate giveaway entry from promotional permission
+during the rules review.
+
+**How to apply:** Treat every eligible entrant equally for the drawing and keep
+entry records distinct from permission to send promotional messages.
+
 Verify GitHub's actual branch reference before treating a push error as a failed
 release.
 

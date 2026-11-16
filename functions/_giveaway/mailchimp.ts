@@ -37,18 +37,19 @@ export async function syncEntry(env: GiveawayEnv, entryId: string): Promise<stri
       FNAME: entry.first_name, PHONE: entry.phone,
       GVENTERED: entry.created_at, GVENTRYID: entry.id,
       GVSOURCE: entry.qr_source || entry.utm_source || 'direct',
+      GVEMAIL: entry.marketing_consent === 1 ? 'yes' : 'no',
     };
     if (entry.wellness_interest) mergeFields.WELLNESS = entry.wellness_interest;
     const saved = await call(root, 'PUT', {
-      email_address: entry.email, status_if_new: 'subscribed',
+      email_address: entry.email, status_if_new: entry.marketing_consent === 1 ? 'subscribed' : 'transactional',
       merge_fields: mergeFields,
-      ...(existing ? {} : { timestamp_opt: entry.created_at }),
+      ...(existing || entry.marketing_consent !== 1 ? {} : { timestamp_opt: entry.created_at }),
     });
     if (!saved.ok) throw new Error('member');
     // Event membership and permission to receive marketing are separate.
     // The event tag includes opt-outs for the drawing; marketing tags do not.
     const member = await saved.json() as { status?: string };
-    const subscribed = member.status === 'subscribed';
+    const subscribed = member.status === 'subscribed' && entry.marketing_consent === 1;
     const names = [GIVEAWAY_ENTRY_TAG];
     if (subscribed) {
       names.push('Vendor Event', 'Hyperbaric Giveaway');
@@ -57,7 +58,7 @@ export async function syncEntry(env: GiveawayEnv, entryId: string): Promise<stri
     const tagged = await call(`${root}/tags`, 'POST', { tags: names.map(name => ({ name, status: 'active' })) });
     if (!tagged.ok) throw new Error('tags');
     final = subscribed ? 'synced' : 'suppressed';
-    error = subscribed ? null : 'Giveaway entry tagged. Existing subscription status preserved; marketing remains suppressed.';
+    error = subscribed ? null : 'Giveaway entry tagged. No promotional permission added; existing subscription preferences preserved.';
   } catch {
     // Never persist provider responses (which can echo contact data or credentials).
   }
