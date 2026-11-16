@@ -115,7 +115,16 @@ assert(darcelleCard, 'Missing Darcelle team card');
 assert.match(clean(darcelleCard), /Darcelle Burandt/);
 assert.match(clean(darcelleCard), /Certified Whole Life Health Coach/);
 assert.doesNotMatch(clean(darcelleCard), /\bLPC\b|\bTherapist\b/);
-assert(about.indexOf('card-team-darcelle-burandt') < about.indexOf('card-team-gary-cupo'), 'Darcelle must remain first');
+const sonyaCard = about.match(/<li[^>]*data-testid="card-team-sonya-borisuk"[^>]*>([\s\S]*?)<\/li>/)?.[1];
+assert(sonyaCard, 'Missing Sonya team card');
+assert.match(clean(sonyaCard), /Sonya Borisuk/);
+assert.match(clean(sonyaCard), /Certified Health Coach/);
+assert.match(sonyaCard, /src="\/images\/team\/sonya-borisuk.jpg"/);
+assert.match(sonyaCard, /alt="Portrait of Sonya Borisuk"/);
+assert.doesNotMatch(about, /Gary Cupo|gary-cupo/);
+await readFile(path.join(root, 'images/team/sonya-borisuk.jpg'));
+assert(about.indexOf('card-team-darcelle-burandt') < about.indexOf('card-team-sonya-borisuk'), 'Darcelle must remain first');
+assert(about.indexOf('card-team-sonya-borisuk') < about.indexOf('card-team-leisa-bodway'), 'Sonya must replace Gary in the second position');
 for (const [id, destination] of [
   ['jt-anderson', '/chiropractic-care#jt-anderson'],
   ['lauren-alvarez-schmitz', '/chiropractic-care#lauren-alvarez-schmitz'],

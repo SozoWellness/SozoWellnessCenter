@@ -11,7 +11,7 @@ export type TeamMember = {
 // Linked providers retain their own role and practice relationship.
 export const teamMembers: TeamMember[] = [
   { id: 'darcelle-burandt', name: 'Darcelle Burandt', role: 'Certified Whole Life Health Coach', image: '/images/team/darcelle-burandt-fall-2026.jpg' },
-  { id: 'gary-cupo', name: 'Gary Cupo', role: 'Wellness Practitioner', image: '/images/team/gary-cupo.jpg' },
+  { id: 'sonya-borisuk', name: 'Sonya Borisuk', role: 'Certified Health Coach', image: '/images/team/sonya-borisuk.jpg' },
   { id: 'leisa-bodway', name: 'Leisa Bodway', role: 'SOZO Ambassador', image: '/images/team/leisa-bodway.jpg' },
   { id: 'lynne-barta', name: 'Lynne Barta', role: 'SOZO Ambassador', image: '/images/team/lynne-barta.jpg' },
   { id: 'lisa-springer', name: 'Lisa Springer', role: 'Client Services', image: '/images/team/lisa-springer.jpg' },
