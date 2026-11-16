@@ -17,3 +17,11 @@ proxy or assume a Replit connector is automatically available in Cloudflare.
 Giveaway storage and administration were intentionally isolated from the
 existing enquiry, book-delivery, and staff messaging flows to avoid disrupting
 those live workflows.
+
+The user declined adding payment details to activate Cloudflare Zero Trust
+for giveaway staff access.
+
+**Why:** The user chose “Avoid adding payment details” at the Free-plan checkout.
+
+**How to apply:** Do not resume that checkout or ask for payment details again.
+Use a verified no-card alternative only after the user approves the change.
