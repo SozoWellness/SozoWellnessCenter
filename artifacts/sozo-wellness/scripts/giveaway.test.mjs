@@ -11,6 +11,14 @@ import { syncEntry } from '../../../functions/_giveaway/mailchimp.ts';
 import { GIVEAWAY_ENTRY_TAG } from '../src/lib/giveaway-contract.ts';
 
 // Real SQLite enforces the same schema and constraints as Cloudflare D1.
+test('Cloudflare routes giveaway functions without removing existing form routes', () => {
+  const routes=JSON.parse(readFileSync(new URL('../public/_routes.json',import.meta.url),'utf8'));
+  for (const path of ['/api/assessment-requests','/api/guide-requests','/api/giveaway','/api/giveaway-admin','/hyperbaric-giveaway','/hyperbaric-giveaway/']) {
+    assert.ok(routes.include.includes(path),`Missing Cloudflare function route: ${path}`);
+  }
+  assert.deepEqual(routes.exclude,[]);
+});
+
 function database(t, draft = false) {
   const sql = new DatabaseSync(':memory:');
   sql.exec(readFileSync(new URL('../../../migrations/giveaway/0001_giveaway.sql', import.meta.url), 'utf8'));

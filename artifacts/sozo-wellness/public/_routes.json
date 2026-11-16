@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/api/assessment-requests", "/api/guide-requests"],
+  "include": ["/api/assessment-requests", "/api/guide-requests", "/api/giveaway", "/api/giveaway-admin", "/hyperbaric-giveaway", "/hyperbaric-giveaway/"],
   "exclude": []
 }
