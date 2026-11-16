@@ -5,6 +5,7 @@ export type CampaignSettings = GiveawayCampaign;
 export const WELLNESS_GOALS = ['More Energy', 'Pain Relief', 'Recovery & Healing', 'Stress Relief', 'Heart Health', 'General Wellness', 'Other'] as const;
 export type WellnessGoal = typeof WELLNESS_GOALS[number];
 export const EMPTY_CAMPAIGN: CampaignSettings = {
-  id: 'hyperbaric-giveaway', status: 'draft', startsAt: '', endsAt: '',
-  prizeValue: 0, rulesApproved: false, rulesVersion: '1',
+  id: 'hyperbaric-giveaway', status: 'draft',
+  startsAt: '2026-11-20T14:00:00.000Z', endsAt: '2026-11-20T23:00:00.000Z',
+  prizeValue: 2000, rulesApproved: false, rulesVersion: '1',
 };

@@ -14,8 +14,14 @@ until the production entry flow and final rules have been approved.
 
 ## What the owner must approve before public activation
 
-- Start and end date/time, displayed publicly in **America/New_York**.
-- Approximate retail value of the ten-session prize.
+Confirmed campaign terms:
+
+- **Entry period:** November 20, 2026, **9:00 a.m. through 6:00 p.m. EST**
+  (**America/New_York**). Stored as 14:00–23:00 UTC on that date.
+- **Approximate retail value:** **$2,000 total** for all ten sessions.
+
+The dates and value are confirmed; the following still require approval/setup:
+
 - Final official rules and eligibility. The supplied draft requires Florida
   residency, age 18+, one entry per person, random selection, and seven days to
   respond after winner notification.
@@ -35,7 +41,7 @@ until the production entry flow and final rules have been approved.
 
 Create a **new** D1 database for this giveaway. Do not convert, replace, or migrate
 the existing website/request database. Apply `migrations/giveaway/0001_giveaway.sql`
-to that new database, then bind it to the existing Pages project as
+and then `0002_campaign_terms.sql` to that new database, then bind it to the existing Pages project as
 `GIVEAWAY_DB` in Production. Use a separate empty database for any Pages Preview
 environment; never bind a test deployment to real entries.
 
@@ -45,6 +51,7 @@ environment (do not paste API credentials into chat):
 ```sh
 wrangler d1 create sozo-hyperbaric-giveaway
 wrangler d1 execute sozo-hyperbaric-giveaway --remote --file=migrations/giveaway/0001_giveaway.sql
+wrangler d1 execute sozo-hyperbaric-giveaway --remote --file=migrations/giveaway/0002_campaign_terms.sql
 ```
 
 In Workers & Pages → **sozowellnesscenter** → Settings → Bindings, add the D1

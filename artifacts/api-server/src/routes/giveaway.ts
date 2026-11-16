@@ -4,7 +4,11 @@ const router = Router();
 // fabricates entries, administrator authentication, or successful email delivery.
 router.get('/giveaway', (_req, res) => {
   res.set('Cache-Control', 'no-store').json({
-    campaign: { id: 'hyperbaric-giveaway', status: 'draft', startsAt: '', endsAt: '', prizeValue: 0, rulesApproved: false, rulesVersion: '1' },
+    campaign: {
+      id: 'hyperbaric-giveaway', status: 'draft',
+      startsAt: '2026-11-20T14:00:00.000Z', endsAt: '2026-11-20T23:00:00.000Z',
+      prizeValue: 2000, rulesApproved: false, rulesVersion: '1',
+    },
     acceptingEntries: false, message: 'This giveaway is being prepared. Entries are not open yet.',
   });
 });

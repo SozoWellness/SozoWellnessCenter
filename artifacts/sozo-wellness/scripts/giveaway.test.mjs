@@ -10,9 +10,10 @@ import { csv } from '../../../functions/_giveaway/common.ts';
 import { syncEntry } from '../../../functions/_giveaway/mailchimp.ts';
 
 // Real SQLite enforces the same schema and constraints as Cloudflare D1.
-function database(t) {
+function database(t, draft = false) {
   const sql = new DatabaseSync(':memory:');
   sql.exec(readFileSync(new URL('../../../migrations/giveaway/0001_giveaway.sql', import.meta.url), 'utf8'));
+  sql.exec(readFileSync(new URL('../../../migrations/giveaway/0002_campaign_terms.sql', import.meta.url), 'utf8'));
   t.after(() => sql.close());
   const prepare = (query) => {
     let values = [];
@@ -29,7 +30,7 @@ function database(t) {
     catch (e) { sql.exec('ROLLBACK'); throw e; }
   } };
   const now = Date.now();
-  sql.prepare("UPDATE giveaway_campaigns SET status='active',starts_at=?,ends_at=?,prize_value=500,rules_approved=1")
+  if (!draft) sql.prepare("UPDATE giveaway_campaigns SET status='active',starts_at=?,ends_at=?,prize_value=500,rules_approved=1")
     .run(new Date(now - 86400_000).toISOString(), new Date(now + 86400_000).toISOString());
   return { db, sql };
 }
@@ -76,6 +77,25 @@ async function admin(env, data, path = '/api/giveaway-admin', token) {
   return adminAPI({env,request:request(path,data,{'Cf-Access-Jwt-Assertion': token || await jwt()})});
 }
 async function enter(env, data = input()) { return publicAPI({env,request:request('/api/giveaway',data)}); }
+
+test('owner-provided dates and prize value remain draft and match Eastern Time', async t => {
+  const {db,sql}=database(t,true);
+  const response=await publicAPI({env:env(db),request:request('/api/giveaway')});
+  const result=await response.json();
+  assert.equal(result.campaign.startsAt,'2026-11-20T14:00:00.000Z');
+  assert.equal(result.campaign.endsAt,'2026-11-20T23:00:00.000Z');
+  assert.equal(result.campaign.prizeValue,2000);
+  assert.equal(result.campaign.status,'draft');
+  assert.equal(result.campaign.rulesApproved,false);
+  assert.equal(result.acceptingEntries,false);
+  const eastern=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'numeric',minute:'2-digit',hour12:true});
+  assert.equal(eastern.format(new Date(result.campaign.startsAt)),'9:00 AM');
+  assert.equal(eastern.format(new Date(result.campaign.endsAt)),'6:00 PM');
+  // Reapplying setup cannot overwrite later staff changes or enable entries.
+  sql.prepare('UPDATE giveaway_campaigns SET prize_value=2100').run();
+  sql.exec(readFileSync(new URL('../../../migrations/giveaway/0002_campaign_terms.sql', import.meta.url),'utf8'));
+  assert.equal(sql.prepare('SELECT prize_value FROM giveaway_campaigns').get().prize_value,2100);
+});
 
 test('unconfigured campaign stays closed; anonymous and forged admin access fail closed', async t => {
   const calls = mockNetwork(t);
