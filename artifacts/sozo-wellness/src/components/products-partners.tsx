@@ -31,7 +31,7 @@ export function ProductsPartners() {
         </aside>
 
         <div className="pp-head">
-          <h2 id="pp-list-heading" className="section-title serif">Eleven partners, one whole-person approach.</h2>
+          <h2 id="pp-list-heading" className="section-title serif">Twelve partners, one whole-person approach.</h2>
           <nav className="pp-index" aria-label="Jump to a partner">
             {partners.map(p => <a key={p.id} href={`#partner-${p.id}`} data-testid={`link-jump-${p.id}`}>{p.name}</a>)}
           </nav>
@@ -54,8 +54,8 @@ export function ProductsPartners() {
                 </div>
                 <div className="pp-actions">
                   {p.href ? (
-                    <a className="btn btn-primary" href={p.href} target="_blank" rel="sponsored noopener noreferrer" data-testid={`link-partner-${p.id}`}>
-                      Visit {p.name}<span className="sr-only"> (opens in a new tab, affiliate link)</span> <ArrowUpRight size={17} aria-hidden="true" />
+                    <a className="btn btn-primary" href={p.href} target="_blank" rel={p.affiliate === false ? 'noopener noreferrer' : 'sponsored noopener noreferrer'} data-testid={`link-partner-${p.id}`}>
+                      Visit {p.name}<span className="sr-only"> (opens in a new tab{p.affiliate === false ? '' : ', affiliate link'})</span> <ArrowUpRight size={17} aria-hidden="true" />
                     </a>
                   ) : (
                     <>

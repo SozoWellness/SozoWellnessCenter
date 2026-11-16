@@ -8,6 +8,7 @@ export type Partner = {
   imageAlt: string;
   href?: string;
   clinicOnly?: boolean;
+  affiliate?: boolean;
 };
 
 // Images and recommendation context: SOZO's existing Products and Partners page.
@@ -84,6 +85,15 @@ export const partners: Partner[] = [
     recommendation: 'We recommend exploring Zinzino for its emphasis on understanding your nutritional needs and making informed, personalized wellness choices.',
     image: '/images/partners/zinzino.jpg', imageAlt: 'Zinzino nutritional products',
     href: 'https://zinzino.com/2020928615',
+  },
+  {
+    id: 'thermography-for-life', name: 'Thermography For Life', category: 'Thermal imaging',
+    description: 'Non-invasive digital infrared thermal imaging services that record patterns in skin-surface temperature. Visit Thermography For Life to learn about appointments and available locations.',
+    recommendation: 'We include Thermography For Life as a resource to discuss with your healthcare professional. Thermography does not replace mammograms or other recommended screening and cannot diagnose cancer.',
+    // Image from the partner's official homepage.
+    image: '/images/partners/thermography-for-life.jpg', imageAlt: 'A family outdoors, featured on the Thermography For Life website',
+    href: 'https://www.thermographyforlife.org/',
+    affiliate: false,
   },
   {
     id: 'theon-global', name: 'Theon Global', category: 'Targeted nutrition',
