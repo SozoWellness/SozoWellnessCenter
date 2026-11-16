@@ -36,3 +36,13 @@ payment details or another staff-login service.
 **How to apply:** Keep Mailchimp as the staff interface; do not resume Auth0 or
 Zero Trust onboarding for this launch. Background backup storage does not imply
 that the user approved bringing the custom dashboard back.
+
+Verify GitHub's actual branch reference before treating a push error as a failed
+release.
+
+**Why:** This workspace can accept a remote push and then report a nonzero exit
+when the local remote-tracking reference update is blocked.
+
+**How to apply:** Use a read-only remote-reference check to distinguish remote
+acceptance from a local bookkeeping error. Do not repeat a successful push just
+to repair the local tracking reference.
