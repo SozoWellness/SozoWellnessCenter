@@ -9,6 +9,211 @@ import * as zod from 'zod';
 
 
 /**
+ * @summary Public giveaway settings and entry availability without contact details
+ */
+export const getGiveawayAvailabilityResponseCampaignPrizeValueMin = 0;
+
+
+
+export const GetGiveawayAvailabilityResponse = zod.object({
+  "campaign": zod.object({
+  "id": zod.string(),
+  "status": zod.enum(['draft', 'active', 'closed']),
+  "startsAt": zod.string().describe('ISO UTC instant or empty while draft'),
+  "endsAt": zod.string().describe('ISO UTC instant or empty while draft'),
+  "prizeValue": zod.number().min(getGiveawayAvailabilityResponseCampaignPrizeValueMin),
+  "rulesApproved": zod.boolean(),
+  "rulesVersion": zod.string()
+}),
+  "acceptingEntries": zod.boolean(),
+  "message": zod.string()
+})
+
+
+/**
+ * @summary Persist one eligible giveaway entry, then attempt separate Mailchimp sync
+ */
+export const submitGiveawayEntryBodyFirstNameMax = 80;
+
+export const submitGiveawayEntryBodyEmailMax = 254;
+
+export const submitGiveawayEntryBodyTurnstileTokenMax = 2048;
+
+export const submitGiveawayEntryBodyAttributionQrSourceMax = 80;
+
+export const submitGiveawayEntryBodyAttributionUtmSourceMax = 80;
+
+export const submitGiveawayEntryBodyAttributionUtmMediumMax = 80;
+
+export const submitGiveawayEntryBodyAttributionUtmCampaignMax = 80;
+
+export const submitGiveawayEntryBodyAttributionUtmContentMax = 80;
+
+
+
+export const SubmitGiveawayEntryBody = zod.object({
+  "firstName": zod.string().min(1).max(submitGiveawayEntryBodyFirstNameMax),
+  "email": zod.string().email().max(submitGiveawayEntryBodyEmailMax),
+  "phone": zod.string().describe('US mobile number normalized server-side'),
+  "wellnessInterest": zod.string().optional(),
+  "marketingConsent": zod.boolean().describe('Must be true; permission for email only'),
+  "rulesAccepted": zod.boolean().describe('Must be true'),
+  "eligible": zod.boolean().describe('Must be true'),
+  "turnstileToken": zod.string().max(submitGiveawayEntryBodyTurnstileTokenMax),
+  "website": zod.string().optional().describe('Honeypot'),
+  "attribution": zod.object({
+  "qrSource": zod.string().max(submitGiveawayEntryBodyAttributionQrSourceMax).optional(),
+  "utmSource": zod.string().max(submitGiveawayEntryBodyAttributionUtmSourceMax).optional(),
+  "utmMedium": zod.string().max(submitGiveawayEntryBodyAttributionUtmMediumMax).optional(),
+  "utmCampaign": zod.string().max(submitGiveawayEntryBodyAttributionUtmCampaignMax).optional(),
+  "utmContent": zod.string().max(submitGiveawayEntryBodyAttributionUtmContentMax).optional()
+})
+})
+
+export const SubmitGiveawayEntryResponse = zod.object({
+  "entryId": zod.string(),
+  "marketingStatus": zod.string()
+})
+
+
+/**
+ * A signed Access JWT and server-side allowlist are required. CSV exports use the same protected endpoint with export=entries, emails, or winners.
+ * @summary Cloudflare Access protected campaign, entries, summaries and draw history
+ */
+export const getGiveawayAdminQueryQMax = 100;
+
+export const getGiveawayAdminQueryPageDefault = 1;
+
+
+
+export const GetGiveawayAdminQueryParams = zod.object({
+  "q": zod.coerce.string().max(getGiveawayAdminQueryQMax).optional(),
+  "page": zod.coerce.number().int().min(1).default(getGiveawayAdminQueryPageDefault)
+})
+
+export const getGiveawayAdminResponseCampaignPrizeValueMin = 0;
+
+
+
+export const GetGiveawayAdminResponse = zod.object({
+  "campaign": zod.object({
+  "id": zod.string(),
+  "status": zod.enum(['draft', 'active', 'closed']),
+  "startsAt": zod.string().describe('ISO UTC instant or empty while draft'),
+  "endsAt": zod.string().describe('ISO UTC instant or empty while draft'),
+  "prizeValue": zod.number().min(getGiveawayAdminResponseCampaignPrizeValueMin),
+  "rulesApproved": zod.boolean(),
+  "rulesVersion": zod.string()
+}),
+  "entries": zod.array(zod.object({
+  "id": zod.string(),
+  "campaign_id": zod.string(),
+  "first_name": zod.string(),
+  "email": zod.string(),
+  "phone": zod.string(),
+  "wellness_interest": zod.string(),
+  "created_at": zod.string(),
+  "qr_source": zod.string(),
+  "utm_source": zod.string(),
+  "utm_medium": zod.string(),
+  "utm_campaign": zod.string(),
+  "utm_content": zod.string(),
+  "rules_version": zod.string(),
+  "marketing_consent": zod.number().int(),
+  "consent_version": zod.string(),
+  "eligibility_confirmed": zod.number().int(),
+  "rules_accepted": zod.number().int(),
+  "sync_status": zod.enum(['pending', 'processing', 'synced', 'failed', 'suppressed']),
+  "sync_error": zod.string().nullable()
+})),
+  "page": zod.number().int(),
+  "total": zod.number().int(),
+  "totalEntries": zod.number().int(),
+  "days": zod.array(zod.object({
+  "label": zod.string(),
+  "count": zod.number().int()
+})),
+  "goals": zod.array(zod.object({
+  "label": zod.string(),
+  "count": zod.number().int()
+})),
+  "sources": zod.array(zod.object({
+  "label": zod.string(),
+  "count": zod.number().int()
+})),
+  "draws": zod.array(zod.object({
+  "id": zod.string(),
+  "entry_id": zod.string(),
+  "campaign_id": zod.string(),
+  "status": zod.enum(['pending', 'confirmed', 'unclaimed']),
+  "selected_at": zod.string(),
+  "confirmed_at": zod.string().nullable(),
+  "notified_at": zod.string().nullable(),
+  "released_at": zod.string().nullable(),
+  "selected_by": zod.string(),
+  "eligible_count": zod.number().int(),
+  "first_name": zod.string(),
+  "email": zod.string(),
+  "phone": zod.string()
+})),
+  "connections": zod.object({
+  "database": zod.boolean(),
+  "mailchimp": zod.boolean(),
+  "turnstile": zod.boolean(),
+  "publicEnabled": zod.boolean()
+})
+})
+
+
+/**
+ * @summary Authorized settings, explicit sync retries and auditable winner commands
+ */
+export const administerGiveawayBodyOneSettingsPrizeValueMin = 0;
+
+
+
+export const AdministerGiveawayBody = zod.union([zod.object({
+  "action": zod.enum(['settings']),
+  "settings": zod.object({
+  "id": zod.string(),
+  "status": zod.enum(['draft', 'active', 'closed']),
+  "startsAt": zod.string().describe('ISO UTC instant or empty while draft'),
+  "endsAt": zod.string().describe('ISO UTC instant or empty while draft'),
+  "prizeValue": zod.number().min(administerGiveawayBodyOneSettingsPrizeValueMin),
+  "rulesApproved": zod.boolean(),
+  "rulesVersion": zod.string()
+})
+}),zod.object({
+  "action": zod.enum(['draw'])
+}),zod.object({
+  "action": zod.enum(['confirm', 'notified', 'release']),
+  "drawId": zod.string()
+}),zod.object({
+  "action": zod.enum(['retry']),
+  "entryId": zod.string()
+})])
+
+export const AdministerGiveawayResponse = zod.object({
+  "ok": zod.boolean(),
+  "draw": zod.object({
+  "id": zod.string(),
+  "entry_id": zod.string(),
+  "campaign_id": zod.string(),
+  "status": zod.enum(['pending', 'confirmed', 'unclaimed']),
+  "selected_at": zod.string(),
+  "confirmed_at": zod.string().nullable(),
+  "notified_at": zod.string().nullable(),
+  "released_at": zod.string().nullable(),
+  "selected_by": zod.string(),
+  "eligible_count": zod.number().int(),
+  "first_name": zod.string(),
+  "email": zod.string(),
+  "phone": zod.string()
+}).optional()
+})
+
+
+/**
  * @summary Check whether the separate free-book request flow is enabled
  */
 export const GetGuideAvailabilityResponse = zod.object({

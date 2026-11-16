@@ -170,3 +170,23 @@ to = "/services/whole-life-coaching/index.html"
 [[services.production.rewrites]]
 from = "/perfect-day-lifestyle"
 to = "/perfect-day-lifestyle/index.html"
+
+[[services.production.rewrites]]
+from = "/enter-to-win"
+to = "/enter-to-win/index.html"
+
+[[services.production.rewrites]]
+from = "/hyperbaric-giveaway"
+to = "/hyperbaric-giveaway/index.html"
+
+[[services.production.rewrites]]
+from = "/giveaway/thank-you"
+to = "/giveaway/thank-you/index.html"
+
+[[services.production.rewrites]]
+from = "/official-rules"
+to = "/official-rules/index.html"
+
+[[services.production.rewrites]]
+from = "/giveaway-admin"
+to = "/giveaway-admin/index.html"

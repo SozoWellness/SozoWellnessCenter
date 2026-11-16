@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@noble/hashes": "^2.4.0",
     "@replit/connectors-sdk": "^0.4.3"
   },
   "devDependencies": {

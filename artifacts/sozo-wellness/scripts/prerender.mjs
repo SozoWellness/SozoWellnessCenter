@@ -17,13 +17,13 @@ const escapeAttribute = (value) => value.replace(/&/g, '&amp;').replace(/"/g, '&
 const escapeText = (value) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
 try {
-  const { default: App, meta, SITE_URL } = await vite.ssrLoadModule('/src/App.tsx');
+  const { default: App, meta, SITE_URL, NOINDEX_ROUTES } = await vite.ssrLoadModule('/src/App.tsx');
   const shell = await readFile(path.join(output, 'index.html'), 'utf8');
   const routes = Object.keys(meta);
 
   for (const route of routes) {
     const [title, description] = meta[route];
-    const url = `${SITE_URL}${route}`;
+    const url = `${SITE_URL}${route === '/hyperbaric-giveaway' ? '/enter-to-win' : route}`;
     const content = renderToString(createElement(App, { ssrPath: route }));
     if (!content.includes('<h1')) throw new Error(`Missing page content for ${route}`);
 
@@ -39,6 +39,7 @@ try {
       if (!pattern.test(html)) throw new Error(`Missing ${selector} in HTML shell`);
       html = html.replace(pattern, `$1${escapeAttribute(value)}$2`);
     }
+    if (NOINDEX_ROUTES.includes(route)) html = html.replace(/(<meta name="robots" content=")[^"]*(" *\/>)/, '$1noindex, follow$2');
     html = html.replace('</head>', `    <link rel="canonical" href="${escapeAttribute(url)}" />\n    <meta property="og:url" content="${escapeAttribute(url)}" />\n  </head>`);
     html = html.replace('<div id="root"></div>', `<div id="root">${content}</div>`);
     const destination = route === '/' ? path.join(output, 'index.html') : path.join(output, route.slice(1), 'index.html');
@@ -67,7 +68,7 @@ try {
   notFoundHtml = notFoundHtml.replace('<div id="root"></div>', `<div id="root">${notFoundContent}</div>`);
   await writeFile(path.join(output, '404.html'), notFoundHtml);
 
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${routes.map(route => `  <url><loc>${SITE_URL}${route}</loc></url>`).join('\n')}\n</urlset>\n`;
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${routes.filter(route => !NOINDEX_ROUTES.includes(route)).map(route => `  <url><loc>${SITE_URL}${route}</loc></url>`).join('\n')}\n</urlset>\n`;
   await writeFile(path.join(output, 'sitemap.xml'), sitemap);
   console.info(`Prerendered ${routes.length} public routes.`);
 } finally {

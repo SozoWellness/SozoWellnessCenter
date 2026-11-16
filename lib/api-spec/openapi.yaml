@@ -13,6 +13,71 @@ tags:
   - name: assessments
     description: Assessment request operations
 paths:
+  /giveaway:
+    get:
+      operationId: getGiveawayAvailability
+      summary: Public giveaway settings and entry availability without contact details
+      responses:
+        "200":
+          description: Current campaign settings, closed by default
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GiveawayAvailability" }
+    post:
+      operationId: submitGiveawayEntry
+      summary: Persist one eligible giveaway entry, then attempt separate Mailchimp sync
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/GiveawayEntryInput" }
+      responses:
+        "201":
+          description: Entry saved; marketing status is not proof of email delivery
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GiveawayReceipt" }
+        "400": { description: Invalid entry or security verification }
+        "403": { description: Verification or origin rejected }
+        "409": { description: Duplicate entry or campaign state changed }
+        "429": { description: Burst limit exceeded }
+        "503": { description: Campaign closed or unavailable }
+  /giveaway-admin:
+    get:
+      operationId: getGiveawayAdmin
+      summary: Cloudflare Access protected campaign, entries, summaries and draw history
+      description: A signed Access JWT and server-side allowlist are required. CSV exports use the same protected endpoint with export=entries, emails, or winners.
+      parameters:
+        - { name: q, in: query, schema: { type: string, maxLength: 100 } }
+        - { name: page, in: query, schema: { type: integer, minimum: 1, default: 1 } }
+      responses:
+        "200":
+          description: Private data, never cached
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GiveawayAdminData" }
+        "403": { description: Missing or unauthorized staff session }
+        "503": { description: Dedicated database is not connected }
+    post:
+      operationId: administerGiveaway
+      summary: Authorized settings, explicit sync retries and auditable winner commands
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/GiveawayAdminCommand" }
+      responses:
+        "200":
+          description: Command completed, with saved draw when relevant
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/GiveawayCommandResult" }
+        "400": { description: Invalid command or cross-origin write }
+        "403": { description: Unauthorized }
+        "404": { description: Entry or draw not found }
+        "409": { description: "Locked terms, concurrent update or drawing safeguard" }
+        "502": { description: "Mailchimp retry failed, entry remains saved" }
+        "503": { description: Administration unavailable }
   /guide-requests:
     get:
       operationId: getGuideAvailability
@@ -91,6 +156,145 @@ paths:
           description: Too many requests
 components:
   schemas:
+    GiveawayCampaign:
+      type: object
+      required: [id, status, startsAt, endsAt, prizeValue, rulesApproved, rulesVersion]
+      properties:
+        id: { type: string }
+        status: { type: string, enum: [draft, active, closed] }
+        startsAt: { type: string, description: ISO UTC instant or empty while draft }
+        endsAt: { type: string, description: ISO UTC instant or empty while draft }
+        prizeValue: { type: number, minimum: 0 }
+        rulesApproved: { type: boolean }
+        rulesVersion: { type: string }
+    GiveawayAvailability:
+      type: object
+      required: [campaign, acceptingEntries, message]
+      properties:
+        campaign: { $ref: "#/components/schemas/GiveawayCampaign" }
+        acceptingEntries: { type: boolean }
+        message: { type: string }
+    GiveawayEntryInput:
+      type: object
+      required: [firstName, email, phone, marketingConsent, rulesAccepted, eligible, turnstileToken, attribution]
+      properties:
+        firstName: { type: string, minLength: 1, maxLength: 80 }
+        email: { type: string, format: email, maxLength: 254 }
+        phone: { type: string, description: US mobile number normalized server-side }
+        wellnessInterest: { type: string }
+        marketingConsent: { type: boolean, description: Must be true; permission for email only, never SMS }
+        rulesAccepted: { type: boolean, description: Must be true }
+        eligible: { type: boolean, description: Must be true, Florida legal resident age 18+ }
+        turnstileToken: { type: string, maxLength: 2048 }
+        website: { type: string, description: Honeypot, must be empty }
+        attribution:
+          type: object
+          properties:
+            qrSource: { type: string, maxLength: 80 }
+            utmSource: { type: string, maxLength: 80 }
+            utmMedium: { type: string, maxLength: 80 }
+            utmCampaign: { type: string, maxLength: 80 }
+            utmContent: { type: string, maxLength: 80 }
+    GiveawayReceipt:
+      type: object
+      required: [entryId, marketingStatus]
+      properties:
+        entryId: { type: string }
+        marketingStatus: { type: string }
+    GiveawayEntry:
+      type: object
+      required: [id, campaign_id, first_name, email, phone, wellness_interest, created_at, qr_source, utm_source, utm_medium, utm_campaign, utm_content, rules_version, marketing_consent, consent_version, eligibility_confirmed, rules_accepted, sync_status, sync_error]
+      properties:
+        id: { type: string }
+        campaign_id: { type: string }
+        first_name: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        wellness_interest: { type: string }
+        created_at: { type: string }
+        qr_source: { type: string }
+        utm_source: { type: string }
+        utm_medium: { type: string }
+        utm_campaign: { type: string }
+        utm_content: { type: string }
+        rules_version: { type: string }
+        marketing_consent: { type: integer }
+        consent_version: { type: string }
+        eligibility_confirmed: { type: integer }
+        rules_accepted: { type: integer }
+        sync_status: { type: string, enum: [pending, processing, synced, failed, suppressed] }
+        sync_error: { type: [string, "null"] }
+    GiveawayDraw:
+      type: object
+      required: [id, entry_id, campaign_id, status, selected_at, confirmed_at, notified_at, released_at, selected_by, eligible_count, first_name, email, phone]
+      properties:
+        id: { type: string }
+        entry_id: { type: string }
+        campaign_id: { type: string }
+        status: { type: string, enum: [pending, confirmed, unclaimed] }
+        selected_at: { type: string }
+        confirmed_at: { type: [string, "null"] }
+        notified_at: { type: [string, "null"] }
+        released_at: { type: [string, "null"] }
+        selected_by: { type: string }
+        eligible_count: { type: integer }
+        first_name: { type: string }
+        email: { type: string }
+        phone: { type: string }
+    GiveawayCount:
+      type: object
+      required: [label, count]
+      properties:
+        label: { type: string }
+        count: { type: integer }
+    GiveawayAdminData:
+      type: object
+      required: [campaign, entries, page, total, totalEntries, days, goals, sources, draws, connections]
+      properties:
+        campaign: { $ref: "#/components/schemas/GiveawayCampaign" }
+        entries: { type: array, items: { $ref: "#/components/schemas/GiveawayEntry" } }
+        page: { type: integer }
+        total: { type: integer }
+        totalEntries: { type: integer }
+        days: { type: array, items: { $ref: "#/components/schemas/GiveawayCount" } }
+        goals: { type: array, items: { $ref: "#/components/schemas/GiveawayCount" } }
+        sources: { type: array, items: { $ref: "#/components/schemas/GiveawayCount" } }
+        draws: { type: array, items: { $ref: "#/components/schemas/GiveawayDraw" } }
+        connections:
+          type: object
+          required: [database, mailchimp, turnstile, publicEnabled]
+          properties:
+            database: { type: boolean }
+            mailchimp: { type: boolean }
+            turnstile: { type: boolean }
+            publicEnabled: { type: boolean }
+    GiveawayAdminCommand:
+      oneOf:
+        - type: object
+          required: [action, settings]
+          properties:
+            action: { type: string, enum: [settings] }
+            settings: { $ref: "#/components/schemas/GiveawayCampaign" }
+        - type: object
+          required: [action]
+          properties:
+            action: { type: string, enum: [draw] }
+        - type: object
+          required: [action, drawId]
+          properties:
+            action: { type: string, enum: [confirm, notified, release] }
+            drawId: { type: string }
+        - type: object
+          required: [action, entryId]
+          properties:
+            action: { type: string, enum: [retry] }
+            entryId: { type: string }
+    GiveawayCommandResult:
+      type: object
+      required: [ok]
+      properties:
+        ok: { type: boolean }
+        draw: { $ref: "#/components/schemas/GiveawayDraw" }
     GuideAvailability:
       type: object
       required: [enabled, mode]

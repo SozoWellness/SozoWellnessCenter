@@ -1,0 +1,17 @@
+import { Router } from 'express';
+const router = Router();
+// Cloudflare owns the dedicated entry database and Access login. Preview never
+// fabricates entries, administrator authentication, or successful email delivery.
+router.get('/giveaway', (_req, res) => {
+  res.set('Cache-Control', 'no-store').json({
+    campaign: { id: 'hyperbaric-giveaway', status: 'draft', startsAt: '', endsAt: '', prizeValue: 0, rulesApproved: false, rulesVersion: '1' },
+    acceptingEntries: false, message: 'This giveaway is being prepared. Entries are not open yet.',
+  });
+});
+router.post('/giveaway', (_req, res) => {
+  res.set('Cache-Control', 'no-store').status(503).json({ error: 'This preview does not capture giveaway entries or send emails.' });
+});
+router.all('/giveaway-admin', (_req, res) => {
+  res.set('Cache-Control', 'no-store').status(403).json({ error: 'Private administration requires the configured Cloudflare Access login and dedicated giveaway database.' });
+});
+export default router;

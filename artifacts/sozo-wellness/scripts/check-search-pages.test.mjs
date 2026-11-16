@@ -7,10 +7,10 @@ import test from 'node:test';
 import { checkSearchPages } from './check-search-pages.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-// The source sitemap is maintained alongside the route declarations. Let the
-// checker verify parity rather than keeping a second, stale page-count constant.
-const expectedPageCount = [...(await readFile(path.join(root, 'public/sitemap.xml'), 'utf8')).matchAll(/<loc>/g)].length;
-assert.ok(expectedPageCount > 0, 'The source sitemap must contain public pages');
+// Prerendered noindex campaign/private shells are deliberately absent from the
+// sitemap. Count actual routes; the checker separately verifies sitemap parity.
+const expectedPageCount = [...(await readFile(path.join(root, 'src/App.tsx'), 'utf8')).matchAll(/<Route\b[^>]*\bpath\s*=/g)].length;
+assert.ok(expectedPageCount > 0, 'The site must declare page routes');
 
 async function fixture(t) {
   const dir = await mkdtemp(path.join(os.tmpdir(), 'sozo-search-pages-'));

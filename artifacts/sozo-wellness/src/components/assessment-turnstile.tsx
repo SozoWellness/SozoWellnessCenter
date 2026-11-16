@@ -3,7 +3,7 @@ import { loadTurnstile, type TurnstileApi } from '@/lib/turnstile-loader';
 
 export function AssessmentTurnstile({ siteKey, revision, onToken, action = 'assessment_request', testId = 'assessment-turnstile' }: {
   siteKey?: string; revision: number; onToken: (token: string) => void;
-  action?: 'assessment_request' | 'guide_request'; testId?: string;
+  action?: 'assessment_request' | 'guide_request' | 'giveaway_entry'; testId?: string;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const [retry, setRetry] = useState(0);

@@ -6,6 +6,7 @@ import { ArrowRight, ArrowUpRight, BadgeCheck, Check, ChevronDown, Compass, Hear
 import { useSubmitAssessmentRequest } from '@workspace/api-client-react';
 import { Form } from '@/components/ui/form';
 import { ErrorBoundary } from '@/components/error-boundary';
+import { GiveawayPage, GiveawayThanksPage, GiveawayRulesPage, GiveawayAdminPage } from '@/components/giveaway';
 import { ServiceBenefits } from '@/components/service-benefits';
 import { ShockwaveComparison } from '@/components/shockwave-comparison';
 import { WellnessDisclaimer } from '@/components/wellness-disclaimer';
@@ -67,6 +68,11 @@ const serviceMenu: { title: string; href: string; number: string; status?: strin
 
 export const SITE_URL = 'https://sozorootedwellness.com';
 export const meta: Record<string, [string, string]> = {
+  '/enter-to-win': ['Enter to Win 10 Hyperbaric Sessions | SOZO', 'Enter SOZO Wellness Center’s giveaway for a chance to win ten complimentary Hyperbaric Oxygen Therapy sessions. See eligibility and official rules.'],
+  '/hyperbaric-giveaway': ['Hyperbaric Oxygen Therapy Giveaway | SOZO', 'Visit SOZO’s giveaway entry page for eligibility, prize details, and official rules.'],
+  '/giveaway/thank-you': ['Giveaway Entry | SOZO Wellness Center', 'Your next steps after entering the SOZO Hyperbaric Oxygen Therapy Giveaway.'],
+  '/official-rules': ['Hyperbaric Giveaway Official Rules | SOZO', 'Eligibility, entry period, prize details, and winner-selection rules for SOZO’s Hyperbaric Oxygen Therapy Giveaway.'],
+  '/giveaway-admin': ['Private Giveaway Administration | SOZO', 'Private giveaway management for authorized SOZO Wellness Center staff.'],
   '/chiropractic-care': ['Chiropractic Care near The Villages, FL | SOZO', 'Meet JT Anderson, DC and Lauren Alvarez Schmitz, DC. Explore chiropractic care for neck and back pain, sports recovery and mobility at SOZO near The Villages.'],
   '/independent-physicians': ['Regenerative Medicine near The Villages | Kevin Stasney, MD', 'Explore EBOO, stem cell therapy, PRP, hormone replacement therapy and wellness optimization near The Villages with Kevin Stasney, MD at independent Years Younger MD.'],
   '/products-and-partners': ['Products & Partners | SOZO Wellness Center', 'Explore SOZO’s recommended wellness products and affiliate partners, from nutrition and sleep to frequency technology, plus H-Wave available through our clinic.'],
@@ -107,6 +113,7 @@ export const meta: Record<string, [string, string]> = {
   '/privacy-policy': ['Privacy Policy | SOZO Wellness Center', 'Learn how we handle website enquiries and personal information, our retention and email practices, and how to contact our privacy team or make a request.'],
 };
 
+export const NOINDEX_ROUTES = ['/enter-to-win', '/hyperbaric-giveaway', '/giveaway/thank-you', '/official-rules', '/giveaway-admin'];
 function SEO() {
   const [location] = useLocation();
   useEffect(() => {
@@ -119,7 +126,7 @@ function SEO() {
       ['meta[property="og:description"]', 'property', 'og:description', description],
       ['meta[name="twitter:title"]', 'name', 'twitter:title', title],
       ['meta[name="twitter:description"]', 'name', 'twitter:description', description],
-      ['meta[name="robots"]', 'name', 'robots', isKnownPage ? 'index, follow' : 'noindex, follow'],
+      ['meta[name="robots"]', 'name', 'robots', isKnownPage && !NOINDEX_ROUTES.includes(location) ? 'index, follow' : 'noindex, follow'],
     ]) {
       let element = document.querySelector(selector);
       if (!element) {
@@ -130,7 +137,7 @@ function SEO() {
       element.setAttribute('content', value);
     }
     if (isKnownPage) {
-      const url = `${SITE_URL}${location}`;
+      const url = `${SITE_URL}${location === '/hyperbaric-giveaway' ? '/enter-to-win' : location}`;
       let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
       if (!canonical) {
         canonical = document.createElement('link');
@@ -407,10 +414,20 @@ function RequestAssessment() {
 }
 
 function NotFound() { return <><PageHero eyebrow="Page not found" title="Looks like this path took a turn." text="The page you’re looking for isn’t here. Let’s get you back to a place where we can help."/><section className="section"><div className="container"><Link href="/" className="btn btn-primary" data-testid="link-404-home">Return home <ArrowRight size={17}/></Link></div></section></>; }
+function GiveawayRedirect() {
+  const [, navigate] = useLocation();
+  useEffect(() => { navigate(`/enter-to-win${window.location.search}${window.location.hash}`, { replace: true }); }, [navigate]);
+  return <GiveawayPage/>;
+}
 function RoutedErrorBoundary({ children }: { children: ReactNode }) { const [location] = useLocation(); return <ErrorBoundary resetKey={location}>{children}</ErrorBoundary>; }
 function Router() {
   return <Shell><RoutedErrorBoundary>
     <Switch>
+      <Route path="/enter-to-win" component={GiveawayPage}/>
+      <Route path="/hyperbaric-giveaway" component={GiveawayRedirect}/>
+      <Route path="/giveaway/thank-you" component={GiveawayThanksPage}/>
+      <Route path="/official-rules" component={GiveawayRulesPage}/>
+      <Route path="/giveaway-admin" component={GiveawayAdminPage}/>
       <Route path="/" component={Home}/>
       <Route path="/services" component={Services}/>
       <Route path="/services/assessments">{() => <ServiceDetail path="/services/assessments"/>}</Route>

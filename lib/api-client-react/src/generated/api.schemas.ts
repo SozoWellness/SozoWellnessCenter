@@ -5,6 +5,181 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+export type GiveawayCampaignStatus = typeof GiveawayCampaignStatus[keyof typeof GiveawayCampaignStatus];
+
+
+export const GiveawayCampaignStatus = {
+  draft: 'draft',
+  active: 'active',
+  closed: 'closed',
+} as const;
+
+export interface GiveawayCampaign {
+  id: string;
+  status: GiveawayCampaignStatus;
+  /** ISO UTC instant or empty while draft */
+  startsAt: string;
+  /** ISO UTC instant or empty while draft */
+  endsAt: string;
+  /** @minimum 0 */
+  prizeValue: number;
+  rulesApproved: boolean;
+  rulesVersion: string;
+}
+
+export interface GiveawayAvailability {
+  campaign: GiveawayCampaign;
+  acceptingEntries: boolean;
+  message: string;
+}
+
+export type GiveawayEntryInputAttribution = {
+  /** @maxLength 80 */
+  qrSource?: string;
+  /** @maxLength 80 */
+  utmSource?: string;
+  /** @maxLength 80 */
+  utmMedium?: string;
+  /** @maxLength 80 */
+  utmCampaign?: string;
+  /** @maxLength 80 */
+  utmContent?: string;
+};
+
+export interface GiveawayEntryInput {
+  /**
+     * @minLength 1
+     * @maxLength 80
+     */
+  firstName: string;
+  /** @maxLength 254 */
+  email: string;
+  /** US mobile number normalized server-side */
+  phone: string;
+  wellnessInterest?: string;
+  /** Must be true; permission for email only */
+  marketingConsent: boolean;
+  /** Must be true */
+  rulesAccepted: boolean;
+  /** Must be true */
+  eligible: boolean;
+  /** @maxLength 2048 */
+  turnstileToken: string;
+  /** Honeypot */
+  website?: string;
+  attribution: GiveawayEntryInputAttribution;
+}
+
+export interface GiveawayReceipt {
+  entryId: string;
+  marketingStatus: string;
+}
+
+export type GiveawayEntrySyncStatus = typeof GiveawayEntrySyncStatus[keyof typeof GiveawayEntrySyncStatus];
+
+
+export const GiveawayEntrySyncStatus = {
+  pending: 'pending',
+  processing: 'processing',
+  synced: 'synced',
+  failed: 'failed',
+  suppressed: 'suppressed',
+} as const;
+
+export interface GiveawayEntry {
+  id: string;
+  campaign_id: string;
+  first_name: string;
+  email: string;
+  phone: string;
+  wellness_interest: string;
+  created_at: string;
+  qr_source: string;
+  utm_source: string;
+  utm_medium: string;
+  utm_campaign: string;
+  utm_content: string;
+  rules_version: string;
+  marketing_consent: number;
+  consent_version: string;
+  eligibility_confirmed: number;
+  rules_accepted: number;
+  sync_status: GiveawayEntrySyncStatus;
+  /** @nullable */
+  sync_error: string | null;
+}
+
+export type GiveawayDrawStatus = typeof GiveawayDrawStatus[keyof typeof GiveawayDrawStatus];
+
+
+export const GiveawayDrawStatus = {
+  pending: 'pending',
+  confirmed: 'confirmed',
+  unclaimed: 'unclaimed',
+} as const;
+
+export interface GiveawayDraw {
+  id: string;
+  entry_id: string;
+  campaign_id: string;
+  status: GiveawayDrawStatus;
+  selected_at: string;
+  /** @nullable */
+  confirmed_at: string | null;
+  /** @nullable */
+  notified_at: string | null;
+  /** @nullable */
+  released_at: string | null;
+  selected_by: string;
+  eligible_count: number;
+  first_name: string;
+  email: string;
+  phone: string;
+}
+
+export interface GiveawayCount {
+  label: string;
+  count: number;
+}
+
+export type GiveawayAdminDataConnections = {
+  database: boolean;
+  mailchimp: boolean;
+  turnstile: boolean;
+  publicEnabled: boolean;
+};
+
+export interface GiveawayAdminData {
+  campaign: GiveawayCampaign;
+  entries: GiveawayEntry[];
+  page: number;
+  total: number;
+  totalEntries: number;
+  days: GiveawayCount[];
+  goals: GiveawayCount[];
+  sources: GiveawayCount[];
+  draws: GiveawayDraw[];
+  connections: GiveawayAdminDataConnections;
+}
+
+export type GiveawayAdminCommand = {
+  action: 'settings';
+  settings: GiveawayCampaign;
+} | {
+  action: 'draw';
+} | {
+  action: 'confirm' | 'notified' | 'release';
+  drawId: string;
+} | {
+  action: 'retry';
+  entryId: string;
+};
+
+export interface GiveawayCommandResult {
+  ok: boolean;
+  draw?: GiveawayDraw;
+}
+
 export type GuideAvailabilityMode = typeof GuideAvailabilityMode[keyof typeof GuideAvailabilityMode];
 
 
@@ -96,4 +271,15 @@ export interface AssessmentRequestReceipt {
   success: boolean;
   message: string;
 }
+
+export type GetGiveawayAdminParams = {
+/**
+ * @maxLength 100
+ */
+q?: string;
+/**
+ * @minimum 1
+ */
+page?: number;
+};
 

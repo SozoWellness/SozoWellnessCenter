@@ -9,6 +9,7 @@
     "check:search-pages": "node scripts/check-search-pages.mjs",
     "test:search-pages": "node --test scripts/check-search-pages.test.mjs",
     "test:guide": "node --test scripts/guide-requests.test.mjs scripts/guide-form.test.mjs",
+    "test:giveaway": "node --test scripts/giveaway.test.mjs",
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -48,6 +49,7 @@
     "@tailwindcss/vite": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@types/node": "catalog:",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
@@ -76,5 +78,8 @@
     "vite": "catalog:",
     "wouter": "^3.3.5",
     "zod": "catalog:"
+  },
+  "dependencies": {
+    "qrcode": "^1.5.4"
   }
 }

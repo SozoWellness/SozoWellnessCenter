@@ -22,6 +22,13 @@ import type {
 import type {
   AssessmentRequestInput,
   AssessmentRequestReceipt,
+  GetGiveawayAdminParams,
+  GiveawayAdminCommand,
+  GiveawayAdminData,
+  GiveawayAvailability,
+  GiveawayCommandResult,
+  GiveawayEntryInput,
+  GiveawayReceipt,
   GuideAvailability,
   GuideRequestInput,
   GuideRequestReceipt,
@@ -54,6 +61,344 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
+
+export const getGetGiveawayAvailabilityUrl = () => {
+
+
+
+
+  return `/api/giveaway`
+}
+
+/**
+ * @summary Public giveaway settings and entry availability without contact details
+ */
+export const getGiveawayAvailability = async ( options?: Parameters<typeof customFetch>[1]): Promise<GiveawayAvailability> => {
+
+  return customFetch<GiveawayAvailability>(getGetGiveawayAvailabilityUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetGiveawayAvailabilityQueryKey = () => {
+    return [
+    `/api/giveaway`
+    ] as const;
+    }
+
+
+export const getGetGiveawayAvailabilityQueryOptions = <TData = Awaited<ReturnType<typeof getGiveawayAvailability>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGiveawayAvailability>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetGiveawayAvailabilityQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGiveawayAvailability>>> = ({ signal }) => getGiveawayAvailability({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGiveawayAvailability>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetGiveawayAvailabilityQueryResult = NonNullable<Awaited<ReturnType<typeof getGiveawayAvailability>>>
+export type GetGiveawayAvailabilityQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Public giveaway settings and entry availability without contact details
+ */
+
+export function useGetGiveawayAvailability<TData = Awaited<ReturnType<typeof getGiveawayAvailability>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGiveawayAvailability>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetGiveawayAvailabilityQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getSubmitGiveawayEntryUrl = () => {
+
+
+
+
+  return `/api/giveaway`
+}
+
+/**
+ * @summary Persist one eligible giveaway entry, then attempt separate Mailchimp sync
+ */
+export const submitGiveawayEntry = async (giveawayEntryInput: GiveawayEntryInput, options?: Parameters<typeof customFetch>[1]): Promise<GiveawayReceipt> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<GiveawayReceipt>(getSubmitGiveawayEntryUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(giveawayEntryInput)
+  }
+);}
+
+
+
+
+
+export const getSubmitGiveawayEntryMutationKey = () => ['submitGiveawayEntry'] as const;
+
+export const getSubmitGiveawayEntryMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof submitGiveawayEntry>>, TError,SubmitGiveawayEntryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof submitGiveawayEntry>>, TError,SubmitGiveawayEntryMutationVariables, TContext> => {
+
+const mutationKey = getSubmitGiveawayEntryMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof submitGiveawayEntry>>, SubmitGiveawayEntryMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  submitGiveawayEntry(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SubmitGiveawayEntryMutationResult = NonNullable<Awaited<ReturnType<typeof submitGiveawayEntry>>>
+    export type SubmitGiveawayEntryMutationBody = BodyType<GiveawayEntryInput>
+    export type SubmitGiveawayEntryMutationError = ErrorType<void>
+    export type SubmitGiveawayEntryMutationVariables = {data: BodyType<GiveawayEntryInput>}
+
+    /**
+ * @summary Persist one eligible giveaway entry, then attempt separate Mailchimp sync
+ */
+export const useSubmitGiveawayEntry = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof submitGiveawayEntry>>, TError,SubmitGiveawayEntryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof submitGiveawayEntry>>,
+        TError,
+        SubmitGiveawayEntryMutationVariables,
+        TContext
+      > => {
+      return useMutation(getSubmitGiveawayEntryMutationOptions(options));
+    }
+
+export const getGetGiveawayAdminUrl = (params?: GetGiveawayAdminParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/giveaway-admin?${stringifiedParams}` : `/api/giveaway-admin`
+}
+
+/**
+ * A signed Access JWT and server-side allowlist are required. CSV exports use the same protected endpoint with export=entries, emails, or winners.
+ * @summary Cloudflare Access protected campaign, entries, summaries and draw history
+ */
+export const getGiveawayAdmin = async (params?: GetGiveawayAdminParams, options?: Parameters<typeof customFetch>[1]): Promise<GiveawayAdminData> => {
+
+  return customFetch<GiveawayAdminData>(getGetGiveawayAdminUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetGiveawayAdminQueryKey = (params?: GetGiveawayAdminParams,) => {
+    return [
+    `/api/giveaway-admin`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getGetGiveawayAdminQueryOptions = <TData = Awaited<ReturnType<typeof getGiveawayAdmin>>, TError = ErrorType<void>>(params?: GetGiveawayAdminParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGiveawayAdmin>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetGiveawayAdminQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGiveawayAdmin>>> = ({ signal }) => getGiveawayAdmin(params, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGiveawayAdmin>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetGiveawayAdminQueryResult = NonNullable<Awaited<ReturnType<typeof getGiveawayAdmin>>>
+export type GetGiveawayAdminQueryError = ErrorType<void>
+
+
+/**
+ * @summary Cloudflare Access protected campaign, entries, summaries and draw history
+ */
+
+export function useGetGiveawayAdmin<TData = Awaited<ReturnType<typeof getGiveawayAdmin>>, TError = ErrorType<void>>(
+ params?: GetGiveawayAdminParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGiveawayAdmin>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetGiveawayAdminQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getAdministerGiveawayUrl = () => {
+
+
+
+
+  return `/api/giveaway-admin`
+}
+
+/**
+ * @summary Authorized settings, explicit sync retries and auditable winner commands
+ */
+export const administerGiveaway = async (giveawayAdminCommand: GiveawayAdminCommand, options?: Parameters<typeof customFetch>[1]): Promise<GiveawayCommandResult> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<GiveawayCommandResult>(getAdministerGiveawayUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(giveawayAdminCommand)
+  }
+);}
+
+
+
+
+
+export const getAdministerGiveawayMutationKey = () => ['administerGiveaway'] as const;
+
+export const getAdministerGiveawayMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof administerGiveaway>>, TError,AdministerGiveawayMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof administerGiveaway>>, TError,AdministerGiveawayMutationVariables, TContext> => {
+
+const mutationKey = getAdministerGiveawayMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof administerGiveaway>>, AdministerGiveawayMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  administerGiveaway(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AdministerGiveawayMutationResult = NonNullable<Awaited<ReturnType<typeof administerGiveaway>>>
+    export type AdministerGiveawayMutationBody = BodyType<GiveawayAdminCommand>
+    export type AdministerGiveawayMutationError = ErrorType<void>
+    export type AdministerGiveawayMutationVariables = {data: BodyType<GiveawayAdminCommand>}
+
+    /**
+ * @summary Authorized settings, explicit sync retries and auditable winner commands
+ */
+export const useAdministerGiveaway = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof administerGiveaway>>, TError,AdministerGiveawayMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof administerGiveaway>>,
+        TError,
+        AdministerGiveawayMutationVariables,
+        TContext
+      > => {
+      return useMutation(getAdministerGiveawayMutationOptions(options));
+    }
 
 export const getGetGuideAvailabilityUrl = () => {
 

@@ -95,7 +95,8 @@ export async function checkSearchPages({ app = path.join(root, 'src/App.tsx'), o
   assert(routes.every(route => route.startsWith('/') && !/[:*?]/.test(route)), 'Public routes must be static paths; update the search-page check for dynamic routes');
   assert(new Set(routes).size === routes.length, 'Duplicate public routes in App.tsx');
 
-  const expectedUrls = routes.map(route => `${site}${route}`);
+  const noindexRoutes = ['/enter-to-win', '/hyperbaric-giveaway', '/giveaway/thank-you', '/official-rules', '/giveaway-admin'];
+  const expectedUrls = routes.filter(route => !noindexRoutes.includes(route)).map(route => `${site}${route}`);
   for (const [label, xml] of [['dist/public/sitemap.xml', sitemap], ['public/sitemap.xml', publicSitemap]]) {
     const urls = [...xml.matchAll(/<loc>\s*([^<]+)\s*<\/loc>/g)].map(match => match[1].trim());
     sameRoutes(urls, expectedUrls, label);
@@ -130,9 +131,11 @@ export async function checkSearchPages({ app = path.join(root, 'src/App.tsx'), o
     assert(description.length >= 50 && !descriptions.has(description), `${route}: missing, short or duplicate description`);
     titles.add(title);
     descriptions.add(description);
-    assert(headValue(head, 'link', 'rel', 'canonical', 'href') === `${site}${route}`, `${route}: incorrect canonical URL`);
+    const canonicalRoute = route === '/hyperbaric-giveaway' ? '/enter-to-win' : route;
+    assert(headValue(head, 'link', 'rel', 'canonical', 'href') === `${site}${canonicalRoute}`, `${route}: incorrect canonical URL`);
+    if (noindexRoutes.includes(route)) assert(headValue(head, 'meta', 'name', 'robots', 'content').startsWith('noindex'), `${route}: campaign pages must remain noindex`);
     for (const [type, name, expected] of [
-      ['property', 'og:url', `${site}${route}`],
+      ['property', 'og:url', `${site}${canonicalRoute}`],
       ['property', 'og:title', title],
       ['property', 'og:description', description],
       ['name', 'twitter:title', title],
@@ -145,8 +148,8 @@ export async function checkSearchPages({ app = path.join(root, 'src/App.tsx'), o
     const headings = [...main[0].matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
     assert(headings.length === 1 && readable(headings[0][1]).length >= 8, `${route}: expected one meaningful H1 inside main`);
     const body = readable(main[0]);
-    assert(body.length >= 150 && !bodies.has(body), `${route}: main content is empty, too short or identical to another page (possible home-page fallback)`);
-    bodies.add(body);
+    assert(body.length >= 150 && (route === '/hyperbaric-giveaway' || !bodies.has(body)), `${route}: main content is empty, too short or identical to another page (possible home-page fallback)`);
+    if (route !== '/hyperbaric-giveaway') bodies.add(body);
   }
   return routes.length;
 }

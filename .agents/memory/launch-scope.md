@@ -3,7 +3,7 @@ name: Post-launch resource scope
 description: User's timing for QR codes, resource organization and poster updates.
 ---
 
-QR codes, resource links/organization and poster updates are post-launch work; table them for now.
+The general resource/QR organization and poster refresh were deferred from the pre-launch work. Do not treat that historical deferral as a ban on a later, explicitly requested campaign.
 
 **Why:** The user explicitly deferred “Organize approved resources and refresh outdated posters” until post-launch while asking to proceed with Perfect Day book setup.
 
