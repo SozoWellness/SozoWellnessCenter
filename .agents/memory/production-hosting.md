@@ -49,6 +49,17 @@ during the rules review.
 **How to apply:** Treat every eligible entrant equally for the drawing and keep
 entry records distinct from permission to send promotional messages.
 
+For giveaway rules, use the original brief and the user's explicitly approved
+amendments, without inventing additional prize conditions.
+
+**Why:** When asked about additional prize restrictions, the user said, “Only
+what was already included the prompt,” and objected to being asked for terms
+already covered by the brief.
+
+**How to apply:** Do not make a specific drawing date, screening condition,
+expiration, or other unrequested restriction a prerequisite for approving the
+rules. Distinguish optional recommendations from requirements.
+
 Verify GitHub's actual branch reference before treating a push error as a failed
 release.
 
