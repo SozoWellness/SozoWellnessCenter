@@ -60,6 +60,17 @@ already covered by the brief.
 expiration, or other unrequested restriction a prerequisite for approving the
 rules. Distinguish optional recommendations from requirements.
 
+The user approved limiting the existing general welcome flow to contacts whose
+giveaway entry timestamp (`GVENTERED`) is blank.
+
+**Why:** Giveaway entrants should not receive both welcome emails. The entry
+timestamp is supplied when the contact is created, whereas giveaway tags are
+added afterward.
+
+**How to apply:** Preserve the general welcome email's content and unrelated
+settings. Use this narrow exclusion rather than relying on a later-added tag;
+verify the external Mailchimp setting rather than assuming it was applied.
+
 Verify GitHub's actual branch reference before treating a push error as a failed
 release.
 
