@@ -115,7 +115,11 @@ export const meta: Record<string, [string, string]> = {
 
 export const NOINDEX_ROUTES = ['/enter-to-win', '/hyperbaric-giveaway', '/giveaway/thank-you', '/official-rules', '/giveaway-admin'];
 function SEO() {
-  const [location] = useLocation();
+  const [pathname] = useLocation();
+  // Cloudflare serves directory-style URLs with a trailing slash. Match the
+  // same metadata as the equivalent client-side route without changing query
+  // parameters used for giveaway attribution.
+  const location = pathname.replace(/\/+$/, '') || '/';
   useEffect(() => {
     const isKnownPage = Boolean(meta[location]);
     const [title, description] = meta[location] || ['Page not found | SOZO Wellness Center', 'Return to SOZO Wellness Center to explore our wellness services near The Villages, Florida.'];
