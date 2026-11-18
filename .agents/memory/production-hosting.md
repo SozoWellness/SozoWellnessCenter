@@ -80,3 +80,20 @@ when the local remote-tracking reference update is blocked.
 **How to apply:** Use a read-only remote-reference check to distinguish remote
 acceptance from a local bookkeeping error. Do not repeat a successful push just
 to repair the local tracking reference.
+
+Cloudflare account visibility does not establish D1 access.
+
+**Why:** The connected OAuth session could list the account but denied D1
+requests; reconnecting still requested only user-read and account-read scopes.
+
+**How to apply:** Check the actual requested scopes before asking the owner to
+reconnect. Do not repeat unchanged authorization or request broad Full Access
+as a shortcut. If database permissions cannot be granted, use the D1 Console.
+
+Use comment-free SQL blocks when guiding this owner through the D1 Console.
+
+**Why:** A pasted setup beginning with a SQL line comment returned “No SQL
+statements detected”; the comment-free setup executed successfully.
+
+**How to apply:** Put warnings outside the SQL block, distinguish filenames from
+file contents, and verify results with a separate short SELECT.

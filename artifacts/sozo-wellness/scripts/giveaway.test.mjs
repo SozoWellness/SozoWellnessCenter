@@ -81,6 +81,14 @@ function mockNetwork(t, options = {}) {
     if (String(url).includes('/cdn-cgi/access/certs')) return Response.json({ keys:[jwk] });
     if (String(url).includes('/turnstile/')) return Response.json(options.turnstile || { success:true, hostname:'website.example', action:'giveaway_entry' });
     if (options.offline) return new Response('Provider unavailable',{status:503});
+    const stage = String(url).endsWith('/tags') ? 'tags' : (!init.method || init.method === 'GET') ? 'lookup' : 'member';
+    if (options.failStage === stage) {
+      if (options.throwNetwork) throw new Error('Private provider URL, credential, or contact data');
+      return Response.json({
+        detail: 'Private provider URL, credential, or contact data',
+        errors: [{field:'merge_fields.PHONE',message:'Private phone'}, {field:'private@example.com',message:'Private contact'}],
+      }, {status:options.httpStatus || 400});
+    }
     if (String(url).endsWith('/tags')) return new Response(null,{status:204});
     if (!init.method || init.method === 'GET') return options.member ? Response.json({status:options.member}) : new Response(null,{status:404});
     return Response.json({ status: options.savedStatus || options.member || JSON.parse(init.body).status_if_new });
@@ -239,6 +247,32 @@ test('provider failure preserves entry and authenticated retry does not create a
   assert.equal((await admin(e,{action:'retry',entryId:receipt.entryId})).status,200);
   assert.equal(sql.prepare('SELECT sync_status FROM giveaway_entries').get().sync_status,'synced');
   assert.equal(sql.prepare('SELECT count(*) n FROM giveaway_entries').get().n,1);
+});
+
+for (const stage of ['lookup','member','tags']) {
+  test(`Mailchimp ${stage} failure retains only safe stage, HTTP status and known fields`, async t => {
+    const {db,sql}=database(t);
+    mockNetwork(t,{failStage:stage,httpStatus:stage==='lookup' ? 401 : 400});
+    const response=await enter(env(db),input({marketingConsent:false}));
+    assert.equal(response.status,201);
+    assert.equal((await response.json()).marketingStatus,'failed');
+    const row=sql.prepare('SELECT sync_error,marketing_consent FROM giveaway_entries').get();
+    assert.equal(row.marketing_consent,0);
+    assert.match(row.sync_error,new RegExp(`Mailchimp ${stage} failed \\(HTTP ${stage==='lookup' ? 401 : 400}\\)`));
+    assert.match(row.sync_error,/merge_fields.PHONE/);
+    assert.doesNotMatch(row.sync_error,/Private|private@example|entrant@example|credential/);
+    assert.equal(sql.prepare('SELECT COUNT(*) n FROM giveaway_entries').get().n,1);
+  });
+}
+
+test('Mailchimp network exceptions retain stage without raw exception text', async t => {
+  const {db,sql}=database(t);
+  mockNetwork(t,{failStage:'member',throwNetwork:true});
+  await enter(env(db),input({marketingConsent:false}));
+  const row=sql.prepare('SELECT sync_status,sync_error FROM giveaway_entries').get();
+  assert.equal(row.sync_status,'failed');
+  assert.match(row.sync_error,/Mailchimp member failed \(network or response error\)/);
+  assert.doesNotMatch(row.sync_error,/Private|credential|contact data/);
 });
 
 test('unsubscribed contacts get the entry tag, not marketing tags or resubscription', async t => {
