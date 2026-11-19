@@ -20,7 +20,7 @@ export const teamMembers: TeamMember[] = [
   { id: 'kevin-stasney', name: 'Kevin Stasney, MD', role: 'Independent Physician', image: '/images/kevin-stasney-md.jpg', profileHref: '/independent-physicians', practiceNote: 'Years Younger MD is a separate medical practice operating independently of SOZO Wellness Center.' },
   { id: 'cindy-greenberg', name: 'Cindy Greenberg', role: 'Registered Nurse', image: '/images/team/cindy-greenberg-fall-2026.jpg' },
   { id: 'sandy-rosol', name: 'Sandy Rosol', role: 'SOZO Ambassador', image: '/images/team/sandy-rosol.jpg' },
-  { id: 'marty-fields', name: 'Marty Fields', role: 'Wellness Practitioner', image: '/images/team/marty-fields.jpg' },
+  { id: 'marty-fields', name: 'Marty Fields', role: 'Wellness Practitioner', image: '/images/team/marty-fields-fall-2026.jpg' },
 ];
 
 export const teamIntroduction = 'Our team of dedicated professionals combines advanced alternative therapies with a compassionate, patient-centered approach, creating a healing environment that nurtures and empowers.';
