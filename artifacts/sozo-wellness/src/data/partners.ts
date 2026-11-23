@@ -84,7 +84,7 @@ export const partners: Partner[] = [
     description: 'Personalized nutrition, omega-based products and testing programs focused on essential fatty acid balance and individual nutritional needs.',
     recommendation: 'We recommend exploring Zinzino for its emphasis on understanding your nutritional needs and making informed, personalized wellness choices.',
     image: '/images/partners/zinzino.jpg', imageAlt: 'Zinzino nutritional products',
-    href: 'https://zinzino.com/2020928615',
+    href: 'https://www.zinzino.com/2021610657/us/en-us',
   },
   {
     id: 'thermography-for-life', name: 'Thermography For Life', category: 'Thermal imaging',
