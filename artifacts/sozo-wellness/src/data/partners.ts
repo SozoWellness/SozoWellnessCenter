@@ -90,8 +90,8 @@ export const partners: Partner[] = [
     id: 'thermography-for-life', name: 'Thermography For Life', category: 'Thermal imaging',
     description: 'Non-invasive digital infrared thermal imaging services that record patterns in skin-surface temperature. Visit Thermography For Life to learn about appointments and available locations.',
     recommendation: 'We include Thermography For Life as a resource to discuss with your healthcare professional. Thermography does not replace mammograms or other recommended screening and cannot diagnose cancer.',
-    // Image from the partner's official homepage.
-    image: '/images/partners/thermography-for-life.jpg', imageAlt: 'A family outdoors, featured on the Thermography For Life website',
+    // Thermal image source: https://irp.cdn-website.com/9fba460c/dms3rep/multi/opt/Full+Body-1920w.JPG
+    image: '/images/partners/thermography-full-body.jpg', imageAlt: 'Full-body infrared thermal image showing surface-temperature patterns, with close-up views of several areas',
     href: 'https://www.thermographyforlife.org/',
     affiliate: false,
   },
