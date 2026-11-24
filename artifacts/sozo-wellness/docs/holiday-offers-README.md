@@ -44,7 +44,9 @@ the draft layout. Cloudflare functions remain under root `functions/`.
 
 Cloudflare must build and deploy from the repository root so
 `functions/api/claim.ts` and the shared TypeScript imports are bundled, as for
-the existing Pages functions. Redeploy after settings change. Allow the
+the existing Pages functions. The published `_routes.json` must include
+`/api/claim`; otherwise Cloudflare serves a static 404 instead of invoking the
+handler, even though the holiday page itself loads. Redeploy after settings change. Allow the
 approved hostname in Turnstile. Never use a test secret in production.
 
 ## Opening and closing

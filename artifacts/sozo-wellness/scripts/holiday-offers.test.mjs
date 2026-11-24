@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { createHash } from 'node:crypto';
+import { readFile } from 'node:fs/promises';
 import { onRequest, holidayAvailability } from '../../../functions/api/claim.ts';
 import { saveHolidayClaim } from '../../../functions/_holiday/mailchimp.ts';
 import { HOLIDAY_START, HOLIDAY_END, validateHolidayClaim } from '../src/lib/holiday-offers.ts';
@@ -16,6 +17,15 @@ const base = {
   reservationConsent: true, marketingConsent: false, website: '', turnstileToken: 'mock-only-token',
 };
 const valid = (changes = {}) => validateHolidayClaim({ ...base, ...changes }).value;
+test('Cloudflare invokes the holiday function without bypassing other form routes', async () => {
+  const routes = JSON.parse(await readFile(new URL('../public/_routes.json', import.meta.url), 'utf8'));
+  assert.equal(routes.version, 1);
+  for (const route of ['/api/claim', '/api/assessment-requests', '/api/guide-requests', '/api/giveaway', '/api/giveaway-admin']) {
+    assert.ok(routes.include.includes(route), `${route} must invoke its Pages Function`);
+  }
+  assert.deepEqual(routes.exclude, []);
+});
+
 function request(body = base, options = {}) {
   return new Request('https://sozo.example/api/claim', {
     method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'https://sozo.example' },
