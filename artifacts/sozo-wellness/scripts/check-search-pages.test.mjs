@@ -96,7 +96,7 @@ test('accepts valid relative pages and ignores fragments, assets and external de
 test('rejects a newly declared route missing from prerender and sitemap', async t => {
   const paths = await fixture(t);
   await change(paths.app, '<Route component={NotFound}/>', '<Route path="/services/new" component={Blog}/><Route component={NotFound}/>');
-  await assert.rejects(checkSearchPages(paths), /sitemap\.xml: missing \[https:\/\/sozorootedwellness\.com\/services\/new\]/);
+  await assert.rejects(checkSearchPages(paths), /sitemap\.xml: missing \[https:\/\/sozorootedwellness\.com\/services\/new\/\]/);
 });
 
 test('rejects outbound clinic-site links even when their path is a valid local route', async t => {
@@ -155,11 +155,11 @@ test('rejects missing main content and duplicate metadata', async t => {
 
 test('rejects sitemap drift and wrong social URL', async t => {
   const paths = await fixture(t);
-  await change(paths.sourceSitemap, '<loc>https://sozorootedwellness.com/blog</loc>', '<loc>https://sozorootedwellness.com/other</loc>');
+  await change(paths.sourceSitemap, '<loc>https://sozorootedwellness.com/blog/</loc>', '<loc>https://sozorootedwellness.com/other/</loc>');
   await assert.rejects(checkSearchPages(paths), /public\/sitemap\.xml: missing/);
   await cp(path.join(root, 'public/sitemap.xml'), paths.sourceSitemap);
   await change(path.join(paths.output, 'services/rife/index.html'),
-    'property="og:url" content="https://sozorootedwellness.com/services/rife"',
+    'property="og:url" content="https://sozorootedwellness.com/services/rife/"',
     'property="og:url" content="https://sozorootedwellness.com/"');
   await assert.rejects(checkSearchPages(paths), /incorrect og:url/);
 });

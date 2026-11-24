@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const site = 'https://sozorootedwellness.com';
+const pageUrl = route => `${site}${route === '/' ? '/' : `${route}/`}`;
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -96,7 +97,7 @@ export async function checkSearchPages({ app = path.join(root, 'src/App.tsx'), o
   assert(new Set(routes).size === routes.length, 'Duplicate public routes in App.tsx');
 
   const noindexRoutes = ['/enter-to-win', '/hyperbaric-giveaway', '/giveaway/thank-you', '/official-rules', '/giveaway-admin'];
-  const expectedUrls = routes.filter(route => !noindexRoutes.includes(route)).map(route => `${site}${route}`);
+  const expectedUrls = routes.filter(route => !noindexRoutes.includes(route)).map(pageUrl);
   for (const [label, xml] of [['dist/public/sitemap.xml', sitemap], ['public/sitemap.xml', publicSitemap]]) {
     const urls = [...xml.matchAll(/<loc>\s*([^<]+)\s*<\/loc>/g)].map(match => match[1].trim());
     sameRoutes(urls, expectedUrls, label);
@@ -132,10 +133,10 @@ export async function checkSearchPages({ app = path.join(root, 'src/App.tsx'), o
     titles.add(title);
     descriptions.add(description);
     const canonicalRoute = route === '/hyperbaric-giveaway' ? '/enter-to-win' : route;
-    assert(headValue(head, 'link', 'rel', 'canonical', 'href') === `${site}${canonicalRoute}`, `${route}: incorrect canonical URL`);
+    assert(headValue(head, 'link', 'rel', 'canonical', 'href') === pageUrl(canonicalRoute), `${route}: incorrect canonical URL`);
     if (noindexRoutes.includes(route)) assert(headValue(head, 'meta', 'name', 'robots', 'content').startsWith('noindex'), `${route}: campaign pages must remain noindex`);
     for (const [type, name, expected] of [
-      ['property', 'og:url', `${site}${canonicalRoute}`],
+      ['property', 'og:url', pageUrl(canonicalRoute)],
       ['property', 'og:title', title],
       ['property', 'og:description', description],
       ['name', 'twitter:title', title],

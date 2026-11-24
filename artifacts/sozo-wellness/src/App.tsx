@@ -30,6 +30,7 @@ import { footDetoxDetails } from '@/data/foot-detox';
 import { redLightTherapyDetails } from '@/data/red-light-therapy';
 import { coreRestoreDetails } from '@/data/core-restore';
 import { ozoneTherapyDetails } from '@/data/ozone-therapy';
+import { SITE_URL, canonicalUrl, pageStructuredData, serializeStructuredData } from '@/lib/seo';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { PrivacyPolicy } from '@/components/privacy-policy';
@@ -70,7 +71,7 @@ const serviceMenu: { title: string; href: string; number: string; status?: strin
   { title: 'DODPowerPack Clinic', href: '/dodpowerpack-clinic', number: 'dodpowerpack' },
 ];
 
-export const SITE_URL = 'https://sozorootedwellness.com';
+export { SITE_URL };
 export const meta: Record<string, [string, string]> = {
   '/enter-to-win': ['Enter to Win 10 Hyperbaric Sessions | SOZO', 'Enter SOZO Wellness Center’s giveaway for a chance to win ten complimentary Hyperbaric Oxygen Therapy sessions. See eligibility and official rules.'],
   '/hyperbaric-giveaway': ['Hyperbaric Oxygen Therapy Giveaway | SOZO', 'Visit SOZO’s giveaway entry page for eligibility, prize details, and official rules.'],
@@ -91,14 +92,14 @@ export const meta: Record<string, [string, string]> = {
   '/research/how-cardio-medbed-works': ['How Cardio MedBed Works | SOZO Articles & Resources', 'Learn the science behind external counterpulsation and what to ask before treatment. Cardio MedBed is available at SOZO.'],
   '/research/cellsonic-treatments': ['Cellsonic Treatments: A Patient’s Guide | SOZO Articles & Resources', 'Explore Cellsonic applications, the treatment experience and questions to ask about your care at SOZO Wellness Center.'],
   '/research/the-technology-behind-cellsonic': ['The Technology Behind Cellsonic | SOZO Articles & Resources', 'Learn about Cellsonic pressure pulses, tissue repair and what patients can expect when considering treatment at SOZO.'],
-  '/': ['Whole-Life Wellness near The Villages, FL | SOZO', 'Wellness from the root near The Villages. Our whole life wellness coaches connect mental, emotional, physical and spiritual well-being with SOZO’s assessments and therapies.'],
+  '/': ['Wellness Center near The Villages, FL | SOZO', 'Visit SOZO Wellness Center in Wildwood, serving The Villages, FL. Explore whole-person coaching, wellness assessments and therapies. Book your assessment.'],
   '/services': ['Wellness Services near The Villages, FL | SOZO', 'Explore Whole Life Wellness Coaching, assessments, hyperbaric oxygen, shockwave, Rife, TheraWellness and Cardio MedBed EECP near The Villages.'],
   '/services/whole-life-coaching': ['Whole Life Wellness Coaching near The Villages | SOZO', 'Wellness from the root: explore mental, emotional, physical and spiritual well-being with SOZO’s whole life wellness coaches in Wildwood near The Villages.'],
   '/perfect-day-lifestyle': ['The Perfect Day Lifestyle — Free PDF Book | SOZO', 'Explore The Perfect Day Lifestyle by Dr. Darrell Wolfe, offered free through SOZO. Learn about the book and our separate PDF request and email delivery process.'],
   '/services/assessments': ['Wellness Assessments near The Villages | SOZO', 'Explore Vitalyzer, NeuralChek and live blood analysis assessments near The Villages. We’ll help you find a starting point for your wellness goals.'],
   '/services/rife': ['Rife Frequency Therapy near The Villages | SOZO', 'Explore guided Rife frequency sessions near The Villages, Florida. We’ll explain the equipment, answer your questions and help you settle in.'],
   '/services/shockwave': ['Shockwave Therapy near The Villages | SOZO', 'Explore Radial ESWT and CellSonic ESWT for deeper pain concerns near The Villages. Learn about potential support for pain relief, tissue recovery and movement.'],
-  '/services/hyperbaric-oxygen': ['Hyperbaric Oxygen near The Villages | SOZO', 'Recovery starts at the cellular level. Discover oxygen-focused chamber sessions near The Villages, with personal guidance at SOZO Wellness Center.'],
+  '/services/hyperbaric-oxygen': ['Hyperbaric Oxygen Therapy near The Villages | SOZO', 'Explore hyperbaric oxygen therapy at SOZO in Wildwood, serving The Villages, FL. Learn about chamber sessions, suitability and what to expect before booking.'],
   '/services/therawellness': ['TheraWellness near The Villages | SOZO Wellness Center', 'Explore guided TheraWellness sessions near The Villages, with intended wellness benefits for relaxation, calm, personal balance and restorative rest.'],
   '/services/cardio-medbed': ['Cardio MedBed EECP near The Villages | SOZO', 'Available at SOZO: explore Cardio MedBed EECP for heart and circulatory wellness. Learn how it works, potential benefits and what a session involves.'],
   '/services/red-light-therapy': ['Pulse / Red Light Therapy near The Villages | SOZO', 'Explore Pulse Light, also known as Red Light Therapy, at SOZO: noninvasive, personalized polychromatic light sessions for comfort, recovery and well-being near The Villages.'],
@@ -147,7 +148,7 @@ function SEO() {
       element.setAttribute('content', value);
     }
     if (isKnownPage) {
-      const url = `${SITE_URL}${location === '/hyperbaric-giveaway' ? '/enter-to-win' : location}`;
+      const url = canonicalUrl(location);
       let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
       if (!canonical) {
         canonical = document.createElement('link');
@@ -165,6 +166,17 @@ function SEO() {
     } else {
       document.querySelector('link[rel="canonical"]')?.remove();
       document.querySelector('meta[property="og:url"]')?.remove();
+    }
+    let schema = document.querySelector<HTMLScriptElement>('#sozo-structured-data');
+    if (!isKnownPage) schema?.remove();
+    else {
+      if (!schema) {
+        schema = document.createElement('script');
+        schema.id = 'sozo-structured-data';
+        schema.type = 'application/ld+json';
+        document.head.appendChild(schema);
+      }
+      schema.textContent = serializeStructuredData(pageStructuredData({ path: location, title, description, indexable: !NOINDEX_ROUTES.includes(location) }));
     }
     // Honour assessment links from the homepage, including initial page loads.
     const frame = window.requestAnimationFrame(() => {

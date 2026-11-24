@@ -2,6 +2,7 @@ import { Link } from 'wouter';
 import { ArrowRight, Check } from 'lucide-react';
 import { getInquiryHref } from '@/lib/inquiry';
 import { serviceHeroes } from '@/data/discovery';
+import { serviceSearchNames } from '@/lib/seo';
 import './service-hero.css';
 
 type D = { eyebrow: string; title: string; intro: string; availability?: string; image?: string; imageAlt?: string; imageFit?: 'cover' | 'contain'; imageAspectRatio?: string };
@@ -12,7 +13,7 @@ export function ServiceHero({ path, d, image, imageAlt, fit }: { path: string; d
   return <section className="sh" data-testid="section-service-hero"><div className={`container sh-grid${src ? '' : ' sh-grid-text'}`}>
     <div className="sh-copy">
       <span className="crumb"><Link href="/" data-testid="link-breadcrumb-home">Home</Link> / {d.eyebrow}</span>
-      <h1 className="serif fade-up">{d.title}</h1>
+      <h1 className="serif fade-up">{serviceSearchNames[path] ? `${serviceSearchNames[path]} near The Villages.` : d.title}</h1>
       <p className="sh-intro fade-up delay-1">{d.intro}</p>
       <ul className="sh-points fade-up delay-1">{h.highlights.map(t => <li key={t}><Check size={18} aria-hidden="true"/>{t}</li>)}</ul>
       {d.availability && <p className="notice sh-availability" data-testid="notice-service-availability">{d.availability}</p>}

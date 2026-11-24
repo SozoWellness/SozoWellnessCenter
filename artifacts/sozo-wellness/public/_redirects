@@ -1,0 +1,26 @@
+# Specific legacy WordPress addresses only. Keep unknown URLs as real 404s.
+# Both slash variants go directly to Cloudflare's final directory-style URL.
+/therapies /services/ 301
+/therapies/ /services/ 301
+/therapies/hyperbaric-oxygen-therapy /services/hyperbaric-oxygen/ 301
+/therapies/hyperbaric-oxygen-therapy/ /services/hyperbaric-oxygen/ 301
+/therapies/rife-frequency-therapy /services/rife/ 301
+/therapies/rife-frequency-therapy/ /services/rife/ 301
+/therapies/therawellness-therapy /services/therawellness/ 301
+/therapies/therawellness-therapy/ /services/therawellness/ 301
+/therapies/pulse-light-therapy /services/red-light-therapy/ 301
+/therapies/pulse-light-therapy/ /services/red-light-therapy/ 301
+/therapies/foot-detox-therapy /services/foot-detox/ 301
+/therapies/foot-detox-therapy/ /services/foot-detox/ 301
+/contact /request-assessment/ 301
+/contact/ /request-assessment/ 301
+/about-sozo-wellness-center-the-villages-florida/testimonials /testimonials/ 301
+/about-sozo-wellness-center-the-villages-florida/testimonials/ /testimonials/ 301
+/hyperbaric-oxygen-therapy-a-comprehensive-guide /research/hyperbaric-oxygen-therapy-a-comprehensive-guide/ 301
+/hyperbaric-oxygen-therapy-a-comprehensive-guide/ /research/hyperbaric-oxygen-therapy-a-comprehensive-guide/ 301
+/unlock-your-potential-with-the-energy-for-life-assessment /research/unlock-your-potential-with-the-energy-for-life-assessment/ 301
+/unlock-your-potential-with-the-energy-for-life-assessment/ /research/unlock-your-potential-with-the-energy-for-life-assessment/ 301
+/benefits-of-hyperbaric-oxygen-therapy /research/benefits-of-hyperbaric-oxygen-therapy/ 301
+/benefits-of-hyperbaric-oxygen-therapy/ /research/benefits-of-hyperbaric-oxygen-therapy/ 301
+/the-revolutionary-anti-aging-benefits-of-hyperbaric-chambers /research/the-revolutionary-anti-aging-benefits-of-hyperbaric-chambers/ 301
+/the-revolutionary-anti-aging-benefits-of-hyperbaric-chambers/ /research/the-revolutionary-anti-aging-benefits-of-hyperbaric-chambers/ 301
