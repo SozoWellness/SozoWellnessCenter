@@ -52,9 +52,9 @@ approved hostname in Turnstile. Never use a test secret in production.
 ## Opening and closing
 
 The handler is fail-closed unless explicitly enabled and configured. Even if
-enabled early, it only accepts requests from **November 27, 2026 at 12:00 a.m.
+enabled early, it only accepts requests from **November 25, 2026 at 12:00 a.m.
 through November 30, 2026 at 11:59:59 p.m., America/New_York**. UTC boundaries
-are November 27 05:00 inclusive and December 1 05:00 exclusive.
+are November 25 05:00 inclusive and December 1 05:00 exclusive.
 There is no public query parameter that bypasses this window.
 
 ### Controlled pre-opening test (Preview only)
@@ -83,7 +83,7 @@ Do not set these test settings in Production. After the approved test, disable
 claims and preview test mode, remove the test email secret, and redeploy the
 test branch. Redeploying does **not** revoke an old immutable deployment URL;
 retire the old test deployment separately with the owner's approval. The test
-exception automatically expires at the normal November 27 opening regardless
+exception automatically expires at the normal November 25 opening regardless
 of old deployment settings.
 Review removal of test records separately; do not delete a pre-existing contact.
 
@@ -149,8 +149,8 @@ There is no automatic campaign send, purchase, gift issuance or stock hold.
 
 ## Images and copy
 
-- Hero: `public/images/holiday-2026/bf-bogo-hero.webp`
-- Package artwork: `public/images/holiday-2026/bf-bogo-packages.webp`
+- Hero: `public/images/holiday-2026/bf-bogo-hero-nov25.webp`
+- Package artwork: `public/images/holiday-2026/bf-bogo-packages-nov25.webp`
 - Logo: `public/images/sozo-logo.png`
 - Page layout and accessible copy: `src/components/holiday-offers.tsx`
 - Scoped styles: `src/components/holiday-offers.css`

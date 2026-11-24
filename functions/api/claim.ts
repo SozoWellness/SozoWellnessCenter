@@ -30,7 +30,7 @@ export async function onRequest({ request, env }: { request: Request; env: Holid
   const available = holidayAvailability(env, Date.now(), request.url);
   if (!available.accepting) return json(503, {
     ok: false, error: available.reason === 'upcoming'
-      ? 'Reservations open November 27, 2026. Please return then.'
+      ? 'Reservations open November 25, 2026. Please return then.'
       : available.reason === 'closed'
         ? 'This holiday reservation period has ended. Please call 352-802-2248.'
         : 'Online reservations are not enabled. Please call 352-802-2248.',

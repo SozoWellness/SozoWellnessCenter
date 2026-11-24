@@ -15,7 +15,7 @@ export const HOLIDAY_OFFERS = [
 
 export const RESERVATION_CONSENT = 'Yes, SOZO Wellness Center may contact me by email, phone, or text about my holiday offer reservation.';
 export const HOLIDAY_MARKETING_CONSENT = 'I’d also like to receive promotional emails from SOZO Wellness Center.';
-export const HOLIDAY_START = '2026-11-27T05:00:00.000Z';
+export const HOLIDAY_START = '2026-11-25T05:00:00.000Z';
 export const HOLIDAY_END = '2026-12-01T05:00:00.000Z';
 export const HOLIDAY_ERROR = 'Something went wrong — please call us at 352-802-2248';
 

@@ -28,7 +28,7 @@ function availabilityMessage(a: HolidayAvailability | null, failed: boolean): { 
   };
   switch (a.reason) {
     case 'open': return a.accepting ? null : { tone: 'warn', text: 'Reservations are not being accepted at the moment. Please call 352-802-2248.' };
-    case 'upcoming': return { tone: 'warn', text: 'Reservations open Friday, November 27, 2026. Please come back then, or call 352-802-2248 with questions.' };
+    case 'upcoming': return { tone: 'warn', text: 'Reservations open Wednesday, November 25, 2026. Please come back then, or call 352-802-2248 with questions.' };
     case 'closed': return { tone: 'warn', text: 'This holiday offer has ended and reservations are closed. Call 352-802-2248 to ask about current offers.' };
     case 'disabled': return { tone: 'warn', text: 'This page is a draft preview and is not accepting reservations yet.' };
     default: return { tone: 'error', text: `Reservations are temporarily unavailable. ${HOLIDAY_ERROR}.` };
@@ -145,13 +145,13 @@ export function HolidayOffersPage() {
             <span className="ho-eyebrow ho-fade">Black Friday – Cyber Monday</span>
             <h1 id="ho-title" className="ho-fade ho-d1">Give the Gift of <em>Wellness</em></h1>
             <p className="ho-sub ho-fade ho-d1">Two limited-time holiday offers. Reserve yours now — no payment needed.</p>
-            <div className="ho-badge ho-fade ho-d2"><small>Reservation dates</small><strong>Nov 27 – 30, 2026</strong></div>
+            <div className="ho-badge ho-fade ho-d2"><small>Reservation dates</small><strong>Nov 25 – 30, 2026</strong></div>
             <button type="button" className="ho-cta ho-fade ho-d2" onClick={scrollToClaim} data-testid="button-claim-offer">
               Claim My Offer <ArrowDown size={20} aria-hidden="true" />
             </button>
           </div>
           <div className="ho-hero-art ho-fade ho-d1">
-            <img src={`${BASE}images/holiday-2026/bf-bogo-hero.webp`} alt="SOZO Wellness Center holiday Buy One, Gift One campaign artwork" width={1200} height={800} />
+            <img src={`${BASE}images/holiday-2026/bf-bogo-hero-nov25.webp`} alt="SOZO Wellness Center holiday Buy One, Gift One campaign artwork" width={1200} height={800} />
           </div>
         </div>
       </section>
@@ -175,10 +175,10 @@ export function HolidayOffersPage() {
                     <div className="meta"><span>{p.credits} credits</span><span className="price">{money(p.price)}</span></div>
                   </li>)}
                 </ul>
-                <p className="ho-fine">Valid for reservations made 11/27/2026–11/30/2026. One gift per package purchased. Gift credits expire March 31, 2027.</p>
+                <p className="ho-fine">Valid for reservations made 11/25/2026–11/30/2026. One gift per package purchased. Gift credits expire March 31, 2027.</p>
               </div>
               <div className="ho-packages-art">
-                <img src={`${BASE}images/holiday-2026/bf-bogo-packages.webp`} alt="Wellness Credit package options for the Buy One, Gift One offer" width={1200} height={1500} loading="lazy" />
+                <img src={`${BASE}images/holiday-2026/bf-bogo-packages-nov25.webp`} alt="Wellness Credit package options for the Buy One, Gift One offer" width={1200} height={1500} loading="lazy" />
               </div>
             </div>
           </article>

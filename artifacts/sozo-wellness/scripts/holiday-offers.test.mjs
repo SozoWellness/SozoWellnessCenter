@@ -72,6 +72,8 @@ test('validation requires names, email, US phone, offers and follow-up but not m
 });
 
 test('campaign opens and closes on Florida time; disabled and incomplete settings fail closed', () => {
+  assert.equal(HOLIDAY_START, '2026-11-25T05:00:00.000Z');
+  assert.equal(HOLIDAY_END, '2026-12-01T05:00:00.000Z');
   const start = Date.parse(HOLIDAY_START), end = Date.parse(HOLIDAY_END);
   assert.equal(holidayAvailability(env, start - 1).reason, 'upcoming');
   assert.equal(holidayAvailability(env, start).accepting, true);
@@ -167,7 +169,7 @@ function previewRequest(changes = {}, origin = previewOrigin) {
   });
 }
 function previewClock(t) {
-  t.mock.timers.enable({ apis: ['Date'], now: Date.parse('2026-11-26T12:00:00Z') });
+  t.mock.timers.enable({ apis: ['Date'], now: Date.parse(HOLIDAY_START) - 3_600_000 });
   t.after(() => t.mock.timers.reset());
 }
 
@@ -243,7 +245,7 @@ test('GET and disabled POST never call Mailchimp or leak config', async t => {
 });
 
 test('POST verifies security and acknowledges only completed member AND tag writes', async t => {
-  t.mock.timers.enable({ apis: ['Date'], now: Date.parse('2026-11-28T12:00:00Z') });
+  t.mock.timers.enable({ apis: ['Date'], now: Date.parse('2026-11-25T05:00:00Z') });
   t.after(() => t.mock.timers.reset());
   const calls = provider(t);
   const result = await onRequest({ request: request(), env });
