@@ -42,7 +42,7 @@ test('independent physician and chiropractic pages do not claim SOZO provides th
 
 test('campaign and review drafts stay out of sitemap and service schema; missing pages remain noindex', async () => {
   const sitemap = await readFile(path.join(root, 'dist/public/sitemap.xml'), 'utf8');
-  for (const route of ['resources', 'resources/review', 'enter-to-win', 'giveaway-admin']) {
+  for (const route of ['resources', 'resources/review', 'enter-to-win', 'giveaway-admin', 'black-friday']) {
     // Resource drafts are intentionally absent from narrow production releases.
     if (route.startsWith('resources') && !existsSync(path.join(root, 'dist/public', route, 'index.html'))) continue;
     const html = await built(route);

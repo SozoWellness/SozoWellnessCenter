@@ -45,6 +45,7 @@ import { WholePersonWellness } from '@/components/whole-person-wellness';
 import { WholeLifeCoachingPage, WholeLifeCoachingPreview } from '@/components/whole-life-coaching';
 import { PerfectDayBookPage, PerfectDayInvitation } from '@/components/perfect-day-book';
 import { JaneBookingLink } from '@/components/jane-booking-link';
+import { HolidayOffersPage } from '@/components/holiday-offers';
 
 const queryClient = new QueryClient();
 const SHOP = 'https://dod.live/darcelleburandt';
@@ -73,6 +74,7 @@ const serviceMenu: { title: string; href: string; number: string; status?: strin
 
 export { SITE_URL };
 export const meta: Record<string, [string, string]> = {
+  '/black-friday': ['Sozo Black Friday Offers | Give the Gift of Wellness', 'Reserve SOZO’s Black Friday–Cyber Monday wellness credit and bonus gift card offers, November 27–30, 2026. No payment or credit card required.'],
   '/enter-to-win': ['Enter to Win 10 Hyperbaric Sessions | SOZO', 'Enter SOZO Wellness Center’s giveaway for a chance to win ten complimentary Hyperbaric Oxygen Therapy sessions. See eligibility and official rules.'],
   '/hyperbaric-giveaway': ['Hyperbaric Oxygen Therapy Giveaway | SOZO', 'Visit SOZO’s giveaway entry page for eligibility, prize details, and official rules.'],
   '/giveaway/thank-you': ['Giveaway Entry | SOZO Wellness Center', 'Your next steps after entering the SOZO Hyperbaric Oxygen Therapy Giveaway.'],
@@ -120,7 +122,7 @@ export const meta: Record<string, [string, string]> = {
   '/privacy-policy': ['Privacy Policy | SOZO Wellness Center', 'Learn how we handle website enquiries and personal information, our retention and email practices, and how to contact our privacy team or make a request.'],
 };
 
-export const NOINDEX_ROUTES = ['/enter-to-win', '/hyperbaric-giveaway', '/giveaway/thank-you', '/official-rules', '/giveaway-admin'];
+export const NOINDEX_ROUTES = ['/enter-to-win', '/hyperbaric-giveaway', '/giveaway/thank-you', '/official-rules', '/giveaway-admin', '/black-friday'];
 function SEO() {
   const [pathname] = useLocation();
   // Cloudflare serves directory-style URLs with a trailing slash. Match the
@@ -239,7 +241,12 @@ function Footer() {
   </div></footer>;
 }
 
-function Shell({ children }: { children: ReactNode }) { return <><SEO/><Header/><main id="main-content">{children}</main><Footer/></>; }
+function Shell({ children }: { children: ReactNode }) {
+  const [path] = useLocation();
+  const campaign = path.replace(/\/+$/, '') === '/black-friday';
+  if (campaign) return <><SEO/>{children}</>;
+  return <><SEO/><Header/><main id="main-content">{children}</main><Footer/></>;
+}
 function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) { return <span className={`eyebrow ${light ? 'light' : ''}`}>{children}</span>; }
 function CTA({ title = 'You don’t have to know where to begin.', text = 'Tell us what you’re hoping to understand or explore. We’ll help you find a thoughtful starting point.', href = '/request-assessment', label = ASSESSMENT_CTA }: { title?: string; text?: string; href?: string; label?: string }) {
   return <section className="contact-strip"><div className="container"><div><Eyebrow>A conversation first</Eyebrow><h2>{title}</h2><p className="section-intro">{text}</p></div><Link href={href} className="btn btn-primary" data-testid="link-cta-request">{label} <ArrowRight size={17}/></Link></div></section>;
@@ -451,6 +458,7 @@ function RoutedErrorBoundary({ children }: { children: ReactNode }) { const [loc
 function Router() {
   return <Shell><RoutedErrorBoundary>
     <Switch>
+      <Route path="/black-friday" component={HolidayOffersPage}/>
       <Route path="/enter-to-win" component={GiveawayPage}/>
       <Route path="/hyperbaric-giveaway" component={GiveawayRedirect}/>
       <Route path="/giveaway/thank-you" component={GiveawayThanksPage}/>

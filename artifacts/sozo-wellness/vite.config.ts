@@ -31,6 +31,29 @@ if (!basePath) {
 export default defineConfig({
   base: basePath,
   plugins: [
+    {
+      // The live handler runs on Cloudflare. Keep Replit review submissions
+      // disabled rather than sending test contacts to the real audience.
+      name: 'holiday-reservation-preview',
+      configureServer(server) {
+        server.middlewares.use(async (req, res, next) => {
+          const url = req.url?.split('?')[0];
+          if (url !== `${basePath.replace(/\/$/, '')}/__holiday-preview/claim`) return next();
+          res.setHeader('Content-Type', 'application/json');
+          res.setHeader('Cache-Control', 'no-store');
+          if (req.method === 'GET') {
+            res.end(JSON.stringify({ accepting: false, reason: 'disabled' }));
+          } else if (req.method === 'POST') {
+            res.statusCode = 503;
+            res.end(JSON.stringify({ ok: false, error: 'This is an unpublished preview. No reservation was sent.' }));
+          } else {
+            res.statusCode = 405;
+            res.setHeader('Allow', 'GET, POST');
+            res.end();
+          }
+        });
+      },
+    },
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),

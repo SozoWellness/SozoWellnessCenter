@@ -198,3 +198,7 @@ to = "/services/core-restore/index.html"
 [[services.production.rewrites]]
 from = "/services/ozone-therapy"
 to = "/services/ozone-therapy/index.html"
+
+[[services.production.rewrites]]
+from = "/black-friday"
+to = "/black-friday/index.html"

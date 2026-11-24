@@ -11,6 +11,7 @@
     "test:search-pages": "node --test scripts/check-search-pages.test.mjs",
     "test:guide": "node --test scripts/guide-requests.test.mjs scripts/guide-form.test.mjs",
     "test:giveaway": "node --test scripts/giveaway.test.mjs",
+    "test:holiday": "node --test scripts/holiday-offers.test.mjs",
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
