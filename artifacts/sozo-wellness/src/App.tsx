@@ -29,6 +29,7 @@ import { theraWellnessDetails } from '@/data/therawellness';
 import { footDetoxDetails } from '@/data/foot-detox';
 import { redLightTherapyDetails } from '@/data/red-light-therapy';
 import { coreRestoreDetails } from '@/data/core-restore';
+import { ozoneTherapyDetails } from '@/data/ozone-therapy';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { PrivacyPolicy } from '@/components/privacy-policy';
@@ -59,6 +60,7 @@ const services: { title: string; href: string; short: string; number: string; st
   { title: 'Chiropractic', href: '/chiropractic-care', short: 'Meet JT Anderson, DC and Lauren Alvarez Schmitz, DC, and explore personalized care for pain, mobility and everyday movement.', number: '10' },
   { title: 'Whole Life Wellness Coaching', href: '/services/whole-life-coaching', short: 'Wellness from the root: personal guidance for your mental, emotional, physical and spiritual well-being.', number: '11' },
   { title: 'Core Restore', href: '/services/core-restore', short: 'Seated, fully clothed, noninvasive pelvic floor support for women and men. Now available.', number: '12', status: 'Now available' },
+  { title: 'Ozone Therapy', href: '/services/ozone-therapy', short: 'Learn about rectal insufflation, ear insufflation and ozonated water, with evidence, risks and suitability discussed first.', number: '13' },
 ];
 
 const serviceMenu: { title: string; href: string; number: string; status?: string }[] = [
@@ -101,6 +103,7 @@ export const meta: Record<string, [string, string]> = {
   '/services/cardio-medbed': ['Cardio MedBed EECP near The Villages | SOZO', 'Available at SOZO: explore Cardio MedBed EECP for heart and circulatory wellness. Learn how it works, potential benefits and what a session involves.'],
   '/services/red-light-therapy': ['Pulse / Red Light Therapy near The Villages | SOZO', 'Explore Pulse Light, also known as Red Light Therapy, at SOZO: noninvasive, personalized polychromatic light sessions for comfort, recovery and well-being near The Villages.'],
   '/services/core-restore': ['Core Restore Pelvic Floor Support near The Villages | SOZO', 'Now available at SOZO: Core Restore, a seated, fully clothed, noninvasive pelvic floor support session for women and men near The Villages. Talk with our team about suitability.'],
+  '/services/ozone-therapy': ['Ozone Therapy near The Villages | SOZO Wellness Center', 'Explore ozone services at SOZO near The Villages: rectal insufflation, ear insufflation and ozonated water. Discuss evidence, risks and suitability before booking.'],
   '/services/foot-detox': ['Foot Detox near The Villages | SOZO Wellness Center', 'Explore seated, noninvasive Foot Detox sessions with the AO Infinity device at SOZO near The Villages. Learn what to expect and ask our team about suitability.'],
   '/services/packages': ['Wellness Credit Packages near The Villages | SOZO', 'Explore SOZO Freedom packages of 6, 12, 22 and 36 wellness credits, Pain Packages of 5 or 10 credits, and our Circulation & Vitality Program near The Villages, Florida.'],
   '/dodpowerpack-clinic': ['DODPowerPack Clinic near The Villages | SOZO', 'Explore Wolfe Non-Surgical Bodywork, Cellsonic and Cardio MedBed at SOZO, a Certified DODPowerPack Clinic serving The Villages.'],
@@ -284,6 +287,7 @@ const details: Record<string, Detail> = {
   '/services/red-light-therapy': redLightTherapyDetails,
   '/services/foot-detox': footDetoxDetails,
   '/services/core-restore': coreRestoreDetails,
+  '/services/ozone-therapy': ozoneTherapyDetails,
 };
 function ServiceDetail({ path }: { path: string }) {
   const d = details[path];
@@ -451,6 +455,7 @@ function Router() {
       <Route path="/services/wolfe-non-surgical-bodywork">{() => <ServiceDetail path="/services/wolfe-non-surgical-bodywork"/>}</Route>
       <Route path="/services/red-light-therapy">{() => <ServiceDetail path="/services/red-light-therapy"/>}</Route>
       <Route path="/services/core-restore">{() => <ServiceDetail path="/services/core-restore"/>}</Route>
+      <Route path="/services/ozone-therapy">{() => <ServiceDetail path="/services/ozone-therapy"/>}</Route>
       <Route path="/services/foot-detox">{() => <ServiceDetail path="/services/foot-detox"/>}</Route>
       <Route path="/services/packages" component={PackagesPage}/>
       <Route path="/services/whole-life-coaching" component={WholeLifeCoachingPage}/>

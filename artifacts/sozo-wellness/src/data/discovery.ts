@@ -11,6 +11,7 @@ export const discoveryServices: DiscoveryService[] = [
   { title: 'Cardio MedBed', href: '/services/cardio-medbed', image: '/images/clinic/cardio-medbed-lifestyle.webp', alt: 'A person resting on a Cardio MedBed with leg cuffs while a practitioner adjusts the controls', text: 'Explore noninvasive EECP for heart health, circulation and oxygen delivery.', interest: 'Cardio MedBed' },
   { title: 'Pulse / Red Light Therapy', href: '/services/red-light-therapy', image: '/images/clinic/red-light-session.webp', alt: 'A visitor resting during a Pulse / Red Light Therapy session', text: 'Noninvasive, personalized polychromatic light sessions with comfort, recovery and everyday well-being in mind.', interest: 'Wellness assessments' },
   { title: 'Core Restore', href: '/services/core-restore', image: '/images/clinic/core-restore-room.webp', alt: 'The Core Restore chair in a quiet treatment room at SOZO', text: 'Available now: a seated, fully clothed, noninvasive pelvic floor support session for women and men.', interest: 'Core Restore', status: 'Now available' },
+  { title: 'Ozone Therapy', href: '/services/ozone-therapy', image: '/images/clinic/ozone-equipment.webp', alt: 'Ozone generator with tubing and a collection bag supplied by SOZO', text: 'Understand the different ozone approaches and discuss evidence, risks and personal suitability with the team.', interest: 'Ozone Therapy', fit: 'contain' },
   { title: 'Foot Detox', href: '/services/foot-detox', image: '/images/clinic/foot-detox-session.webp', alt: 'The Foot Detox treatment room at SOZO with the AO Infinity device', text: 'A seated, noninvasive AO Infinity session with personal guidance and a quiet moment for you.', interest: 'Wellness assessments' },
 ];
 
@@ -26,6 +27,7 @@ export const excerpts = [
 ];
 
 export const serviceHeroes: Record<string, { interest: InquiryInterest; cta: string; highlights: string[] }> = {
+  '/services/ozone-therapy': { interest: 'Ozone Therapy', cta: 'Ask About Ozone Therapy', highlights: ['Three approaches explained clearly', 'Evidence, risks and suitability discussed first', 'Not the same as hyperbaric oxygen therapy'] },
   '/services/assessments': { interest: 'Wellness assessments', cta: ASSESSMENT_CTA, highlights: ['Vitalyzer bio-energetic report', 'NeuralChek heart rate variability readings', 'Live blood microscopy with a certified microscopist'] },
   '/services/hyperbaric-oxygen': { interest: 'Hyperbaric oxygen', cta: ASSESSMENT_CTA, highlights: ['Oxygen-focused wellness and recovery', 'A comfortable, guided chamber experience', 'Personal attention before and during your visit'] },
   '/services/shockwave': { interest: 'Shockwave therapy', cta: ASSESSMENT_CTA, highlights: ['Radial ESWT and CellSonic ESWT', 'For deeper pain concerns and movement', 'An assessment helps decide if it is right for you'] },
