@@ -10,6 +10,7 @@ export const discoveryServices: DiscoveryService[] = [
   { title: 'TheraWellness', href: '/services/therawellness', image: '/images/clinic/therawellness-session.webp', alt: 'A visitor lying comfortably during a TheraWellness session', text: 'Personalized, noninvasive wellness sessions focused on relaxation, balance and a calmer mind.', interest: 'TheraWellness' },
   { title: 'Cardio MedBed', href: '/services/cardio-medbed', image: '/images/clinic/cardio-medbed-lifestyle.webp', alt: 'A person resting on a Cardio MedBed with leg cuffs while a practitioner adjusts the controls', text: 'Explore noninvasive EECP for heart health, circulation and oxygen delivery.', interest: 'Cardio MedBed' },
   { title: 'Pulse / Red Light Therapy', href: '/services/red-light-therapy', image: '/images/clinic/red-light-session.webp', alt: 'A visitor resting during a Pulse / Red Light Therapy session', text: 'Noninvasive, personalized polychromatic light sessions with comfort, recovery and everyday well-being in mind.', interest: 'Wellness assessments' },
+  { title: 'Core Restore', href: '/services/core-restore', image: '/images/clinic/core-restore-room.webp', alt: 'The Core Restore chair in a quiet treatment room at SOZO', text: 'Available now: a seated, fully clothed, noninvasive pelvic floor support session for women and men.', interest: 'Core Restore', status: 'Now available' },
   { title: 'Foot Detox', href: '/services/foot-detox', image: '/images/clinic/foot-detox-session.webp', alt: 'The Foot Detox treatment room at SOZO with the AO Infinity device', text: 'A seated, noninvasive AO Infinity session with personal guidance and a quiet moment for you.', interest: 'Wellness assessments' },
 ];
 
@@ -34,5 +35,6 @@ export const serviceHeroes: Record<string, { interest: InquiryInterest; cta: str
   '/services/wolfe-non-surgical-bodywork': { interest: 'Wolfe Non-Surgical Bodywork', cta: ASSESSMENT_CTA, highlights: ['Targeted, hands-on deep tissue work', 'Focused on flexibility and comfortable movement', 'Your health history and comfort come first'] },
   '/services/red-light-therapy': { interest: 'Wellness assessments', cta: ASSESSMENT_CTA, highlights: ['Pulse Light, also known as Red Light Therapy', 'Neurocare Pro Platinum polychromatic light', 'Personalized, noninvasive and full-body capable'] },
   '/services/foot-detox': { interest: 'Wellness assessments', cta: ASSESSMENT_CTA, highlights: ['AO Infinity Foot Detox device', 'Seated, noninvasive and fully clothed', 'Suitability conversation before you book'] },
+  '/services/core-restore': { interest: 'Core Restore', cta: ASSESSMENT_CTA, highlights: ['Pelvic floor support for women and men', 'Seated, fully clothed and noninvasive', 'A suitability conversation with our team before you book'] },
 };
 export { getInquiryHref };

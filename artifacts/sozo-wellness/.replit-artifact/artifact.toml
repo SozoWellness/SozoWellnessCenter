@@ -190,3 +190,7 @@ to = "/official-rules/index.html"
 [[services.production.rewrites]]
 from = "/giveaway-admin"
 to = "/giveaway-admin/index.html"
+
+[[services.production.rewrites]]
+from = "/services/core-restore"
+to = "/services/core-restore/index.html"

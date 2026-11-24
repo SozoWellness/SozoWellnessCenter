@@ -11,6 +11,7 @@ export const inquiryInterests = [
   'TheraWellness',
   'Cardio MedBed',
   'Wolfe Non-Surgical Bodywork',
+  'Core Restore',
 ] as const;
 
 export type InquiryInterest = typeof inquiryInterests[number];

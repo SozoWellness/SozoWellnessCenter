@@ -28,6 +28,7 @@ import { rifeDetails } from '@/data/rife';
 import { theraWellnessDetails } from '@/data/therawellness';
 import { footDetoxDetails } from '@/data/foot-detox';
 import { redLightTherapyDetails } from '@/data/red-light-therapy';
+import { coreRestoreDetails } from '@/data/core-restore';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { PrivacyPolicy } from '@/components/privacy-policy';
@@ -57,6 +58,7 @@ const services: { title: string; href: string; short: string; number: string; st
   { title: 'Wolfe Non-Surgical Bodywork', href: '/services/wolfe-non-surgical-bodywork', short: 'Focused hands-on bodywork for deep tissue restrictions, flexibility and more comfortable movement.', number: '09' },
   { title: 'Chiropractic', href: '/chiropractic-care', short: 'Meet JT Anderson, DC and Lauren Alvarez Schmitz, DC, and explore personalized care for pain, mobility and everyday movement.', number: '10' },
   { title: 'Whole Life Wellness Coaching', href: '/services/whole-life-coaching', short: 'Wellness from the root: personal guidance for your mental, emotional, physical and spiritual well-being.', number: '11' },
+  { title: 'Core Restore', href: '/services/core-restore', short: 'Seated, fully clothed, noninvasive pelvic floor support for women and men. Now available.', number: '12', status: 'Now available' },
 ];
 
 const serviceMenu: { title: string; href: string; number: string; status?: string }[] = [
@@ -98,6 +100,7 @@ export const meta: Record<string, [string, string]> = {
   '/services/therawellness': ['TheraWellness near The Villages | SOZO Wellness Center', 'Explore guided TheraWellness sessions near The Villages, with intended wellness benefits for relaxation, calm, personal balance and restorative rest.'],
   '/services/cardio-medbed': ['Cardio MedBed EECP near The Villages | SOZO', 'Available at SOZO: explore Cardio MedBed EECP for heart and circulatory wellness. Learn how it works, potential benefits and what a session involves.'],
   '/services/red-light-therapy': ['Pulse / Red Light Therapy near The Villages | SOZO', 'Explore Pulse Light, also known as Red Light Therapy, at SOZO: noninvasive, personalized polychromatic light sessions for comfort, recovery and well-being near The Villages.'],
+  '/services/core-restore': ['Core Restore Pelvic Floor Support near The Villages | SOZO', 'Now available at SOZO: Core Restore, a seated, fully clothed, noninvasive pelvic floor support session for women and men near The Villages. Talk with our team about suitability.'],
   '/services/foot-detox': ['Foot Detox near The Villages | SOZO Wellness Center', 'Explore seated, noninvasive Foot Detox sessions with the AO Infinity device at SOZO near The Villages. Learn what to expect and ask our team about suitability.'],
   '/services/packages': ['Wellness Credit Packages near The Villages | SOZO', 'Explore SOZO Freedom packages of 6, 12, 22 and 36 wellness credits, Pain Packages of 5 or 10 credits, and our Circulation & Vitality Program near The Villages, Florida.'],
   '/dodpowerpack-clinic': ['DODPowerPack Clinic near The Villages | SOZO', 'Explore Wolfe Non-Surgical Bodywork, Cellsonic and Cardio MedBed at SOZO, a Certified DODPowerPack Clinic serving The Villages.'],
@@ -280,6 +283,7 @@ const details: Record<string, Detail> = {
   '/services/wolfe-non-surgical-bodywork': wolfeBodyworkDetails,
   '/services/red-light-therapy': redLightTherapyDetails,
   '/services/foot-detox': footDetoxDetails,
+  '/services/core-restore': coreRestoreDetails,
 };
 function ServiceDetail({ path }: { path: string }) {
   const d = details[path];
@@ -301,6 +305,10 @@ function ServiceDetail({ path }: { path: string }) {
             <p>{item.text}</p>
           </section>)}
           <ServiceBenefits path={path} blocks={d.blocks}/>
+          {path === '/services/core-restore' && <div className="core-restore-gallery" data-testid="gallery-core-restore" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20, marginTop: 40 }}>
+            <figure style={{ margin: 0 }}><img src={coreRestoreDetails.supportingImage} alt={coreRestoreDetails.supportingImageAlt} loading="lazy" width={600} height={800} style={{ width: '100%', aspectRatio: '3 / 4', objectFit: 'cover', borderRadius: 4 }} data-testid="img-core-restore-chair"/></figure>
+            <figure style={{ margin: 0 }}><img src={coreRestoreDetails.sessionImage} alt={coreRestoreDetails.sessionImageAlt} loading="lazy" width={600} height={800} style={{ width: '100%', aspectRatio: '3 / 4', objectFit: 'cover', borderRadius: 4 }} data-testid="img-core-restore-session"/><figcaption className="image-caption" style={{ position: 'static', display: 'block', marginTop: 10 }} data-testid="text-core-restore-session-caption">{coreRestoreDetails.sessionImageCaption}</figcaption></figure>
+          </div>}
         </div>
         <aside className="detail-aside">
           <Eyebrow>Start here</Eyebrow>
@@ -442,6 +450,7 @@ function Router() {
       <Route path="/services/cardio-medbed">{() => <ServiceDetail path="/services/cardio-medbed"/>}</Route>
       <Route path="/services/wolfe-non-surgical-bodywork">{() => <ServiceDetail path="/services/wolfe-non-surgical-bodywork"/>}</Route>
       <Route path="/services/red-light-therapy">{() => <ServiceDetail path="/services/red-light-therapy"/>}</Route>
+      <Route path="/services/core-restore">{() => <ServiceDetail path="/services/core-restore"/>}</Route>
       <Route path="/services/foot-detox">{() => <ServiceDetail path="/services/foot-detox"/>}</Route>
       <Route path="/services/packages" component={PackagesPage}/>
       <Route path="/services/whole-life-coaching" component={WholeLifeCoachingPage}/>
