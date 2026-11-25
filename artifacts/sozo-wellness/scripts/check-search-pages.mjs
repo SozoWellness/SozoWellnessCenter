@@ -96,7 +96,7 @@ export async function checkSearchPages({ app = path.join(root, 'src/App.tsx'), o
   assert(routes.every(route => route.startsWith('/') && !/[:*?]/.test(route)), 'Public routes must be static paths; update the search-page check for dynamic routes');
   assert(new Set(routes).size === routes.length, 'Duplicate public routes in App.tsx');
 
-  const noindexRoutes = ['/enter-to-win', '/hyperbaric-giveaway', '/giveaway/thank-you', '/official-rules', '/giveaway-admin', '/black-friday'];
+  const noindexRoutes = ['/enter-to-win', '/hyperbaric-giveaway', '/giveaway/thank-you', '/official-rules', '/giveaway-admin', '/black-friday', '/events/asea-learning-session'];
   const expectedUrls = routes.filter(route => !noindexRoutes.includes(route)).map(pageUrl);
   for (const [label, xml] of [['dist/public/sitemap.xml', sitemap], ['public/sitemap.xml', publicSitemap]]) {
     const urls = [...xml.matchAll(/<loc>\s*([^<]+)\s*<\/loc>/g)].map(match => match[1].trim());

@@ -46,6 +46,7 @@ import { WholeLifeCoachingPage, WholeLifeCoachingPreview } from '@/components/wh
 import { PerfectDayBookPage, PerfectDayInvitation } from '@/components/perfect-day-book';
 import { JaneBookingLink } from '@/components/jane-booking-link';
 import { HolidayOffersPage } from '@/components/holiday-offers';
+import { AseaLearningSessionPage } from '@/components/asea-learning-session';
 
 const queryClient = new QueryClient();
 const SHOP = 'https://dod.live/darcelleburandt';
@@ -74,6 +75,7 @@ const serviceMenu: { title: string; href: string; number: string; status?: strin
 
 export { SITE_URL };
 export const meta: Record<string, [string, string]> = {
+  '/events/asea-learning-session': ['ASEA Learning Session — December 2, 2026 | SOZO', 'Join an ASEA learning session at SOZO in Wildwood on December 2, 2026, 5:30–7:00 PM Eastern. Friends welcome. Call 352-802-2248 to RSVP.'],
   '/black-friday': ['Sozo Black Friday Offers | Give the Gift of Wellness', 'Reserve SOZO’s Black Friday–Cyber Monday wellness credit and bonus gift card offers, November 27–30, 2026. No payment or credit card required.'],
   '/enter-to-win': ['Enter to Win 10 Hyperbaric Sessions | SOZO', 'Enter SOZO Wellness Center’s giveaway for a chance to win ten complimentary Hyperbaric Oxygen Therapy sessions. See eligibility and official rules.'],
   '/hyperbaric-giveaway': ['Hyperbaric Oxygen Therapy Giveaway | SOZO', 'Visit SOZO’s giveaway entry page for eligibility, prize details, and official rules.'],
@@ -122,7 +124,7 @@ export const meta: Record<string, [string, string]> = {
   '/privacy-policy': ['Privacy Policy | SOZO Wellness Center', 'Learn how we handle website enquiries and personal information, our retention and email practices, and how to contact our privacy team or make a request.'],
 };
 
-export const NOINDEX_ROUTES = ['/enter-to-win', '/hyperbaric-giveaway', '/giveaway/thank-you', '/official-rules', '/giveaway-admin', '/black-friday'];
+export const NOINDEX_ROUTES = ['/enter-to-win', '/hyperbaric-giveaway', '/giveaway/thank-you', '/official-rules', '/giveaway-admin', '/black-friday', '/events/asea-learning-session'];
 function SEO() {
   const [pathname] = useLocation();
   // Cloudflare serves directory-style URLs with a trailing slash. Match the
@@ -458,6 +460,7 @@ function RoutedErrorBoundary({ children }: { children: ReactNode }) { const [loc
 function Router() {
   return <Shell><RoutedErrorBoundary>
     <Switch>
+      <Route path="/events/asea-learning-session" component={AseaLearningSessionPage}/>
       <Route path="/black-friday" component={HolidayOffersPage}/>
       <Route path="/enter-to-win" component={GiveawayPage}/>
       <Route path="/hyperbaric-giveaway" component={GiveawayRedirect}/>

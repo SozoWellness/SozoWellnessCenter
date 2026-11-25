@@ -22,6 +22,25 @@ test('local business and website identities are accurate and linked', async () =
   for (const key of ['aggregateRating', 'review', 'openingHoursSpecification', 'geo', 'priceRange']) assert.equal(business[key], undefined);
 });
 
+test('ASEA invitation has the confirmed event details and real RSVP links', async () => {
+  const html = await built('events/asea-learning-session');
+  assert.match(html, /An ASEA/);
+  assert.match(html, /Wednesday, December 2, 2026/);
+  assert.match(html, /2026-12-02T17:30-05:00/);
+  assert.match(html, /2026-12-02T19:00-05:00/);
+  assert.match(html, /5029 CR 159, Wildwood, FL 34785/);
+  assert.doesNotMatch(html, /6029/);
+  assert.match(html, /href="tel:\+13528022248"/);
+  assert.match(html, /query=5029\+CR\+159\+Wildwood\+FL\+34785/);
+  assert.match(html, /href="https:\/\/drive\.google\.com\/uc\?export=download&amp;id=1G3ymCY0jNBRfAW-o4XRBpiMxlGF2HDqi"/);
+  assert.match(html, /Download flyer \(PNG\)/);
+  assert.match(html, /Leisa Bodway/);
+  assert.match(html, /Linda &amp; Don Chaney/);
+  assert.match(html, /src="\/images\/partners\/asea\.jpg"/);
+  assert.match(html, /src="\/images\/team\/leisa-bodway-fall-2026\.jpg"/);
+  assert.match(html, /name="robots" content="noindex, follow"/);
+});
+
 test('therapy pages include readable service headings, service and breadcrumb data', async () => {
   for (const slug of ['hyperbaric-oxygen', 'core-restore', 'ozone-therapy', 'rife', 'assessments']) {
     const html = await built(`services/${slug}`);
