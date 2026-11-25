@@ -101,13 +101,13 @@ test('new opt-out is transactional; reservation and package are saved without ma
   assert.equal(tags.find(tag => tag.name === 'BF 2026 - Email Opt-in').status, 'inactive');
 });
 
-test('new email opt-in subscribes and receives the campaign permission tag', async t => {
+test('new email opt-in omits the rejected timestamp override and receives the campaign permission tag', async t => {
   const calls = provider(t);
   await saveHolidayClaim(env, valid({ marketingConsent: true }));
   const put = calls.find(call => call.init.method === 'PUT').payload;
   assert.equal(put.status_if_new, 'subscribed');
-  assert.ok(put.timestamp_opt);
-  assert.equal(put.merge_fields.BFRESAT, put.timestamp_opt);
+  assert.equal('timestamp_opt' in put, false);
+  assert.ok(Number.isFinite(Date.parse(put.merge_fields.BFRESAT)));
   assert.equal(calls.at(-1).payload.tags.find(tag => tag.name === 'BF 2026 - Email Opt-in').status, 'active');
 });
 

@@ -117,7 +117,6 @@ export async function saveHolidayClaim(env: HolidayEnv, claim: HolidayClaim) {
       BFRESAT: reservationTime,
       ...(available.has('PACKAGE') ? { PACKAGE: packageLabel } : {}),
     },
-    ...(!lookup.ok && claim.marketingConsent ? { timestamp_opt: reservationTime } : {}),
   }), 'member');
   const marketingAllowed = claim.marketingConsent && member.status === 'subscribed';
   const tags = [
