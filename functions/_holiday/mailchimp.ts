@@ -21,10 +21,43 @@ export function holidayConfigured(env: HolidayEnv) {
 }
 
 export class HolidayProviderError extends Error {
-  constructor(stage: string, status: number) {
+  constructor(stage: string, status: number, diagnostic = '') {
     // Never log provider bodies, addresses, names, phone numbers or credentials.
-    super(`Holiday reservation provider failure: ${stage} (${status})`);
+    super(`Holiday reservation provider failure: ${stage} (${status})${diagnostic ? ` ${diagnostic}` : ''}`);
   }
+}
+
+/** Return static categories and allowlisted field names, never provider text. */
+export function holidayErrorDiagnostic(body: unknown): string {
+  if (!body || typeof body !== 'object') return 'reason=unclassified';
+  const error = body as Record<string, unknown>;
+  const detail = typeof error.detail === 'string' ? error.detail.toLowerCase() : '';
+  const titles: Record<string, string> = {
+    'Invalid Resource': 'invalid-resource',
+    'Member Exists': 'member-exists',
+    'Forgotten Email Not Subscribed': 'previously-deleted',
+    'Member In Compliance State': 'compliance-state',
+    'Invalid Action': 'invalid-action',
+    'API Key Invalid': 'invalid-key',
+  };
+  let reason = typeof error.title === 'string' && Object.hasOwn(titles, error.title)
+    ? titles[error.title] : 'unclassified';
+  if (detail.includes('looks fake or invalid')) reason = 'email-rejected';
+  else if (detail.includes('permanently deleted')) reason = 'previously-deleted';
+  else if (detail.includes('compliance state')) reason = 'compliance-state';
+  else if (detail.includes('too many recent signup requests')) reason = 'signup-limit';
+  const allowedFields = new Set([
+    'email_address', 'status_if_new', 'timestamp_opt', 'merge_fields',
+    'FNAME', 'LNAME', 'PHONE', 'BFRESAT', 'PACKAGE',
+    'merge_fields.FNAME', 'merge_fields.LNAME', 'merge_fields.PHONE',
+    'merge_fields.BFRESAT', 'merge_fields.PACKAGE',
+  ]);
+  const fields = Array.isArray(error.errors)
+    ? [...new Set(error.errors.flatMap(item =>
+      item && typeof item === 'object' && typeof item.field === 'string' && allowedFields.has(item.field)
+        ? [item.field] : []))].sort()
+    : [];
+  return `reason=${reason}${fields.length ? ` fields=${fields.join(',')}` : ''}`;
 }
 
 /** Member PUT and tag state updates are repeatable, with no email send operation. */
@@ -48,7 +81,11 @@ export async function saveHolidayClaim(env: HolidayEnv, claim: HolidayClaim) {
     } catch { throw new HolidayProviderError('connection', 0); }
   };
   const checked = async (response: Response, stage: string) => {
-    if (!response.ok) throw new HolidayProviderError(stage, response.status);
+    if (!response.ok) {
+      let diagnostic = 'reason=unclassified';
+      try { diagnostic = holidayErrorDiagnostic(await response.json()); } catch { /* No raw fallback. */ }
+      throw new HolidayProviderError(stage, response.status, diagnostic);
+    }
     try { return await response.json() as Record<string, unknown>; }
     catch { throw new HolidayProviderError(stage, response.status); }
   };

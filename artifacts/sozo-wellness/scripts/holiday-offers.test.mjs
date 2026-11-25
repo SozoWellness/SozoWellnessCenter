@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { onRequest, holidayAvailability } from '../../../functions/api/claim.ts';
-import { saveHolidayClaim } from '../../../functions/_holiday/mailchimp.ts';
+import { saveHolidayClaim, holidayErrorDiagnostic } from '../../../functions/_holiday/mailchimp.ts';
 import { HOLIDAY_START, HOLIDAY_END, validateHolidayClaim } from '../src/lib/holiday-offers.ts';
 
 const env = {
@@ -50,7 +50,9 @@ function provider(t, options = {}) {
     if (url.endsWith('/tags')) return new Response(null, { status: options.tagStatus || 204 });
     if (init.method === 'GET') return options.existing
       ? Response.json({ status: options.existing }) : new Response(null, { status: 404 });
-    if (options.memberStatus) return new Response('Private provider body', { status: options.memberStatus });
+    if (options.memberStatus) return options.memberError
+      ? Response.json(options.memberError, { status: options.memberStatus })
+      : new Response('Private provider body', { status: options.memberStatus });
     return Response.json({ status: options.existing || payload.status_if_new });
   });
   t.after(() => t.mock.restoreAll());
@@ -285,4 +287,45 @@ test('provider tag failure is not shown as success; raw details are hidden', asy
   assert.equal(payload.ok, false);
   assert.equal(payload.error, 'Something went wrong — please call us at 352-802-2248');
   assert.equal(JSON.stringify(payload).includes(base.email), false);
+});
+
+test('member rejection diagnostics expose only static reasons and known fields', () => {
+  assert.equal(holidayErrorDiagnostic({
+    title: 'Invalid Resource', detail: 'Private contact information',
+    errors: [
+      { field: 'merge_fields.PHONE', message: 'Private phone value' },
+      { field: 'email_address', message: base.email },
+      { field: base.email, message: 'Private value' },
+    ],
+  }), 'reason=invalid-resource fields=email_address,merge_fields.PHONE');
+  for (const [detail, reason] of [
+    ['Private address looks fake or invalid', 'email-rejected'],
+    ['Private address was permanently deleted', 'previously-deleted'],
+    ['Private address is in a compliance state', 'compliance-state'],
+    ['Private address has too many recent signup requests', 'signup-limit'],
+  ]) assert.equal(holidayErrorDiagnostic({ detail }), `reason=${reason}`);
+  for (const body of [null, 'Private response', { title: base.email, detail: base.email }, { title: '__proto__' }]) {
+    assert.equal(holidayErrorDiagnostic(body), 'reason=unclassified');
+  }
+});
+
+test('member rejection logs safe diagnostics without changing public errors or applying tags', async t => {
+  t.mock.timers.enable({ apis: ['Date'], now: Date.parse(HOLIDAY_START) });
+  t.after(() => t.mock.timers.reset());
+  const warnings = [];
+  t.mock.method(console, 'warn', message => warnings.push(message));
+  const calls = provider(t, { memberStatus: 400, memberError: {
+    title: 'Invalid Resource', detail: `Private details for ${base.email}`,
+    errors: [{ field: 'timestamp_opt', message: base.email }],
+  } });
+  const result = await onRequest({ request: request({ ...base, marketingConsent: true }), env });
+  assert.equal(result.status, 502);
+  assert.deepEqual(warnings, [
+    'Holiday reservation provider failure: member (400) reason=invalid-resource fields=timestamp_opt',
+  ]);
+  assert.equal(calls.some(call => call.url.endsWith('/tags')), false);
+  const payload = await result.json();
+  assert.equal(payload.error, 'Something went wrong — please call us at 352-802-2248');
+  assert.equal(JSON.stringify(payload).includes('timestamp_opt'), false);
+  assert.equal(warnings.join('').includes(base.email), false);
 });
